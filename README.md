@@ -18,6 +18,6 @@
 
 [claim](Project/OOPProject.pdf)
 
-[claim(in Chinese)](Project/OOPProject_Zh-CN.pdf)
+[claim(in Chinese)](Project/OOPProject_Zh-CN.md)
 
 src
