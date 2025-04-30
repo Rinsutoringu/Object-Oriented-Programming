@@ -34,30 +34,150 @@
 
 ## 开发计划
 
-### local包
-#### UI
+> [!IMPORTANT]
+>
+> ==LMS Project==
+>
+> src
+>
+> ├─Main.java
+> │
+> ├─database
+>
+> │   ├─db
+>
+> │   │  `DataBase.java` Connect to DB
+>
+> │   │  `DataBaseUtils.java` CRUD logic
+>
+> │   │
+>
+> │   └─error
+>
+> │      `DBConnectError.java` Connect to DB
+>
+> │      `IOError.java` CRUD logic
+>
+> │
+> ├─laboratory
+>
+> │   ├─ lab
+>
+> │   │   │  `LabAccessCard.java` Permission logic
+>
+> │   │   │  `LabNotebook.java` ToDo Subsystem，Enable to check material as Project 
+>
+> │   │   │  `LabUtils.java` tools class
+>
+> │   │   │  `LabWorkers.java` Staff list in lab
+>
+> │   │   │  `LabPrinter.java` output\input csv file to manage object in lab
+>
+> │   │   │
+>
+> │   │   └─shelf
+>
+> │   │   │ `StorageShelf.java` Management object on Lab Shelf
+>
+> │   │   │ `material.java` a material, all things will extend from here.
+>
+> │   │   │
+>
+> │   │   └─workers
+>
+> │   │    `LabWorkers.java` lab worker basic class
+>
+> │   │    `Admin.java` lab admin
+>
+> │   │    `Guest.java` lab guest
+>
+> │   │    `User.java` lab normal users
+>
+> │   │
+>
+> │   └─error
+>
+> │      `AccessError.java` CRUD logic
+> │
+> ├─local
+>
+> │  └─ui
+> │      │  `LocalApiClient.java` front end connect to after end
+>
+> │      │  `Start.java` Start UI(without after end)
+>
+> │      │
+> │      ├─login
+>
+> │      │      `LoginLogic.java` loginUI logic
+>
+> │      │      `LoginUI.java` UI
+> │      │
+> │      └─mainwindow
+>
+> │              `MainWindowLogic.java` mainwindow logic
+>
+> │              `MainWindowUI.java` UI
+> │
+> ├─web
+>
+> │   ├─server
+>
+> │   │      `ApiServer.java` web server
+> │   │
+> │   └─webui
+>
+> │           `WebApiClient.java` Connect to server
+>
+> │           `WebDashboard.java` UI
+>
+> │
+>
+> ├─test
+>
+> │
+>
+> │
+>
+> └─log
+>
+> ​    `Loggable(interface)`
 
-`LocalApiClient`类
+> [!TIP]
+>
+> **我的设计理念**
+>
+> - 实验室物料管理系统
+>   - 根据本人半年多的时间在实验室干活的经验进行区块划分
+>   - 对每件物品作为一个单独的对象进行管理
+>   - 采取sql-lite作为数据存储后端，提高存储效率、跨平台性能、安全性
+>   - 进行明确的用户权限划分，提高数据安全性与私密性
+>
+> - 运用前后端分离理念
+>   - 前端与后端独立设计，通过通用的接口进行通信
+>   - 前端进行进一步的功能细化，确保显示与操作逻辑分离，便于设计
+>   - 后端本身可以作为无头客户端启动充当web服务器为可能存在的webui进行在线服务
+>   - 提高项目可维护性（如果需要的话）
+> - 继承理念
+>   - 架子上的所有物品都来自同一个根物品，都是其子类
+>   - 实验室里的所有人都是实验室工作人员类的子类
+>
+> - 把储物架作为一个实体整体进行考虑，将其出入库等行为封装成通用接口
+> - 既允许以物品为单位进行管理，又支持以BOM表（项目）为单位进行管理
 
-- 与后端接口取得联系
+---
 
-`AdminPanel`类
+**This is my note**
 
-- 提供一个可视化操作界面
+### `local`包
 
-- 在这个界面管理出入库信息等，可以理解为是个后台
+本地前端
 
-### web包
+### `web`包
+
+webui前端
+
 #### UI包
-
-`WebApiClient`类
-
-- 与后端接口取得联系
-
-`WebDashboard`类
-
-- 提供一个可视化操作界面
-- 是好看的用户操作界面！
 
 ### database包
 

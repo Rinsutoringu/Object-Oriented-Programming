@@ -1,4 +1,4 @@
-package laboratory;
+package laboratory.lab.workers;
 
 public class LabWorkers {
     
