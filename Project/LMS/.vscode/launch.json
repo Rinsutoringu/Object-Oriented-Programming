@@ -3,6 +3,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TestUI",
+            "request": "launch",
+            "mainClass": "test.TestUI",
+            "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
+            "name": "TestUI",
+            "request": "launch",
+            "mainClass": "TestUI",
+            "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
+            "name": "Start",
+            "request": "launch",
+            "mainClass": "Start",
+            "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
             "name": "run",
             "request": "launch",
             "mainClass": "local.ui.run",
