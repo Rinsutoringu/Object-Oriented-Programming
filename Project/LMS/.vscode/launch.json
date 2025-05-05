@@ -1,61 +1,18 @@
 {
-    "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "TestUI",
+            "name": "TestMainWindow",
             "request": "launch",
-            "mainClass": "test.TestUI",
+            "mainClass": "test.TestMainWindow",
             "projectName": "LMS_ed3bf818"
         },
         {
             "type": "java",
-            "name": "TestUI",
+            "name": "TestLoginWindow",
             "request": "launch",
-            "mainClass": "TestUI",
+            "mainClass": "test.TestLoginWindow",
             "projectName": "LMS_ed3bf818"
-        },
-        {
-            "type": "java",
-            "name": "Start",
-            "request": "launch",
-            "mainClass": "Start",
-            "projectName": "LMS_ed3bf818"
-        },
-        {
-            "type": "java",
-            "name": "run",
-            "request": "launch",
-            "mainClass": "local.ui.run",
-            "projectName": "LMS_ed3bf818"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "LMS_ed3bf818"
-        },
-        {
-            "type": "java",
-            "name": "main",
-            "request": "launch",
-            "mainClass": "main",
-            "projectName": "LMS_ed3bf818"
-        },
-        {
-            "type": "java",
-            "name": "HelloWorld",
-            "request": "launch",
-            "mainClass": "HelloWorld",
-            "projectName": "LMS_ed3bf818"
-        },
-        {
-            "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "main",
-            "projectName": "LMS"
         }
     ]
 }
