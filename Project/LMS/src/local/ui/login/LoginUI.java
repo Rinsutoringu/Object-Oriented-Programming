@@ -1,12 +1,11 @@
 package local.ui.login;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import local.utils.*;
+
 
 public class LoginUI extends JPanel{
 
@@ -37,14 +36,16 @@ public class LoginUI extends JPanel{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.CENTER;
+        // logo 
+        utils.addComponent(indexpanel, getLogo(), gbc, 0,0);
         // 用户名
-        utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 0);
+        utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 1);
         // 密码
-        utils.addComponent(indexpanel, pwbox(), gbc, 0, 1);
+        utils.addComponent(indexpanel, pwbox(), gbc, 0, 2);
         // 用户协议
-        utils.addComponent(indexpanel, usrprotocal(), gbc, 0, 2);
+        utils.addComponent(indexpanel, usrprotocal(), gbc, 0, 3);
         // 登录按钮
-        utils.addComponent(indexpanel, loginbutton(), gbc, 0, 3);
+        utils.addComponent(indexpanel, loginbutton(), gbc, 0, 4);
 
         // indexpanel.setBackground(Color.BLACK);
         return indexpanel;
@@ -94,4 +95,13 @@ public class LoginUI extends JPanel{
         usrp.add(proto);
         return usrp;
     }
+
+    // logo
+    private JLabel getLogo() {
+        Image img = ImageUtils.loadImage("src\\resoueces\\images.png");
+        BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
+        return ImageUtils.imgToJLable(bufferedImage, 120, 120, 10);
+
+    } 
 }
+
