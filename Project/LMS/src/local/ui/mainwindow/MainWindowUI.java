@@ -20,8 +20,6 @@ public class MainWindowUI {
 
         // 设置默认可见性
         frame.setVisible(true);
-
-
     }
     
     /**
