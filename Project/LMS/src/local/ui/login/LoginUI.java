@@ -128,9 +128,9 @@ public class LoginUI extends JPanel{
 
     // logo
     private JLabel getLogo() {
-        Image img = ImageUtils.loadImage("src\\resoueces\\images.png");
+        Image img = ImageUtils.loadImage("src\\resoueces\\LMSlogo.png");
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
-        return ImageUtils.imgToJLable(bufferedImage, 120, 120, 10);
+        return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 
 }
 
