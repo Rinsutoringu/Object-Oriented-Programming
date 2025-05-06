@@ -41,11 +41,13 @@ public class LoginUI extends JPanel{
 
 
         gbc.insets = new Insets(5, 5, 5, 5);
-        
-        // 用户名
-        utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 1);
-        // 密码
-        utils.addComponent(indexpanel, pwbox(), gbc, 0, 2);
+
+        // 用户名&密码
+        utils.addComponent(indexpanel, loginbox(), gbc, 0, 1);
+        // // 用户名
+        // utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 1);
+        // // 密码
+        // utils.addComponent(indexpanel, pwbox(), gbc, 0, 2);
         // 用户协议
         utils.addComponent(indexpanel, usrprotocal(), gbc, 0, 3);
         // 登录按钮
@@ -98,6 +100,20 @@ public class LoginUI extends JPanel{
         panel.add(new JLabel("Password: "));
         panel.add(new JPasswordField(16));
         return panel;
+    }
+
+    private JPanel loginbox() {
+        JPanel loginbox = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,0,5);
+        // loginbox.setBackground(Color.DARK_GRAY);
+        // loginbox.setPreferredSize(new Dimension(2000, 2000));
+        utils.addComponent(loginbox, new JLabel("User Name"), gbc, 0, 0);
+        utils.addComponent(loginbox, new JTextField(16), gbc, 1, 0);
+
+        utils.addComponent(loginbox, new JLabel("PassWord"), gbc, 0, 1);
+        utils.addComponent(loginbox, new JTextField(16), gbc, 1, 1);
+        return loginbox;
     }
 
     // 用户协议
