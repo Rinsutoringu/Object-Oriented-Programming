@@ -26,18 +26,22 @@ public class LoginUI extends JPanel{
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // 放置没有卵用的右侧展示板
-        utils.addComponent(this, picJPanel(), gbc, 1, 0, 6, 1, 
-            1, 4, GridBagConstraints.NONE);
+        utils.addComponent(this, picJPanel(), gbc, 1, 0, 20, 1, 
+            1, 1, GridBagConstraints.NONE);
     }
 
     // 关键信息面板
     private JPanel indexPanel() {
         JPanel indexpanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(20, 5, 180, 5);
         gbc.anchor = GridBagConstraints.CENTER;
         // logo 
         utils.addComponent(indexpanel, getLogo(), gbc, 0,0);
+
+
+        gbc.insets = new Insets(5, 5, 5, 5);
+        
         // 用户名
         utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 1);
         // 密码
@@ -53,9 +57,19 @@ public class LoginUI extends JPanel{
 
     // 推荐信息面板
     private JPanel picJPanel() {
-        JPanel picjpanel = new JPanel();
-        picjpanel.setBackground(Color.CYAN);
-        return picjpanel;
+
+        return new JPanel() {
+            private Image bgIMG = ImageUtils.loadImage("src\\resoueces\\loginBG.png");
+            public BufferedImage bfIMG = ImageUtils.toBufferedImage(bgIMG);
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (bgIMG != null) {
+                    Point point = ImageUtils.zoom(ImageUtils.getSizeBfIMG(bfIMG), new Point(getWidth(), getHeight()));
+                    g.drawImage(bgIMG, 0, 0, (int) point.getX(), (int) point.getY(), this);
+                }
+            }
+        };
     }
 
 
@@ -101,7 +115,6 @@ public class LoginUI extends JPanel{
         Image img = ImageUtils.loadImage("src\\resoueces\\images.png");
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
         return ImageUtils.imgToJLable(bufferedImage, 120, 120, 10);
-
     } 
 }
 

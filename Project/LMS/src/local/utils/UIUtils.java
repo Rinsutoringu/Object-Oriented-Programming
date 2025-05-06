@@ -8,8 +8,8 @@ import java.awt.Toolkit;
 
 public class UIUtils {
 
-    private int weightx = 1; // 默认水平权重，允许组件在水平方向上分配额外空间
-    private int weighty = 0; // 默认垂直权重，组件在垂直方向上不分配额外空间
+    private double weightx = 1; // 默认水平权重，允许组件在水平方向上分配额外空间
+    private double weighty = 0; // 默认垂直权重，组件在垂直方向上不分配额外空间
     private int fillOption = GridBagConstraints.NONE; // 默认填充方式，组件水平填充
     private int gridwidth = 1; // 默认跨越列数为1
     private int gridheight = 1; // 默认跨越行数为1
@@ -38,7 +38,7 @@ public class UIUtils {
      * @param weighty 组件在垂直方向上分配额外空间的权重
      */
 
-    public void addComponent(JPanel panel, JComponent component, GridBagConstraints gbc, int gridx, int gridy, int weightx, int weighty) {
+    public void addComponent(JPanel panel, JComponent component, GridBagConstraints gbc, int gridx, int gridy, double weightx, double weighty) {
         addComponent(panel, component, gbc, gridx, gridy, weightx, weighty, this.fillOption, this.gridwidth, this.gridheight); 
     }
 
@@ -68,7 +68,7 @@ public class UIUtils {
      * @param gridwidth 组件跨越列数
      * @param gridheight 组件跨越行数
      */
-    public void addComponent(JPanel panel, JComponent component, GridBagConstraints gbc, int gridx, int gridy, int weightx, int weighty, int fillOption, int gridwidth, int gridheight) {
+    public void addComponent(JPanel panel, JComponent component, GridBagConstraints gbc, int gridx, int gridy, double weightx, double weighty, int fillOption, int gridwidth, int gridheight) {
         gbc.gridx = gridx;
         gbc.gridy = gridy;
         gbc.weightx = weightx;

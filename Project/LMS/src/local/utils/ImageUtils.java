@@ -97,5 +97,40 @@ public class ImageUtils {
         iconJLabel.setIcon(new ImageIcon(scaledBufferedImage));
         return iconJLabel;
     }
+
+    /**
+     * 计算缩放
+     * @param OriginIMGSize Point形式存储的原始图像尺寸
+     * @param BorderSize Point形式存储的窗口尺寸
+     * @return 缩放后的图像尺寸
+     */
+    public static Point zoom(Point OriginIMGSize, Point BorderSize) {
+        double oldWidth = OriginIMGSize.getX();
+        double oldHeight = OriginIMGSize.getY();
+        double aspectRatio = oldWidth/oldHeight;
+        double BorderWidth = BorderSize.getX();
+        double BorderHeight = BorderSize.getY();
+        double newWidth;
+        double newHeight;
+        if (oldWidth>BorderWidth) {
+            // 宽大于高，是横着的图像
+            newHeight = BorderHeight;
+            newWidth = (newHeight)*aspectRatio;
+        } else  {
+            // 竖着的图像/方形
+            newWidth = BorderWidth;
+            newHeight = (newWidth)*aspectRatio;
+        }
+        return new Point((int) newWidth, (int) newHeight);
+    } 
+
+    /**
+     * 获取某个图形的长和宽，需要BufferedImage
+     * @param bfIMG 待测长宽的图片
+     * @return 以Point的方式返回长和宽
+     */
+    public static Point getSizeBfIMG(BufferedImage bfIMG) {
+        return new Point(bfIMG.getWidth(), bfIMG.getHeight());
+    }
     
 }
