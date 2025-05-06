@@ -32,29 +32,29 @@ public class LoginUI extends JPanel{
 
     // 关键信息面板
     private JPanel indexPanel() {
-        JPanel indexpanel = new JPanel(new GridBagLayout());
+        JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 5, 180, 5);
         gbc.anchor = GridBagConstraints.CENTER;
         // logo 
-        utils.addComponent(indexpanel, getLogo(), gbc, 0,0);
+        utils.addComponent(panel, getLogo(), gbc, 0,0);
 
 
         gbc.insets = new Insets(5, 5, 5, 5);
 
         // 用户名&密码
-        utils.addComponent(indexpanel, loginbox(), gbc, 0, 1);
+        utils.addComponent(panel, loginbox(), gbc, 0, 1);
         // // 用户名
         // utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 1);
         // // 密码
         // utils.addComponent(indexpanel, pwbox(), gbc, 0, 2);
         // 用户协议
-        utils.addComponent(indexpanel, usrprotocal(), gbc, 0, 3);
+        utils.addComponent(panel, usrprotocal(), gbc, 0, 3);
         // 登录按钮
-        utils.addComponent(indexpanel, loginbutton(), gbc, 0, 4);
+        utils.addComponent(panel, loginbutton(), gbc, 0, 4);
 
         // indexpanel.setBackground(Color.BLACK);
-        return indexpanel;
+        return panel;
     }
 
     // 推荐信息面板
@@ -103,27 +103,27 @@ public class LoginUI extends JPanel{
     }
 
     private JPanel loginbox() {
-        JPanel loginbox = new JPanel(new GridBagLayout());
+        JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
         // loginbox.setBackground(Color.DARK_GRAY);
         // loginbox.setPreferredSize(new Dimension(2000, 2000));
-        utils.addComponent(loginbox, new JLabel("User Name"), gbc, 0, 0);
-        utils.addComponent(loginbox, new JTextField(16), gbc, 1, 0);
+        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 0);
+        utils.addComponent(panel, new JTextField(16), gbc, 1, 0);
 
-        utils.addComponent(loginbox, new JLabel("PassWord"), gbc, 0, 1);
-        utils.addComponent(loginbox, new JTextField(16), gbc, 1, 1);
-        return loginbox;
+        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 1);
+        utils.addComponent(panel, new JTextField(16), gbc, 1, 1);
+        return panel;
     }
 
     // 用户协议
     private JPanel usrprotocal() {
-        JPanel usrp = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
-        JLabel proto = new JLabel("Check to agree to the \"User Agreement\".");
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
+        JLabel label = new JLabel("Check to agree to the \"User Agreement\".");
         JCheckBox check = new JCheckBox();
-        usrp.add(check);
-        usrp.add(proto);
-        return usrp;
+        panel.add(check);
+        panel.add(label);
+        return panel;
     }
 
     // logo
