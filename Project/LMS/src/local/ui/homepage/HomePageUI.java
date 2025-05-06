@@ -16,6 +16,8 @@ public class HomePageUI extends JPanel {
         gbc.insets = new Insets(5,5,5,5);
 
         utils.addComponent(this, overJPanel(), gbc, 0, 0, 1, 1);
+        utils.addComponent(this, detaiJPanel(), gbc, 1, 0, 20, 1);
+
     }
 
     private JPanel overJPanel() {
@@ -28,6 +30,7 @@ public class HomePageUI extends JPanel {
     private JPanel detaiJPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        utils.addComponent(panel, new JButton(), gbc, 1, 1);
         panel.setBackground(Color.ORANGE);        
         return panel;
     }

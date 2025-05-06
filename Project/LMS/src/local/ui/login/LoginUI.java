@@ -21,13 +21,13 @@ public class LoginUI extends JPanel{
 
         // 放置index面板进去
         utils.addComponent(this, indexPanel(), gbc, 0, 0, 1, 1,
-            1, 1, GridBagConstraints.NONE);
+        GridBagConstraints.BOTH, 1, 1);
 
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // 放置没有卵用的右侧展示板
         utils.addComponent(this, picJPanel(), gbc, 1, 0, 20, 1, 
-            1, 1, GridBagConstraints.NONE);
+        GridBagConstraints.BOTH, 1, 1);
     }
 
     // 关键信息面板
