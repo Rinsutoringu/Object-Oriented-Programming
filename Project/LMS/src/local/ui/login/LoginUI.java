@@ -16,6 +16,7 @@ public class LoginUI extends JPanel{
         // 初始化GBC对象并设置间隔
         // gbc你有病吧
         this.setLayout(new GridBagLayout());
+        this.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
@@ -33,6 +34,7 @@ public class LoginUI extends JPanel{
     // 关键信息面板
     private JPanel indexPanel() {
         JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 5, 180, 5);
         gbc.anchor = GridBagConstraints.CENTER;
@@ -86,24 +88,9 @@ public class LoginUI extends JPanel{
         return button;
     }
 
-    // 用户名输入框
-    private JPanel usernamebox() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
-        panel.add(new JLabel("User Name: "));
-        panel.add(new JTextField(16));
-        return panel;
-    }
-
-    // 密码输入框
-    private JPanel pwbox() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
-        panel.add(new JLabel("Password: "));
-        panel.add(new JPasswordField(16));
-        return panel;
-    }
-
     private JPanel loginbox() {
         JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
         // loginbox.setBackground(Color.DARK_GRAY);
@@ -119,6 +106,7 @@ public class LoginUI extends JPanel{
     // 用户协议
     private JPanel usrprotocal() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
+        panel.setBackground(new Color(255, 255, 255));
         JLabel label = new JLabel("Check to agree to the \"User Agreement\".");
         JCheckBox check = new JCheckBox();
         panel.add(check);
