@@ -1,28 +1,126 @@
 package local.ui.mainwindow;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 // Create basic frame
 public class MainWindowUI extends JFrame {
+
+    private int mouseX, mouseY;
+
     private JPanel mainPanel;
     public MainWindowUI()  {
-        // this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setUndecorated(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("LMS");
         this.setSize(1000, 600);
-        // frame = new JFrame("LMS");
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // frame.setSize(1000, 600);
         this.setLayout(new BorderLayout());
         // 建立主Panel，简化布局管理
         mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(new Color(255, 255, 255));
         this.add(mainPanel);
         
+        // 自定义顶栏
+        this.add(createCustomTitleBar(), BorderLayout.NORTH);
         // 设置默认可见性
         this.setVisible(true);
     }
+
+    private JPanel createCustomTitleBar() {
+        JPanel titleBar = new JPanel();
+        titleBar.setLayout(new BorderLayout());
+        titleBar.setBackground(new Color(241, 241, 241));
+        titleBar.setPreferredSize(new Dimension(this.getWidth(), 35));
+
+        // 左侧标题
+        // JLabel titleLabel = new JLabel("LMS");
+        // titleLabel.setForeground(Color.WHITE);
+        // titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        // titleBar.add(titleLabel, BorderLayout.WEST);
+
+        // 右侧按钮
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        buttonPanel.setOpaque(false);
+
+        Dimension buttonSize = new Dimension(58, 35);
+        ImageIcon minisizImageIcon = new ImageIcon("src\\resoueces\\miniSize.png");
+        ImageIcon closeImageIcon = new ImageIcon("src\\resoueces\\close.png");
+
+        // 最小化按钮
+        JButton minimizeButton = frameButton(minisizImageIcon, buttonSize, false);
+        minimizeButton.addActionListener(e -> this.setState(JFrame.ICONIFIED));
+        buttonPanel.add(minimizeButton);
+
+        // 关闭按钮
+        JButton closeButton = frameButton(closeImageIcon, buttonSize, true);
+        closeButton.addActionListener(e -> System.exit(0));
+        buttonPanel.add(closeButton);
+
+
+        titleBar.add(buttonPanel, BorderLayout.EAST);
+
+        // 添加拖动功能
+        titleBar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseX = e.getX();
+                mouseY = e.getY();
+            }
+        });
+
+        titleBar.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                int x = e.getXOnScreen();
+                int y = e.getYOnScreen();
+                setLocation(x - mouseX, y - mouseY);
+            }
+        });
+
+        return titleBar;
+    }
+
+    public JButton frameButton(ImageIcon buttonImageIcon, Dimension buttonSize, boolean iSClose) {
+
+        Color originalColor = new Color(241, 241, 241);
+        Color closeButtonColor = new Color(232, 17, 35);
+        Color otherButtonColor = new Color(229, 229, 229); 
+        Color hoverColor;
+        
+        if (iSClose) {hoverColor = closeButtonColor;}
+        else {hoverColor = otherButtonColor;}
+
+        JButton button = new JButton();
+
+        button.setIcon(buttonImageIcon);
+        button.setPreferredSize(buttonSize);
+        button.setBackground(originalColor);
+        
+        button.setBorderPainted(false);
+        // button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        
+        // 添加鼠标移上去会变暗的效果
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(hoverColor);
+                repaint();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(originalColor);
+                repaint();
+            }
+        });
+
+        
+        return button;
+    }
+
+    
     
     /**
      * 给主面板增加子面板，默认位置在CENTER

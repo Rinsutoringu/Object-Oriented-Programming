@@ -44,7 +44,7 @@ public class HomePageUI extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,5,5);
 
-        utils.addComponent(panel, new JButton(), gbc, 1, 1);
+        utils.addComponent(panel, new JButton("111"), gbc, 1, 1);
         panel.setBackground(Color.ORANGE);        
         return panel;
     }
