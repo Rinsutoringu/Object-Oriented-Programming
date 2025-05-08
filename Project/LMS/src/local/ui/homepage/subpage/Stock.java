@@ -15,7 +15,5 @@ public class Stock extends JPanel {
         String username = "Test User";
         this.add(new JLabel("Good morning, "+username));
         this.add(new JLabel("Now is Stock page"));
-        
     }
 }
-// Main Commit
