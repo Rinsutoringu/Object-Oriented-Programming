@@ -7,37 +7,58 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import local.ui.homepage.HomePageUI;
+import local.ui.homepage.subpage.*;
+
 
 public class HomePageLogic {
     public static final int DEFAULT = 0;
     private JPanel detaiJpanel;
     private JPanel overJPanel;
-    private int Status;
+    private JPanel topviewPanel;
     HomePageUI homepage;
 
     public HomePageLogic() {
-
-        // new HomePageUI();
         homepage = new HomePageUI();
-
 
         this.detaiJpanel = homepage.getdetaiJPanel();
         this.overJPanel = homepage.getoverJPanel();
+        this.topviewPanel = homepage.getTopviewPanel();
     
-        // TODO 获取当前客户端状态码
-    
-        this.Status = DEFAULT;
         showDetail();
+        addButtonAction();
     }
 
-
+    // 默认视图
     private void showDetail() {
-        if (Status == DEFAULT) {
-            show(detaiJpanel, new HelloPage());
-            show(overJPanel, new HelloPage());
-        }
+        show(detaiJpanel, new HelloPage());
+        show(overJPanel, new HelloPage());
+    }
 
+    // 为按钮注册点击事件
+    private void addButtonAction() {
+        // OverView页面
+        homepage.getButton("overview").addActionListener(e ->{
+            show(detaiJpanel, new SideBar());
+            show(overJPanel, new Overview());
+        });
+
+        // search页面
+        homepage.getButton("search").addActionListener(e ->{
+            show(detaiJpanel, new SideBar());
+            show(overJPanel, new Search());
+        });
+
+        // stock页面
+        homepage.getButton("stock").addActionListener(e ->{
+            show(detaiJpanel, new SideBar());
+            show(overJPanel, new Stock());
+        });
+                
+        // To do页面
+        homepage.getButton("todo").addActionListener(e ->{
+            show(detaiJpanel, new ToDoSideBar());
+            show(overJPanel, new UserToDo());
+        });
     }
 
     /**
@@ -68,7 +89,7 @@ public class HomePageLogic {
      * @return 是否为空
      */
     private boolean isPanelEmpty(JPanel panel) {
-        return panel.getComponentCount() >0 ;
+        return panel.getComponentCount() == 0 ;
     }
     
     public JPanel getHomePage() {

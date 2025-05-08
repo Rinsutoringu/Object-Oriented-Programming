@@ -67,7 +67,11 @@ public class HomePageUI extends JPanel {
         return button;        
     }
 
-
+    /**
+     * 获取按钮对象
+     * @param ButtonName 按钮名称
+     * @return 按钮对象
+     */
     public JButton getButton(String ButtonName) {
         return buttons.get(ButtonName);
     }
@@ -95,5 +99,9 @@ public class HomePageUI extends JPanel {
 
     public JPanel getdetaiJPanel() {
         return detaiJPanel;
+    }
+
+    public JPanel getTopviewPanel() {
+        return topview;
     }
 }
