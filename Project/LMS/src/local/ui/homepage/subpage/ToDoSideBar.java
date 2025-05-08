@@ -21,12 +21,8 @@ public class ToDoSideBar extends JPanel {
 
     }
 }
-<<<<<<< HEAD
-// 11111
-=======
+// If you see this message, you are at testPage!
 
 <<<<<<< HEAD
 >>>>>>> 75a70c4 (Push 1)
 =======
-
->>>>>>> 5801ca0 (Push 2)
