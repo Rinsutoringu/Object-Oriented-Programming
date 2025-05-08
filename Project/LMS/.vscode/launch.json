@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "TestLogic_DBtest",
+            "request": "launch",
+            "mainClass": "test.logic.TestDBConncet",
+            "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
             "name": "TestLogic_HomePageWindow",
             "request": "launch",
             "mainClass": "test.logic.TestLogic_HomePageWindow",
