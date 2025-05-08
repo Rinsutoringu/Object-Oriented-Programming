@@ -1,4 +1,4 @@
-package test;
+package test.ui;
 
 import javax.swing.SwingUtilities;
 

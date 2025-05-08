@@ -33,12 +33,6 @@ public class MainWindowUI extends JFrame {
         titleBar.setBackground(new Color(241, 241, 241));
         titleBar.setPreferredSize(new Dimension(this.getWidth(), 35));
 
-        // 左侧标题
-        // JLabel titleLabel = new JLabel("LMS");
-        // titleLabel.setForeground(Color.WHITE);
-        // titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
-        // titleBar.add(titleLabel, BorderLayout.WEST);
-
         // 右侧按钮
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         buttonPanel.setOpaque(false);

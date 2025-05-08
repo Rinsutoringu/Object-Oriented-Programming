@@ -2,23 +2,30 @@
     "configurations": [
         {
             "type": "java",
-            "name": "TestHomePageWindow",
+            "name": "TestLogic_HomePageWindow",
             "request": "launch",
-            "mainClass": "test.TestHomePageWindow",
+            "mainClass": "test.logic.TestLogic_HomePageWindow",
             "projectName": "LMS_ed3bf818"
         },
         {
             "type": "java",
-            "name": "TestMainWindow",
+            "name": "TestUI_HomePageWindow",
             "request": "launch",
-            "mainClass": "test.TestMainWindow",
+            "mainClass": "test.ui.TestHomePageWindow",
             "projectName": "LMS_ed3bf818"
         },
         {
             "type": "java",
-            "name": "TestLoginWindow",
+            "name": "TestUI_MainWindow",
             "request": "launch",
-            "mainClass": "test.TestLoginWindow",
+            "mainClass": "test.ui.TestMainWindow",
+            "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
+            "name": "TestUI_LoginWindow",
+            "request": "launch",
+            "mainClass": "test.ui.TestLoginWindow",
             "projectName": "LMS_ed3bf818"
         }
     ]
