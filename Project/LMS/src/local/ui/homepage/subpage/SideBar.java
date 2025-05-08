@@ -22,4 +22,3 @@ public class SideBar extends JPanel {
         utils.addComponent(this, new JButton("Selection 3"), gbc, 0,3);
     }
 }
-123
