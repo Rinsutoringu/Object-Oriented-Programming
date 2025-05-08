@@ -15,7 +15,6 @@ public class HomePageLogic {
     private JPanel overJPanel;
     private int Status;
     HomePageUI homepage;
-    public boolean isShow = false;
 
     public HomePageLogic() {
 
@@ -31,35 +30,21 @@ public class HomePageLogic {
         this.Status = DEFAULT;
         showDetail();
     }
-    
-    private void showDetail() {
-        if (this.Status == DEFAULT) {
-            // JPanel panel = new JPanel();
-            // panel.add(new JLabel("12121"));
-            
-            JButton button = homepage.getOverviewButton();
-            button.addActionListener(new ActionListener() {
-                
-                @Override
-                public void actionPerformed(java.awt.event.ActionEvent e) {
-                    if (isShow) {
-                        hide(detaiJpanel);
-                        isShow = false;
-                    }
-                    else {
-                        show(detaiJpanel, new HelloPage());
-                        isShow = true;
-                    }
-                    
-                }
-            });
 
+
+    private void showDetail() {
+        if (Status == DEFAULT) {
+            show(detaiJpanel, new HelloPage());
+            show(overJPanel, new HelloPage());
         }
-        else {
-            hide(this.detaiJpanel);
-        }
+
     }
 
+    /**
+     * 把指定面板的内容替换为指定元素（如为空则直接加入）
+     * @param showPanel 目标面板
+     * @param showthings 待加入面板的元素
+     */
     private void show(JPanel showPanel, JPanel showthings) {
         showPanel.removeAll();
         showPanel.add(showthings);
@@ -67,12 +52,25 @@ public class HomePageLogic {
         showPanel.repaint();    // 重绘界面
     }
     
-    private void hide(JPanel hidePanel) {
+    /**
+     * 清空指定面板内容
+     * @param hidePanel 待清空的面板
+     */
+    private void clear(JPanel hidePanel) {
         hidePanel.removeAll();
         hidePanel.revalidate(); // 刷新布局
         hidePanel.repaint(); 
     }
 
+    /**
+     * 确认当前面板是不是空的
+     * @param panel 待查询的面板对象
+     * @return 是否为空
+     */
+    private boolean isPanelEmpty(JPanel panel) {
+        return panel.getComponentCount() >0 ;
+    }
+    
     public JPanel getHomePage() {
         return homepage;
     }

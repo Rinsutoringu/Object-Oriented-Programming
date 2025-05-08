@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
 
 public class HomePageUI extends JPanel {
     private JPanel topview;
@@ -30,33 +31,32 @@ public class HomePageUI extends JPanel {
         GridBagConstraints.BOTH, 1, 1);
 
     }
-
-    private JButton overview;
-    private JButton search;
-    private JButton stock;
-    private JButton todo;
+    private Map<String, JButton> buttons = new HashMap<String, JButton>();
 
     // 顶栏
     private JPanel topview() {
         JPanel panel = new JPanel();
+        
+        // 设置topview建议间隔
         panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
         
-        overview = topButton("OverView");
-        search = topButton("Search Lab");
-        stock = topButton("Stock-in");
-        todo = topButton("My ToDo");
+        buttons.put("overview", topButton("OverView"));
+        buttons.put("search", topButton("Search Lab"));
+        buttons.put("stock", topButton("Stock-in"));
+        buttons.put("todo", topButton("My ToDo"));
 
+        // 按钮间隔
+        int buttonGap = 20;
+        // 把按钮加入顶部视图中
         panel.add(Box.createHorizontalGlue());
-        panel.add(overview);
-        panel.add(Box.createHorizontalStrut(20)); // 按钮之间的间距
-        panel.add(search);
-        panel.add(Box.createHorizontalStrut(20));
-        panel.add(stock);
-        panel.add(Box.createHorizontalStrut(20));
-        panel.add(todo);
+        for (JButton button : buttons.values()) {
+            panel.add(button);
+            panel.add(Box.createHorizontalStrut(buttonGap));
+        }
         panel.add(Box.createHorizontalGlue());
-        
+
+        // 背景
         panel.setBackground(new Color(255,255,255));
         return panel;
     }
@@ -67,20 +67,9 @@ public class HomePageUI extends JPanel {
         return button;        
     }
 
-    public JButton getOverviewButton() {
-        return overview;
-    }
-    
-    public JButton getSearchButton() {
-        return search;
-    }
-    
-    public JButton getStockButton() {
-        return stock;
-    }
-    
-    public JButton getTodoButton() {
-        return todo;
+
+    public JButton getButton(String ButtonName) {
+        return buttons.get(ButtonName);
     }
 
     // 大的，主，总览栏
