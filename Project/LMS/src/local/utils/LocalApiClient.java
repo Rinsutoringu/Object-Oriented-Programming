@@ -1,4 +1,4 @@
-package local.ui;
+package local.utils;
 
 public class LocalApiClient {
 

@@ -3,40 +3,19 @@ package local.ui.login;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Map;
 
+import local.ui.StandardUI;
 import local.utils.*;
 
-public class LoginUI extends JPanel{
-
-    private local.utils.UIUtils utils;
-    private Map<String, AbstractButton> buttons;
-    private Map<String, JPanel> panels;
-    private Map<String, JTextField> inputBoxs;
+public class LoginUI extends StandardUI{
 
     public LoginUI() {
-
-        // 初始化工具类
-        utils = new local.utils.UIUtils();
-
-        // 初始化按钮、面板、输入框的集合
-        // 在各自的类中将对应组件加入集合中，以便于外部访问
-        buttons = new java.util.HashMap<String, AbstractButton>();
-        panels = new java.util.HashMap<String, JPanel>();
-        inputBoxs = new java.util.HashMap<String, JTextField>();
-
+        
+        // 布局定义为GBC，其他的具体配置已经在接口中实现了
         
         panels.put("index", indexPanel());
         panels.put("pic", picJPanel());
         
-
-        // 初始化GBC对象并设置间隔
-        // gbc你有病吧
-        this.setLayout(new GridBagLayout());
-        this.setBackground(new Color(255, 255, 255));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-
         // 放置index面板进去
         utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
         GridBagConstraints.BOTH, 1, 1);
@@ -96,8 +75,7 @@ public class LoginUI extends JPanel{
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
-        // loginbox.setBackground(Color.DARK_GRAY);
-        // loginbox.setPreferredSize(new Dimension(2000, 2000));
+
         utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 0);
         inputBoxs.put("username", new JTextField(16));
         utils.addComponent(panel, inputBoxs.get("username"), gbc, 1, 0);
@@ -127,12 +105,14 @@ public class LoginUI extends JPanel{
     } 
 
     // 获取按钮对象
+    @Override
     public AbstractButton getButton(String buttonName) {
         if (buttons.containsKey(buttonName)) return (JButton) buttons.get(buttonName);
         return null;
     }
 
     // 获取输入框对象
+    @Override
     public JTextField getTextField(String fieldName) {
         if (inputBoxs.containsKey(fieldName)) return inputBoxs.get(fieldName);
         return null;
