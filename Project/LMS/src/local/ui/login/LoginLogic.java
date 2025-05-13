@@ -1,14 +1,15 @@
 package local.ui.login;
 
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 import database.db.DataBaseUtils;
+import local.error.AuthFailed;
 import local.error.GUIActionFailed;
 import local.utils.MiniOption;
 
 public class LoginLogic extends local.ui.StandardUILogical {
     LoginUI loginUI;
-    private String usr, pwd;
     private DataBaseUtils dbUtils;
     
     public LoginLogic() {
@@ -39,13 +40,33 @@ public class LoginLogic extends local.ui.StandardUILogical {
 
     private void addLoginAction() {
         // 登录按钮
-        System.out.println("Login button clicked");
+        
         loginUI.getButton("login").addActionListener(e -> {
             // 获取用户名和密码
-            usr = loginUI.getTextField("username").getText();
-            pwd = loginUI.getTextField("password").getText();
+            System.out.println("Login button clicked");
+            String usr = loginUI.getTextField("loginusr").getText();
+            String pwd = loginUI.getTextField("loginpwd").getText();
+            System.out.println("User: " + usr + ", Password: " + pwd);
+            try {
+                dbUtils.Login(usr, pwd);
+            } catch (Exception ex) {
+                new MiniOption("Login Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            }
         });
-        // if (!dbUtils.Login(usr, pwd)) new MiniOption("Login Failed", "Please check your UserName or Password!");
+
+        loginUI.getButton("reg").addActionListener(e -> {
+            // 注册按钮
+            System.out.println("Register button clicked");
+            String usr = loginUI.getTextField("regusr").getText();
+            String pwd = loginUI.getTextField("regpwd").getText();
+            System.out.println("User: " + usr + ", Password: " + pwd);
+            try {
+                dbUtils.Register(usr, pwd);
+                new MiniOption("Register Success", "Register Success!", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                new MiniOption("Register Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+            }
+        });
     }
 
     public JPanel getThis() {return loginUI;}

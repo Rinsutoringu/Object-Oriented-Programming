@@ -5,14 +5,6 @@ import javax.swing.JPanel;
 public abstract class StandardUILogical extends StandardUI {
 
     /**
-     * 构造函数，默认显示
-     */
-    // protected StandardUILogical() {
-    //     defaultView();
-    //     if (!addButtonAction()) System.out.println("添加按钮事件失败");
-    // }
-
-    /**
      * 默认视图
      * 在这个方法中加入该UI启动时显示的视图
      */

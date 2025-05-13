@@ -37,7 +37,10 @@ public class DataBase {
         }
     }
 
-    // 获取连接对象
+    /**
+     * 获取连接对象
+     * @return 连接对象
+     */
     public Connection getDB() {
         return connection;
     }
@@ -62,13 +65,13 @@ public class DataBase {
      * @param query 数据库操作语句
      * @return 受到影响的行数
      */
-    public int AddDB(String query) {
+    public int UpdateDB(String query) throws SQLException {
         try {
             Statement statement = connection.createStatement();
             return statement.executeUpdate(query);
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            throw new SQLException("Failed to update database", e);
         }
     } 
 }

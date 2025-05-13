@@ -32,18 +32,43 @@ public class LoginUI extends StandardUI{
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 5, 180, 5);
+    /*######设置布局######*/
+        gbc.insets = new Insets(5, 5, 100, 5);
+    /*######设置布局######*/
         gbc.anchor = GridBagConstraints.CENTER;
-        // logo 
-        utils.addComponent(panel, getLogo(), gbc, 0,0);
+
+        int Cheight = 0;
+        // utils.addComponent(panel, panel, gbc, ERROR, ALLBITS, HEIGHT, HEIGHT, ABORT, WIDTH, HEIGHT);
+
+        // logo
+        utils.addComponent(panel, getLogo(), gbc, 0, Cheight, 1, 1,
+            GridBagConstraints.NONE, 2, 1);
+
+    /*######设置布局######*/
+        gbc.insets = new Insets(220, 5, 5, 5);
+    /*######设置布局######*/
+
+        // 登陆组件
+        utils.addComponent(panel, loginbox(), gbc, 0, Cheight++, 1, 1,
+            GridBagConstraints.NONE, 2, 1);
+
+    /*######设置布局######*/
         gbc.insets = new Insets(5, 5, 5, 5);
-        // 用户名&密码
-        utils.addComponent(panel, loginbox(), gbc, 0, 1);
-        // 用户协议
-        utils.addComponent(panel, usrprotocal(), gbc, 0, 3);
+    /*######设置布局######*/
+
         // 登录按钮
         buttons.put("login", loginbutton());
-        utils.addComponent(panel, buttons.get("login"), gbc, 0, 4);
+        utils.addComponent(panel, buttons.get("login"), gbc, 0, Cheight++, 1, 1,
+            GridBagConstraints.NONE, 2, 1);
+
+        // 用户协议
+        utils.addComponent(panel, usrprotocal(), gbc, 0, Cheight++, 1, 1,
+            GridBagConstraints.NONE, 2, 1);
+
+        // 注册组件
+        utils.addComponent(panel, registerbox(), gbc, 0, Cheight++, 1, 1,
+            GridBagConstraints.NONE, 1, 1);
+
         return panel;
     }
 
@@ -70,19 +95,46 @@ public class LoginUI extends StandardUI{
         return button;
     }
 
+    // 注册组件
+    private JPanel registerbox() {
+        JPanel panel = new JPanel(new GridBagLayout());
+        panel.setBackground(new Color(255, 255, 255));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5,5,0,5);
+
+        utils.addComponent(panel, new JLabel("Register"), gbc, 0, 0);
+        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 1);
+        inputBoxs.put("regusr", new JTextField(16));
+        utils.addComponent(panel, inputBoxs.get("regusr"), gbc, 1, 1);
+
+        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 2);
+        inputBoxs.put("regpwd", new JPasswordField(16));
+        utils.addComponent(panel, inputBoxs.get("regpwd"), gbc, 1, 2);
+        buttons.put("reg", new JButton("reg"));
+        utils.addComponent(panel, buttons.get("reg"), gbc, 3, 1, 1, 1,
+            GridBagConstraints.NONE, 1, 2);
+        // DEBUG
+        // panel.setBackground(Color.red);
+        return panel;
+    }
+
+    // 登录组件
     private JPanel loginbox() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
 
-        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 0);
-        inputBoxs.put("username", new JTextField(16));
-        utils.addComponent(panel, inputBoxs.get("username"), gbc, 1, 0);
+        utils.addComponent(panel, new JLabel("Register"), gbc, 0, 0);
+        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 1);
+        inputBoxs.put("loginusr", new JTextField(16));
+        utils.addComponent(panel, inputBoxs.get("loginusr"), gbc, 1, 1);
 
-        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 1);
-        inputBoxs.put("password", new JPasswordField(16));
-        utils.addComponent(panel, inputBoxs.get("password"), gbc, 1, 1);
+        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 2);
+        inputBoxs.put("loginpwd", new JPasswordField(16));
+        utils.addComponent(panel, inputBoxs.get("loginpwd"), gbc, 1, 2);
+        // DEBUG
+        // panel.setBackground(Color.red);
         return panel;
     }
 

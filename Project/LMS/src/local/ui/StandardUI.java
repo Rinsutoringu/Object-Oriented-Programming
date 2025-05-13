@@ -133,4 +133,5 @@ public abstract class StandardUI extends JPanel {
      * @return
      */
     public abstract JPanel getThis();
+
 }
