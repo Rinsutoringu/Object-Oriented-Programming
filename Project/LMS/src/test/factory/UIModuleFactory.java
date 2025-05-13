@@ -12,13 +12,13 @@ public class UIModuleFactory {
     public static StandardUI createModule(String moduleName) {
         switch (moduleName.toLowerCase()) {
             case "panel-homepage-logic":
-                    return new HomePageLogic();
+                return new HomePageLogic();
             case "panel-homepage-ui":
-                    return new HomePageUI();
+                return new HomePageUI();
             case "panel-loginpage-logic":
-                    return new LoginLogic();
+                return new LoginLogic();
             case "panel-loginpage-ui":
-                    return new LoginUI();
+                return new LoginUI();
             case "panel-login":
                 return new LoginLogic();
             default:

@@ -22,7 +22,7 @@ public class TestOption {
             try {
                 
                 // mainwindow是主窗口，不能被加载,直接跳过接下来的代码即可
-                if (moduleName.equals("mainwindow")) return;
+                if (moduleName.equals("panel-mainwindow")) return;
 
                 // 尝试以UI模式获取模块
                 StandardUI UIModule = UIModuleFactory.createModule(moduleName);
@@ -34,10 +34,7 @@ public class TestOption {
 
                 // 尝试以Logic模式获取模块
                 MiniOption MiniUIModule = UIModuleFactory.createMiniOption(moduleName);
-                if (MiniUIModule != null) {
-                    // 提示窗口会自动显示，所以不需要执行添加/显示函数
-                    return;
-                }
+                if (MiniUIModule != null) return;
 
                 // 获取JPanel本体，然后在窗口展示
                 

@@ -39,6 +39,7 @@ public class LoginLogic extends local.ui.StandardUILogical {
 
     private void addLoginAction() {
         // 登录按钮
+        System.out.println("Login button clicked");
         loginUI.getButton("login").addActionListener(e -> {
             // 获取用户名和密码
             usr = loginUI.getTextField("username").getText();
