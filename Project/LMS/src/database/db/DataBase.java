@@ -4,18 +4,25 @@ import java.sql.*;
 
 public class DataBase {
     private Connection connection;
+
+    public DataBase() {
+        this.connection = connect();
+        
+    }
     
     // 创建连接对象
-    public void connect() {
+    public Connection connect() {
         try {
+            // TODO 判断LMS_sql是否存在
             String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
             String usr = "root";
             String pwd = "WPR_2333";
-            connection = DriverManager.getConnection(url, usr, pwd);
+            return DriverManager.getConnection(url, usr, pwd);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
     
     // 断开连接
@@ -65,7 +72,3 @@ public class DataBase {
         }
     } 
 }
-
-// A new Brench!
-
-// yep, it's cool!
