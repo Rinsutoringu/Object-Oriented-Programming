@@ -2,24 +2,41 @@ package database.db;
 
 import java.sql.*;
 
-import database.DBConnectionErrorHandler;
 import database.error.DBConnectError;
+import java.sql.SQLException;
+/*#########################
+ * 对Error Handler的说明
+ * 对基础封装设置抛出特定异常
+ * 高级应用需要使用try代码块接住那些特定异常
+ * 
+ * 
+ * #########################
+ */
 
+/**
+ * 数据库操作类
+ */
 public class DataBase {
     private Connection connection;
+    private errorHandler eh;
 
+    // TODO 提供降级逻辑
+    // 我不想做了!
     public DataBase() {
+        eh = new errorHandler();
         try {
         this.connection = connect();
+        } catch (DBConnectError e) {
+            // 接住DBConnectError异常
+            eh.handleError(e);
         } catch (Exception e) {
-            System.out.println("1/4 init error occur");
-            // e.printStackTrace();
+            // 接住其他异常
+            eh.handleOtherError(e);
         }
-        
     }
     
     // 创建连接对象
-    public Connection connect() {
+    public Connection connect() throws DBConnectError, Exception{
         try {
             // TODO 判断LMS_sql是否存在
             String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql?connectTimeout=5000";
@@ -27,12 +44,10 @@ public class DataBase {
             String pwd = "WPR_2333";
             return DriverManager.getConnection(url, usr, pwd);
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("2/4 connect error occur");
-            // e.printStackTrace();
-            // throw new DBConnectError("Failed to connect to database", e);
+            throw new DBConnectError("Failed to connect to database", e);
         }
-        return null;
     }
     
     // 断开连接
@@ -43,9 +58,7 @@ public class DataBase {
                 System.out.println("Close Success!");
             }
         } catch (SQLException e) {
-            System.out.println("3/4 disconnect error occur");
-            // e.printStackTrace();
-            // throw new DBConnectError("Failed to disconnect database", e);
+            throw new DBConnectError("Failed to disconnect database", e);
         }
     }
 
