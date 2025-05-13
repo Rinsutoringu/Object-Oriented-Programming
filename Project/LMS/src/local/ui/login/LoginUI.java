@@ -117,5 +117,10 @@ public class LoginUI extends StandardUI{
         if (inputBoxs.containsKey(fieldName)) return inputBoxs.get(fieldName);
         return null;
     }
+
+    @Override
+    public JPanel getThis() {
+        return this;
+    }
 }
 

@@ -126,7 +126,11 @@ public abstract class StandardUI extends JPanel {
         this.setBackground(new java.awt.Color(255, 255, 255));
         gbc = new GridBagConstraints();
         gbc.insets = new java.awt.Insets(10, 10, 10, 10);
-
-        
     }
+
+    /**
+     * 获取当前UI对象
+     * @return
+     */
+    public abstract JPanel getThis();
 }

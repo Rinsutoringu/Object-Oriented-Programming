@@ -3,6 +3,7 @@ package local.ui.login;
 import javax.swing.JPanel;
 
 import database.db.DataBaseUtils;
+import local.error.GUIActionFailed;
 import local.utils.MiniOption;
 
 public class LoginLogic extends local.ui.StandardUILogical {
@@ -12,12 +13,16 @@ public class LoginLogic extends local.ui.StandardUILogical {
     
     public LoginLogic() {
         super();
-        // 实例化loginUI对象
-        loginUI = new LoginUI();
 
-        // 实例化数据库对象
-        dbUtils = new DataBaseUtils();
-        
+        try {
+            // 实例化loginUI对象
+            loginUI = new LoginUI();
+
+            // 实例化数据库对象
+            dbUtils = new DataBaseUtils();
+
+        } catch (Exception e) {throw new GUIActionFailed("窗口加载失败", e);}
+
         defaultView();
         addButtonAction();
     }
@@ -39,7 +44,7 @@ public class LoginLogic extends local.ui.StandardUILogical {
             usr = loginUI.getTextField("username").getText();
             pwd = loginUI.getTextField("password").getText();
         });
-        if (!dbUtils.Login(usr, pwd)) new MiniOption("Login Failed", "Please check your UserName or Password!");
+        // if (!dbUtils.Login(usr, pwd)) new MiniOption("Login Failed", "Please check your UserName or Password!");
     }
 
     public JPanel getThis() {return loginUI;}

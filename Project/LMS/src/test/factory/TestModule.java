@@ -23,7 +23,8 @@ public class TestModule {
             try {
                 // 根据命令行参数选择模块
                 StandardUI module = ModuleFactory.createModule(moduleName);
-                if (module!= null) lms.addPanel(module);
+                // 获取JPanel本体，然后在窗口展示
+                if (module!= null) lms.addPanel(module.getThis());
                 
             } catch (IllegalArgumentException e) {
                 System.err.println(e.getMessage());

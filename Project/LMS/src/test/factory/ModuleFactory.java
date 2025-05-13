@@ -5,7 +5,6 @@ import local.ui.homepage.HomePageLogic;
 import local.ui.homepage.HomePageUI;
 import local.ui.login.LoginLogic;
 import local.ui.login.LoginUI;
-import local.ui.mainwindow.MainWindowUI;
 
 public class ModuleFactory {
 

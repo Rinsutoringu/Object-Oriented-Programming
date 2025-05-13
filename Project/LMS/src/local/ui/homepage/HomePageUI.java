@@ -79,4 +79,8 @@ public class HomePageUI extends local.ui.StandardUI {
         button.setText(ButtonText);
         return button;        
     }
+    @Override
+    public JPanel getThis() {
+        return this;
+    }
 }
