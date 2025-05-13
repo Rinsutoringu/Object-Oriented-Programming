@@ -14,6 +14,11 @@ import javax.swing.SwingWorker;
 import database.db.DataBaseUtils;
 import database.errorhandle.*;
 
+/**
+ * 这个页面是个概览页面，显示一些基本信息
+ * 比如注册用户数量、物品数量等
+ * HelloPage本身是个综合性欢迎页，而这个页面将更多地体现有用的信息
+ */
 public class Overview extends JPanel {
     private DataBaseUtils dbUtils;
     private errorHandler eh;

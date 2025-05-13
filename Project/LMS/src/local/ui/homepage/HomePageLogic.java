@@ -38,7 +38,6 @@ public class HomePageLogic extends local.ui.StandardUILogical {
             }
         };
         worker.execute();
-        
         addButtonAction();
    }
 

@@ -6,6 +6,11 @@ import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * 用户待办页面
+ * 这个页面是个待办页面，用户可以在这里查看待办事项
+ * 待办事项逻辑在这里实现
+ */
 public class UserToDo extends JPanel {
     public UserToDo() {
 
