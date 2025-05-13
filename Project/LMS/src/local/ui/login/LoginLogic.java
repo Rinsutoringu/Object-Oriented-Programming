@@ -1,5 +1,7 @@
 package local.ui.login;
 
+import javax.swing.JPanel;
+
 public class LoginLogic extends local.ui.StandardUILogical {
     LoginUI loginUI;
     private String usr, pwd;
@@ -8,17 +10,21 @@ public class LoginLogic extends local.ui.StandardUILogical {
         super();
         // 实例化loginUI对象
         loginUI = new LoginUI();
+        
+        defaultView();
+        addButtonAction();
     }
 
     protected void defaultView() {
         // 默认视图
     }
 
-    protected boolean addButtonAction() {
+    protected void addButtonAction() {
         // 添加按钮事件
         addLoginAction();
-        return true;
     }
+
+
     private void addLoginAction() {
         // 登录按钮
         loginUI.getButton("login").addActionListener(e -> {
@@ -27,9 +33,10 @@ public class LoginLogic extends local.ui.StandardUILogical {
             pwd = loginUI.getTextField("password").getText();
         }
         );
-
-
-        
+    }
+    
+    public JPanel getThis() {
+        return loginUI;
     }
 }
         

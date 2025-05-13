@@ -12,8 +12,7 @@ public class TestLogic_HomePageWindow {
             new Runnable() {
                 @Override
                 public void run() {
-                    MainWindowUI lms = new MainWindowUI();
-                    lms.addPanel(new HomePageLogic().getHomePage());
+                    new MainWindowUI().addPanel(new HomePageLogic().getThis());
                 }
             }
         );

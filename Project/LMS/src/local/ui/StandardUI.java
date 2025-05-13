@@ -2,7 +2,7 @@ package local.ui;
 
 import javax.swing.*;
 
-import local.error.ButtonNotFound;
+import local.error.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,6 +48,7 @@ public abstract class StandardUI extends JPanel {
      * 获取按钮
      * @param name 获取到按钮名称，以键的方式存储在buttons集合中
      * @return 返回按钮对象
+     * @exception ButtonNotFound 没找到按钮
      */
     public AbstractButton getButton(String name) throws ButtonNotFound {
         AbstractButton button;
@@ -66,9 +67,19 @@ public abstract class StandardUI extends JPanel {
      * 获取面板
      * @param name 获取到面板名称，以键的方式存储在panels集合中
      * @return 返回面板对象
+     * @exception PanelNotFound 没找到面板
      */
-    public JPanel getPanel(String name) {
-        return panels.get(name);
+    public JPanel getPanel(String name) throws PanelNotFound{
+        JPanel panel;
+        try {
+            panel = panels.get(name);
+            // 如果面板不为空，直接返回
+            // 如果面板为空，抛出异常
+            if (panel != null) return panel;
+            throw new NullPointerException("Panel with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new PanelNotFound("Fail to found panel with key " + name, e);
+        }
     }
 
     /**
@@ -76,8 +87,17 @@ public abstract class StandardUI extends JPanel {
      * @param name 获取到输入框名称，以键的方式存储在inputBoxs集合中
      * @return 返回输入框对象
      */
-    public JTextField getTextField(String name) {
-        return inputBoxs.get(name);
+    public JTextField getTextField(String name) throws InputNotFound{
+        JTextField inputBox;
+        try {
+            inputBox = inputBoxs.get(name);
+            // 如果输入框不为空，直接返回
+            // 如果输入框为空，抛出异常
+            if (inputBox != null) return inputBox;
+            throw new NullPointerException("Input box with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new InputNotFound("Fail to found input box with key " + name, e);
+        }
     }
 
     /**
@@ -85,8 +105,17 @@ public abstract class StandardUI extends JPanel {
      * @param name 获取到图片名称，以键的方式存储在images集合中
      * @return 返回图片对象
      */
-    public BufferedImage getImage(String name) {
-        return images.get(name);
+    public BufferedImage getImage(String name) throws ImageNotFound{
+        BufferedImage image;
+        try {
+            image = images.get(name);
+            // 如果图片不为空，直接返回
+            // 如果图片为空，抛出异常
+            if (image != null) return image;
+            throw new NullPointerException("Image with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new ImageNotFound("Fail to found image with key " + name, e);
+        }
     }
 
     public StandardUI() {

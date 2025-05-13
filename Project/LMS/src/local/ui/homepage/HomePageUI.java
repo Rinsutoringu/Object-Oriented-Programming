@@ -7,8 +7,8 @@ import local.error.UICreateFail;
 import java.awt.*;
 
 public class HomePageUI extends local.ui.StandardUI {
-    public HomePageUI() throws UICreateFail {
 
+    {
         // 实例化界面各组件
         try {
             topview();
@@ -17,7 +17,10 @@ public class HomePageUI extends local.ui.StandardUI {
         } catch (Exception e) {
             throw new UICreateFail("UI module init failed", e);
         }
-
+    }
+    
+    public HomePageUI() throws UICreateFail {
+        super();
         // 界面的基本布局已在StandardUI中完成
         // 添加组件
         utils.addComponent(this, panels.get("topview"), gbc, 0, 0,1, 0.1,

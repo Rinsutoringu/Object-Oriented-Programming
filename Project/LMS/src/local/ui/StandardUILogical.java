@@ -2,15 +2,15 @@ package local.ui;
 
 import javax.swing.JPanel;
 
-public abstract class StandardUILogical {
+public abstract class StandardUILogical extends StandardUI {
 
     /**
      * 构造函数，默认显示
      */
-    protected StandardUILogical() {
-        defaultView();
-        if (!addButtonAction()) System.out.println("添加按钮事件失败");
-    }
+    // protected StandardUILogical() {
+    //     defaultView();
+    //     if (!addButtonAction()) System.out.println("添加按钮事件失败");
+    // }
 
     /**
      * 默认视图
@@ -22,7 +22,7 @@ public abstract class StandardUILogical {
      * 为按钮注册点击事件
      * @return 是否成功添加事件
      */
-    protected abstract boolean addButtonAction();
+    protected abstract void addButtonAction();
     
     /**
      * 把指定面板的内容替换为指定元素（如为空则直接加入）
@@ -30,6 +30,8 @@ public abstract class StandardUILogical {
      * @param showthings 待加入面板的元素
      */
     protected void show(JPanel showPanel, JPanel showthings) {
+        // DEBUG
+        System.out.println("在面板中显示内容前需要先清空原先的内容");
         showPanel.removeAll();
         showPanel.add(showthings);
         showPanel.revalidate(); // 刷新布局
@@ -54,6 +56,12 @@ public abstract class StandardUILogical {
     protected boolean isPanelEmpty(JPanel panel) {
         return panel.getComponentCount() == 0 ;
     }
+
+    /**
+     * 获取当前UI对象
+     * @return
+     */
+    protected abstract JPanel getThis();
     
 
 }
