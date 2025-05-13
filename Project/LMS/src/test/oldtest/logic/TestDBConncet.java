@@ -6,7 +6,7 @@ public class TestDBConncet {
 
     public static void main(String[] args) {
         DataBase db = new DataBase();
-        db.connect();
+        // db.connect();
         System.out.println();
     }
 }

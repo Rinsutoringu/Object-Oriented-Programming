@@ -1,8 +1,10 @@
-package database.db;
+package database.errorhandle;
 
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 
 import database.error.*;
+import local.error.*;
 
 public interface DBConnectionErrorHandler {
 
@@ -23,6 +25,12 @@ public interface DBConnectionErrorHandler {
      * @param error 传入SQLException
      */
     void handleError(SQLException error);
+
+    void handleError(SQLTimeoutException error);
+
+    void handleError(UserInfoError error);
+
+    void handleError(AuthFailed error);
 
     /**
      * 未知异常通用处理逻辑

@@ -1,7 +1,5 @@
 package database.error;
 
-import database.db.DataBaseUtils;
-
 public class DBStatusError extends RuntimeException {
     public DBStatusError(String message) {
         

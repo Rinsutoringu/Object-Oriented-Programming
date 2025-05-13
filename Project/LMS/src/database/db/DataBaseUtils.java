@@ -2,9 +2,10 @@ package database.db;
 
 import java.sql.*;
 
-import database.error.DBConnectError;
+import database.error.*;
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
 import local.error.*;
-
 
 /**
  * 数据库操作类
@@ -34,17 +35,22 @@ public class DataBaseUtils {
      * @param query 数据库操作语句
      * @return 查询到的数组，没查到会报错
      */
-    public ResultSet SearchDB(String query) {
+    public ResultSet SearchDB(String query) throws SQLException, SQLTimeoutException, DBConnectError, Exception{
         try {
             // 获取连接对象
-            Connection connection = this.db.getDB(eh);
+            Connection connection = this.db.getDB();
+            if (connection == null || connection.isClosed()) {
+                throw new DBConnectError("Database connection is not available");
+            }
             Statement statement = connection.createStatement();
             return statement.executeQuery(query);
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            CatchException.handle(e, eh);
         }
+
+        return null;
     }
+
 
     /**
      * 编辑数据库数据
@@ -53,7 +59,7 @@ public class DataBaseUtils {
      */
     public int UpdateDB(String query) throws SQLException {
         try {
-            Connection connection = this.db.getDB(eh);
+            Connection connection = this.db.getDB();
             Statement statement = connection.createStatement();
             return statement.executeUpdate(query);
         } catch (Exception e) {
@@ -61,6 +67,7 @@ public class DataBaseUtils {
             throw new SQLException("Failed to update database", e);
         }
     } 
+
 
     /**
      * 登录
@@ -70,23 +77,37 @@ public class DataBaseUtils {
      * @exception UserInfoError 用户信息错误
      * @exception DBConnectError 数据库连接错误
      */
-    public void Login(String usr, String pwd) throws AuthFailed, UserInfoError, DBConnectError {
+    public boolean Login(String usr, String pwd) throws AuthFailed, UserInfoError, DBConnectError {
         usr = usr.trim();
         pwd = pwd.trim();
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
         try {
+
+            Connection connection = this.db.getDB();
+            if (connection == null || connection.isClosed()) {
+                throw new DBConnectError("Database connection is not available");
+            }
+
             // 查找这个用户名对应的数据库信息
             ResultSet rs = this.SearchDB(query);
             // 如果查找失败\压根没这个人则失败
-            if (rs == null || !rs.next()) throw new UserInfoError("User not exist");
+            if (rs == null || !rs.next()) {
+                throw new UserInfoError("User not exist");
+            }
             // 如果找到了不止一个人的信息则失败
-            if (rs.next()) throw new UserInfoError("User name duplicate");
+            
+            // TODO 直接在数据库施加限制即可。
+            // if (rs.next()) throw new UserInfoError("User name duplicate");
+            
             // 如果密码不匹配则失败
             if (!pwd.equals(rs.getString("password"))) throw new UserInfoError("Password not match");
-        } catch (SQLException e) {
-            // 查找失败
-            throw new AuthFailed("Failed to login user", e);
-        }  
+            db.disconnect();
+            return true;
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+            db.disconnect();
+            return false;
+        }
     }
 
     /**
@@ -110,23 +131,22 @@ public class DataBaseUtils {
             // System.out.println("Username: " + usr + ", Password: " + pwd);
 
             // 创建预编译语句，
-            PreparedStatement insertStatement = this.db.getDB(new errorHandler()).prepareStatement(insertQuery);
+            PreparedStatement insertStatement = this.db.getDB().prepareStatement(insertQuery);
             insertStatement.setString(1, usr);
             insertStatement.setString(2, pwd);
             // 执行插入操作
             insertStatement.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new UserInfoError("Failed to prepare insert statement", e);
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
         }
     }
 
     public void disconnectDB() throws DBConnectError {
         // 断开数据库连接
-        try {
-            this.db.disconnect();
-        } catch (Exception e) {
-            throw new DBConnectError("Failed to disconnect database", e);
-        }
+        try {this.db.disconnect();}
+        catch (DBConnectError e){eh.handleError(e);} 
+        catch (Exception e) {eh.handleOtherError(e);}
     }
+
 }

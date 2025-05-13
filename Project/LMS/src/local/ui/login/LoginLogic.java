@@ -6,15 +6,20 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 import database.db.DataBaseUtils;
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
 import local.error.*;
 import local.utils.MiniOption;
 
 public class LoginLogic extends local.ui.StandardUILogical {
     LoginUI loginUI;
     private DataBaseUtils dbUtils;
+    private errorHandler eh;
     
     public LoginLogic() {
         super();
+
+        eh = new errorHandler();
 
         try {
             // 实例化loginUI对象
@@ -23,7 +28,9 @@ public class LoginLogic extends local.ui.StandardUILogical {
             // 实例化数据库对象
             dbUtils = new DataBaseUtils();
 
-        } catch (Exception e) {throw new GUIActionFailed("窗口加载失败", e);}
+        } catch (Exception e) {
+            eh.handleError(e,eh);
+        }
 
         defaultView();
         addButtonAction();
@@ -59,12 +66,12 @@ public class LoginLogic extends local.ui.StandardUILogical {
             // DEBUG
             // System.out.println("User: " + usr + ", Password: " + pwd);
             try {
-                dbUtils.Login(usr, pwd);
+                if (!dbUtils.Login(usr, pwd)) throw new AuthFailed("Login failed"); 
+                System.out.println("Login success");
                 loginusr.setText("");
                 loginpwd.setText("");
             } catch (Exception ex) {
-                checkBox.setSelected(false);
-                new MiniOption("Login Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+                CatchException.handle(ex, eh);
             }
         });
 
@@ -88,7 +95,7 @@ public class LoginLogic extends local.ui.StandardUILogical {
                 dbUtils.disconnectDB();
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
-                new MiniOption("Register Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
+                CatchException.handle(ex, eh);
             }
         });
     }
