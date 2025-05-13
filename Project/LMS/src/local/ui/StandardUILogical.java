@@ -31,7 +31,6 @@ public abstract class StandardUILogical extends StandardUI {
      */
     protected void show(JPanel showPanel, JPanel showthings) {
         // DEBUG
-        System.out.println("在面板中显示内容前需要先清空原先的内容");
         showPanel.removeAll();
         showPanel.add(showthings);
         showPanel.revalidate(); // 刷新布局

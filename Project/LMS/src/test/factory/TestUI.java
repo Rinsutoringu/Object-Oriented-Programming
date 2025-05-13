@@ -4,9 +4,8 @@ import javax.swing.SwingUtilities;
 
 import local.ui.mainwindow.MainWindowUI;
 import local.ui.StandardUI;
-import local.ui.StandardUILogical;
 
-public class TestModule {
+public class TestUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -22,7 +21,7 @@ public class TestModule {
 
             try {
                 // 根据命令行参数选择模块
-                StandardUI module = ModuleFactory.createModule(moduleName);
+                StandardUI module = UIModuleFactory.createModule(moduleName);
                 // 获取JPanel本体，然后在窗口展示
                 if (module!= null) lms.addPanel(module.getThis());
                 
