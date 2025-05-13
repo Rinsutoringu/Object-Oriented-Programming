@@ -82,12 +82,9 @@ public class DataBaseUtils {
         pwd = pwd.trim();
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
         try {
-
             Connection connection = this.db.getDB();
-            if (connection == null || connection.isClosed()) {
+            if (connection == null || connection.isClosed()) 
                 throw new DBConnectError("Database connection is not available");
-            }
-
             // 查找这个用户名对应的数据库信息
             ResultSet rs = this.SearchDB(query);
             // 如果查找失败\压根没这个人则失败
@@ -101,11 +98,11 @@ public class DataBaseUtils {
             
             // 如果密码不匹配则失败
             if (!pwd.equals(rs.getString("password"))) throw new UserInfoError("Password not match");
-            db.disconnect();
+            disconnectDB();
             return true;
         } catch (Exception e) {
             CatchException.handle(e, eh);
-            db.disconnect();
+            disconnectDB();
             return false;
         }
     }
@@ -145,8 +142,9 @@ public class DataBaseUtils {
     public void disconnectDB() throws DBConnectError {
         // 断开数据库连接
         try {this.db.disconnect();}
-        catch (DBConnectError e){eh.handleError(e);} 
-        catch (Exception e) {eh.handleOtherError(e);}
+        catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
     }
 
 }
