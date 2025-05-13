@@ -8,10 +8,16 @@ package local.utils;
 * @param message 小窗口里显示的消息内容
 * @param messageType 小窗口类型 ERROR_MESSAGE, INFORMATION_MESSAGE, WARNING_MESSAGE, QUESTION_MESSAGE, PLAIN_MESSAGE
  */
-public class MiniOption extends  javax.swing.JOptionPane{
-
+public class MiniOption extends javax.swing.JOptionPane{
     public MiniOption(String title, String message, int messageType) {
+        super();
         showMessageDialog(null, message, title, messageType);
         this.setVisible(true);
+        
+    }
+    // 更新窗口信息
+    public void updateMessage(String message) {
+        this.setMessage(message);
+        repaint();
     }
 }

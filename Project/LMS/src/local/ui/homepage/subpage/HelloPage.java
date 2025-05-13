@@ -11,8 +11,7 @@ public class HelloPage extends JPanel {
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        // TODO 从数据库获取用户名
-        String username = "Test User";
+        String username = local.utils.GlobalVariables.currentUsr;
         this.add(new JLabel("Good morning, "+username));
         
     }

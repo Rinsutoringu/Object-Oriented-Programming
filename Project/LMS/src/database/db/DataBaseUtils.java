@@ -1,11 +1,9 @@
 package database.db;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-import local.error.AuthFailed;
-import local.error.UserInfoError;
+import database.error.DBConnectError;
+import local.error.*;
 
 
 /**
@@ -18,11 +16,51 @@ import local.error.UserInfoError;
  */
 public class DataBaseUtils {
     private DataBase db;
+    private errorHandler eh;
 
-    public DataBaseUtils(){
+    public DataBaseUtils() throws DBConnectError {
         // 初始化database类
-        db = new DataBase();
+        try {
+            db = new DataBase();
+        } catch (Exception e) {
+            throw new DBConnectError("Failed to initialize database", e);
+        }
+        eh = new errorHandler();
     }
+
+
+    /**
+     * 查询数据库数据
+     * @param query 数据库操作语句
+     * @return 查询到的数组，没查到会报错
+     */
+    public ResultSet SearchDB(String query) {
+        try {
+            // 获取连接对象
+            Connection connection = this.db.getDB(eh);
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 编辑数据库数据
+     * @param query 数据库操作语句
+     * @return 受到影响的行数
+     */
+    public int UpdateDB(String query) throws SQLException {
+        try {
+            Connection connection = this.db.getDB(eh);
+            Statement statement = connection.createStatement();
+            return statement.executeUpdate(query);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new SQLException("Failed to update database", e);
+        }
+    } 
 
     /**
      * 登录
@@ -30,14 +68,15 @@ public class DataBaseUtils {
      * @param password 用户登录时传入的密码
      * @exception AuthFailed 用户认证失败
      * @exception UserInfoError 用户信息错误
+     * @exception DBConnectError 数据库连接错误
      */
-    public void Login(String usr, String pwd) throws AuthFailed, UserInfoError {
+    public void Login(String usr, String pwd) throws AuthFailed, UserInfoError, DBConnectError {
         usr = usr.trim();
         pwd = pwd.trim();
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
         try {
             // 查找这个用户名对应的数据库信息
-            ResultSet rs = this.db.SearchDB(query);
+            ResultSet rs = this.SearchDB(query);
             // 如果查找失败\压根没这个人则失败
             if (rs == null || !rs.next()) throw new UserInfoError("User not exist");
             // 如果找到了不止一个人的信息则失败
@@ -55,8 +94,9 @@ public class DataBaseUtils {
      * @param username 用户注册时传入的用户名
      * @param password 用户注册时传入的密码
      * @exception UserInfoError 用户信息错误
+     * @exception DBConnectError 数据库连接错误
      */
-    public void Register(String usr, String pwd) throws UserInfoError {
+    public void Register(String usr, String pwd) throws UserInfoError, DBConnectError {
         usr = usr.trim();
         pwd = pwd.trim();
         // 将用户名和密码插入数据库，同时为index增加1
@@ -70,7 +110,7 @@ public class DataBaseUtils {
             // System.out.println("Username: " + usr + ", Password: " + pwd);
 
             // 创建预编译语句，
-            PreparedStatement insertStatement = this.db.getDB().prepareStatement(insertQuery);
+            PreparedStatement insertStatement = this.db.getDB(new errorHandler()).prepareStatement(insertQuery);
             insertStatement.setString(1, usr);
             insertStatement.setString(2, pwd);
             // 执行插入操作
@@ -78,6 +118,15 @@ public class DataBaseUtils {
 
         } catch (SQLException e) {
             throw new UserInfoError("Failed to prepare insert statement", e);
+        }
+    }
+
+    public void disconnectDB() throws DBConnectError {
+        // 断开数据库连接
+        try {
+            this.db.disconnect();
+        } catch (Exception e) {
+            throw new DBConnectError("Failed to disconnect database", e);
         }
     }
 }

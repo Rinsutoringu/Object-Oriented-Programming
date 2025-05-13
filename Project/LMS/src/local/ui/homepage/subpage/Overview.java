@@ -17,4 +17,22 @@ public class Overview extends JPanel {
         this.add(new JLabel("Now is Overview page"));
         
     }
+
+    /**
+     * 获取数据库中的注册用户数量
+     * @return 用户数量
+     */
+    private int getNumOfUsers() {
+        // TODO 从数据库获取用户数量
+        return 100;
+    }
+
+    /**
+     * 获取数据库中记录的物资量
+     * @return 物资量
+     */
+    private int getNumOfObjects() {
+        // TODO 从数据库获取物资量
+        return 1000;
+    }
 }

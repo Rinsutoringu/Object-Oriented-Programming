@@ -45,9 +45,9 @@ public class LoginLogic extends local.ui.StandardUILogical {
         loginUI.getButton("login").addActionListener(e -> {
             // 获取用户名和密码
             System.out.println("Login button clicked");
-            
             // 傻逼java
-            if(!loginUI.getCheckbox("check").isSelected()) {
+            JCheckBox checkBox = loginUI.getCheckbox("check");
+            if(!checkBox.isSelected()) {
                 new MiniOption("Login Failed", "Please read and accept the fucking terms and conditions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
@@ -58,13 +58,12 @@ public class LoginLogic extends local.ui.StandardUILogical {
             String pwd = loginpwd.getText();
             // DEBUG
             // System.out.println("User: " + usr + ", Password: " + pwd);
-
-            
             try {
                 dbUtils.Login(usr, pwd);
                 loginusr.setText("");
                 loginpwd.setText("");
             } catch (Exception ex) {
+                checkBox.setSelected(false);
                 new MiniOption("Login Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -82,6 +81,11 @@ public class LoginLogic extends local.ui.StandardUILogical {
                 // 注册成功后清空输入框
                 regusr.setText("");
                 regpwd.setText("");
+                loginUI.getCheckbox("check").setSelected(false);
+                // 将用户名注册为全局变量以便于后续使用
+                local.utils.GlobalVariables.currentUsr = usr;
+                // 断开与数据库的连接
+                dbUtils.disconnectDB();
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 new MiniOption("Register Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
