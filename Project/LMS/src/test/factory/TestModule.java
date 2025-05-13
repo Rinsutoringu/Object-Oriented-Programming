@@ -1,0 +1,33 @@
+package test.factory;
+
+import javax.swing.SwingUtilities;
+
+import local.ui.mainwindow.MainWindowUI;
+import local.ui.StandardUI;
+import local.ui.StandardUILogical;
+
+public class TestModule {
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            if (args.length == 0) {
+                System.err.println("Please specify a module to test .");
+                System.err.println("Use this format");
+                System.err.println("java -test.factory.TestModule <GUIPageName>+<Logic/UI>");
+                return;
+            }
+
+            String moduleName = args[0];
+            MainWindowUI lms = new MainWindowUI();
+
+            try {
+                // 根据命令行参数选择模块
+                StandardUI module = ModuleFactory.createModule(moduleName);
+                if (module!= null) lms.addPanel(module);
+                
+            } catch (IllegalArgumentException e) {
+                System.err.println(e.getMessage());
+            }
+        });
+    }
+}

@@ -34,6 +34,38 @@
             "request": "launch",
             "mainClass": "test.ui.TestLoginWindow",
             "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
+            "name": "Logic-Test-homepageUI-Factory",
+            "request": "launch",
+            "mainClass": "test.factory.TestModule",
+            "projectName": "LMS_ed3bf818",
+            "args": ["homepage-logic"]
+        },
+        {
+            "type": "java",
+            "name": "UI-Test-homepageUI-Factory",
+            "request": "launch",
+            "mainClass": "test.factory.TestModule",
+            "projectName": "LMS_ed3bf818",
+            "args": ["homepage-ui"]
+        },
+        {
+            "type": "java",
+            "name": "Logic-Test-LoginWindowUI-Factory",
+            "request": "launch",
+            "mainClass": "test.factory.TestModule",
+            "projectName": "LMS_ed3bf818",
+            "args": ["loginpage-logic"]
+        },
+        {
+            "type": "java",
+            "name": "UI-Test-LoginWindowUI-Factory",
+            "request": "launch",
+            "mainClass": "test.factory.TestModule",
+            "projectName": "LMS_ed3bf818",
+            "args": ["loginpage-ui"]
         }
     ]
 }

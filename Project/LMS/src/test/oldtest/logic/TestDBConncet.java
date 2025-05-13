@@ -1,4 +1,4 @@
-package test.logic;
+package test.oldtest.logic;
 
 import database.db.DataBase;;
 
