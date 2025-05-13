@@ -2,6 +2,8 @@ package local.ui;
 
 import javax.swing.*;
 
+import local.error.ButtonNotFound;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.GridBagLayout;
@@ -47,8 +49,17 @@ public abstract class StandardUI extends JPanel {
      * @param name 获取到按钮名称，以键的方式存储在buttons集合中
      * @return 返回按钮对象
      */
-    public AbstractButton getButton(String name) {
-        return buttons.get(name);
+    public AbstractButton getButton(String name) throws ButtonNotFound {
+        AbstractButton button;
+        try {
+            button = buttons.get(name);
+            // 如果按钮不为空，直接返回
+            // 如果按钮为空，抛出异常
+            if (button != null) return button;
+            throw new NullPointerException("Button with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new ButtonNotFound("Fail to found button with key " + name, e);
+        }
     }
 
     /**

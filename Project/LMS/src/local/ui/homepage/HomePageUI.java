@@ -1,45 +1,38 @@
 package local.ui.homepage;
 
 import javax.swing.*;
+
+import local.error.UICreateFail;
+
 import java.awt.*;
-import java.util.*;
 
-public class HomePageUI extends JPanel {
-    private JPanel topview;
-    private JPanel detaiJPanel;
-    private JPanel overJPanel;
-    private local.utils.UIUtils utils;
-    private Map<String, JButton> buttons;
-
-    public HomePageUI() {
+public class HomePageUI extends local.ui.StandardUI {
+    public HomePageUI() throws UICreateFail {
 
         // 实例化界面各组件
-        buttons = new HashMap<String, JButton>();
-        topview = topview();
-        detaiJPanel = detaiJPanel();
-        overJPanel = overJPanel();
+        try {
+            topview();
+            detailJPanel();
+            overJPanel();
+        } catch (Exception e) {
+            throw new UICreateFail("UI module init failed", e);
+        }
 
-        // 实例化工具类
-        utils = new local.utils.UIUtils();
-
-        this.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0,0,0,0);
-
-        utils.addComponent(this, topview, gbc, 0, 0,1, 0.1,
+        // 界面的基本布局已在StandardUI中完成
+        // 添加组件
+        utils.addComponent(this, panels.get("topview"), gbc, 0, 0,1, 0.1,
         GridBagConstraints.BOTH, 2, 1);
-        utils.addComponent(this, detaiJPanel, gbc, 0, 1, 1, 0.9,
+        utils.addComponent(this, panels.get("details"), gbc, 0, 1, 1, 0.9,
         GridBagConstraints.BOTH, 1, 1);
-        utils.addComponent(this, overJPanel, gbc, 1, 1, 2.5, 0.9,
+        utils.addComponent(this, panels.get("overview"), gbc, 1, 1, 2.5, 0.9,
         GridBagConstraints.BOTH, 1, 1);
-
     }
-    
+
 
     // 顶栏
-    private JPanel topview() {
+    private void topview() {
+
         JPanel panel = new JPanel();
-        
         // 设置topview建议间隔
         panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
@@ -53,58 +46,34 @@ public class HomePageUI extends JPanel {
         int buttonGap = 20;
         // 把按钮加入顶部视图中
         panel.add(Box.createHorizontalGlue());
-        for (JButton button : buttons.values()) {
+        for (AbstractButton button : buttons.values()) {
             panel.add(button);
             panel.add(Box.createHorizontalStrut(buttonGap));
         }
         panel.add(Box.createHorizontalGlue());
-
         // 背景
-        panel.setBackground(new Color(255,255,255));
-        return panel;
+            panel.setBackground(new Color(255,255,255));
+            panels.put("topview", panel);
+        }
+
+    // 大的，主，总览栏
+    private void overJPanel() {
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.setBackground(Color.BLUE);        
+            panels.put("overview", panel);
     }
-    
+
+    // 小的，条目一览栏
+    private void detailJPanel() {
+            JPanel panel = new JPanel(new BorderLayout());
+            panel.setBackground(Color.ORANGE);
+            panel.setPreferredSize(new Dimension(100, 100));
+            panels.put("details", panel);
+    }
+    // 按钮
     private JButton topButton(String ButtonText) {
         JButton button = new JButton();
         button.setText(ButtonText);
         return button;        
-    }
-
-    /**
-     * 获取按钮对象
-     * @param ButtonName 按钮名称
-     * @return 按钮对象
-     */
-    public JButton getButton(String ButtonName) {
-        return buttons.get(ButtonName);
-    }
-
-    // 大的，主，总览栏
-    private JPanel overJPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
-        // panel.setPreferredSize(new Dimension(100, 100));   
-
-        panel.setBackground(Color.BLUE);        
-        return panel;
-    }
-
-    // 小的，条目一览栏
-    private JPanel detaiJPanel() {  
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Color.ORANGE);     
-        panel.setPreferredSize(new Dimension(100, 100));   
-        return panel;
-    }
-
-    public JPanel getoverJPanel() {
-        return overJPanel;
-    }
-
-    public JPanel getdetaiJPanel() {
-        return detaiJPanel;
-    }
-
-    public JPanel getTopviewPanel() {
-        return topview;
     }
 }
