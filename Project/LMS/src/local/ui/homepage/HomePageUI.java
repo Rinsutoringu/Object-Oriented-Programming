@@ -2,22 +2,25 @@ package local.ui.homepage;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 
 public class HomePageUI extends JPanel {
     private JPanel topview;
     private JPanel detaiJPanel;
     private JPanel overJPanel;
-
-    private local.utils.UIUtils utils = new local.utils.UIUtils();
+    private local.utils.UIUtils utils;
+    private Map<String, JButton> buttons;
 
     public HomePageUI() {
 
+        // 实例化界面各组件
+        buttons = new HashMap<String, JButton>();
         topview = topview();
         detaiJPanel = detaiJPanel();
         overJPanel = overJPanel();
+
+        // 实例化工具类
+        utils = new local.utils.UIUtils();
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -31,7 +34,7 @@ public class HomePageUI extends JPanel {
         GridBagConstraints.BOTH, 1, 1);
 
     }
-    private Map<String, JButton> buttons = new HashMap<String, JButton>();
+    
 
     // 顶栏
     private JPanel topview() {

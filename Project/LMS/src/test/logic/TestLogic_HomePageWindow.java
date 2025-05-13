@@ -4,7 +4,6 @@ import javax.swing.SwingUtilities;
 
 import local.ui.mainwindow.*;
 import local.ui.homepage.HomePageLogic;
-import local.ui.homepage.HomePageUI;
 
 public class TestLogic_HomePageWindow {
 

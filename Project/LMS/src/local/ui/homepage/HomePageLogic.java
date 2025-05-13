@@ -1,17 +1,10 @@
 package local.ui.homepage;
 
-import java.awt.event.ActionListener;
-
-import javax.net.ssl.SSLEngineResult.Status;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 import local.ui.homepage.subpage.*;
 
-
 public class HomePageLogic {
-    public static final int DEFAULT = 0;
+    // public static final int DEFAULT = 0;
     private JPanel detaiJpanel;
     private JPanel overJPanel;
     private JPanel topviewPanel;

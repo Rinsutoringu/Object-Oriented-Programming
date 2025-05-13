@@ -3,15 +3,32 @@ package local.ui.login;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import local.utils.*;
 
-
 public class LoginUI extends JPanel{
 
-    private local.utils.UIUtils utils = new local.utils.UIUtils();
+    private local.utils.UIUtils utils;
+    private Map<String, AbstractButton> buttons;
+    private Map<String, JPanel> panels;
+    private Map<String, JTextField> inputBoxs;
 
     public LoginUI() {
+
+        // 初始化工具类
+        utils = new local.utils.UIUtils();
+
+        // 初始化按钮、面板、输入框的集合
+        // 在各自的类中将对应组件加入集合中，以便于外部访问
+        buttons = new java.util.HashMap<String, AbstractButton>();
+        panels = new java.util.HashMap<String, JPanel>();
+        inputBoxs = new java.util.HashMap<String, JTextField>();
+
+        
+        panels.put("index", indexPanel());
+        panels.put("pic", picJPanel());
+        
 
         // 初始化GBC对象并设置间隔
         // gbc你有病吧
@@ -21,13 +38,13 @@ public class LoginUI extends JPanel{
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // 放置index面板进去
-        utils.addComponent(this, indexPanel(), gbc, 0, 0, 1, 1,
+        utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
         GridBagConstraints.BOTH, 1, 1);
 
         gbc.insets = new Insets(10, 10, 10, 10);
 
         // 放置没有卵用的右侧展示板
-        utils.addComponent(this, picJPanel(), gbc, 1, 0, 20, 1, 
+        utils.addComponent(this, panels.get("pic"), gbc, 1, 0, 20, 1,
         GridBagConstraints.BOTH, 1, 1);
     }
 
@@ -40,22 +57,14 @@ public class LoginUI extends JPanel{
         gbc.anchor = GridBagConstraints.CENTER;
         // logo 
         utils.addComponent(panel, getLogo(), gbc, 0,0);
-
-
         gbc.insets = new Insets(5, 5, 5, 5);
-
         // 用户名&密码
         utils.addComponent(panel, loginbox(), gbc, 0, 1);
-        // // 用户名
-        // utils.addComponent(indexpanel,usernamebox() ,gbc, 0, 1);
-        // // 密码
-        // utils.addComponent(indexpanel, pwbox(), gbc, 0, 2);
         // 用户协议
         utils.addComponent(panel, usrprotocal(), gbc, 0, 3);
         // 登录按钮
-        utils.addComponent(panel, loginbutton(), gbc, 0, 4);
-
-        // indexpanel.setBackground(Color.BLACK);
+        buttons.put("login", loginbutton());
+        utils.addComponent(panel, buttons.get("login"), gbc, 0, 4);
         return panel;
     }
 
@@ -76,15 +85,9 @@ public class LoginUI extends JPanel{
         };
     }
 
-
-
     private JButton loginbutton() {
         JButton button = new JButton("Login");
         button.setPreferredSize(new Dimension(260, 60));
-        return button;
-    }
-    private JButton helpButton() {
-        JButton button = new JButton("help");
         return button;
     }
 
@@ -96,10 +99,12 @@ public class LoginUI extends JPanel{
         // loginbox.setBackground(Color.DARK_GRAY);
         // loginbox.setPreferredSize(new Dimension(2000, 2000));
         utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 0);
-        utils.addComponent(panel, new JTextField(16), gbc, 1, 0);
+        inputBoxs.put("username", new JTextField(16));
+        utils.addComponent(panel, inputBoxs.get("username"), gbc, 1, 0);
 
         utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 1);
-        utils.addComponent(panel, new JTextField(16), gbc, 1, 1);
+        inputBoxs.put("password", new JPasswordField(16));
+        utils.addComponent(panel, inputBoxs.get("password"), gbc, 1, 1);
         return panel;
     }
 
@@ -108,8 +113,8 @@ public class LoginUI extends JPanel{
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
         panel.setBackground(new Color(255, 255, 255));
         JLabel label = new JLabel("Check to agree to the \"User Agreement\".");
-        JCheckBox check = new JCheckBox();
-        panel.add(check);
+        this.buttons.put("check", new JCheckBox());
+        panel.add(buttons.get("check"));
         panel.add(label);
         return panel;
     }
@@ -120,5 +125,17 @@ public class LoginUI extends JPanel{
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
         return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 
+
+    // 获取按钮对象
+    public AbstractButton getButton(String buttonName) {
+        if (buttons.containsKey(buttonName)) return (JButton) buttons.get(buttonName);
+        return null;
+    }
+
+    // 获取输入框对象
+    public JTextField getTextField(String fieldName) {
+        if (inputBoxs.containsKey(fieldName)) return inputBoxs.get(fieldName);
+        return null;
+    }
 }
 
