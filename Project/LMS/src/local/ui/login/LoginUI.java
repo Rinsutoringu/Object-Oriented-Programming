@@ -143,8 +143,8 @@ public class LoginUI extends StandardUI{
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
         panel.setBackground(new Color(255, 255, 255));
         JLabel label = new JLabel("Check to agree to the \"User Agreement\".");
-        this.buttons.put("check", new JCheckBox());
-        panel.add(buttons.get("check"));
+        this.checkBoxs.put("check", new JCheckBox());
+        panel.add(checkBoxs.get("check"));
         panel.add(label);
         return panel;
     }

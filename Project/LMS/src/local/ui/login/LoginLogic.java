@@ -1,11 +1,12 @@
 package local.ui.login;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 import database.db.DataBaseUtils;
-import local.error.AuthFailed;
-import local.error.GUIActionFailed;
+import local.error.*;
 import local.utils.MiniOption;
 
 public class LoginLogic extends local.ui.StandardUILogical {
@@ -44,11 +45,25 @@ public class LoginLogic extends local.ui.StandardUILogical {
         loginUI.getButton("login").addActionListener(e -> {
             // 获取用户名和密码
             System.out.println("Login button clicked");
-            String usr = loginUI.getTextField("loginusr").getText();
-            String pwd = loginUI.getTextField("loginpwd").getText();
-            System.out.println("User: " + usr + ", Password: " + pwd);
+            
+            // 傻逼java
+            if(!loginUI.getCheckbox("check").isSelected()) {
+                new MiniOption("Login Failed", "Please read and accept the fucking terms and conditions", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            JTextField loginusr = loginUI.getTextField("loginusr");
+            JTextField loginpwd = loginUI.getTextField("loginpwd");
+            String usr = loginusr.getText();
+            String pwd = loginpwd.getText();
+            // DEBUG
+            // System.out.println("User: " + usr + ", Password: " + pwd);
+
+            
             try {
                 dbUtils.Login(usr, pwd);
+                loginusr.setText("");
+                loginpwd.setText("");
             } catch (Exception ex) {
                 new MiniOption("Login Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
             }
@@ -57,12 +72,17 @@ public class LoginLogic extends local.ui.StandardUILogical {
         loginUI.getButton("reg").addActionListener(e -> {
             // 注册按钮
             System.out.println("Register button clicked");
-            String usr = loginUI.getTextField("regusr").getText();
-            String pwd = loginUI.getTextField("regpwd").getText();
+            JTextField regusr = loginUI.getTextField("regusr");
+            JTextField regpwd = loginUI.getTextField("regpwd");
+            String usr = regusr.getText();
+            String pwd = regpwd.getText();
             System.out.println("User: " + usr + ", Password: " + pwd);
             try {
                 dbUtils.Register(usr, pwd);
-                new MiniOption("Register Success", "Register Success!", JOptionPane.INFORMATION_MESSAGE);
+                // 注册成功后清空输入框
+                regusr.setText("");
+                regpwd.setText("");
+                new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 new MiniOption("Register Failed", "Please check your UserName or Password!\n Error: " + ex.getMessage(), JOptionPane.ERROR_MESSAGE);
             }

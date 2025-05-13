@@ -41,6 +41,10 @@ public abstract class StandardUI extends JPanel {
      * 图片集合
      */
     protected Map<String, BufferedImage> images = new java.util.HashMap<String, BufferedImage>();
+    /**
+     * 选择框集合
+     */
+    protected Map<String, JCheckBox> checkBoxs = new java.util.HashMap<String, JCheckBox>();
 
     protected GridBagConstraints gbc;
 
@@ -115,6 +119,24 @@ public abstract class StandardUI extends JPanel {
             throw new NullPointerException("Image with key " + name + " is null");
         } catch (NullPointerException e) {
             throw new ImageNotFound("Fail to found image with key " + name, e);
+        }
+    }
+
+    /**
+     * 获取选择框
+     * @param name 获取到输入框名称，以键的方式存储在inputBoxs集合中
+     * @return 返回选择框对象
+     */
+    public JCheckBox getCheckbox(String name) throws InputNotFound{
+        JCheckBox checkBox;
+        try {
+            checkBox = checkBoxs.get(name);
+            // 如果选择框不为空，直接返回
+            // 如果选择框为空，抛出异常
+            if (checkBox != null) return checkBox;
+            throw new NullPointerException("Checkbox with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new InputNotFound("Fail to found checkbox with key " + name, e);
         }
     }
 
