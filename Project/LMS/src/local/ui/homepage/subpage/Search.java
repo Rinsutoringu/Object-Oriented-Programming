@@ -11,7 +11,6 @@ public class Search extends JPanel {
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        // TODO 从数据库获取用户名
         String username = "Test User";
         this.add(new JLabel("Good morning, "+username));
         this.add(new JLabel("Now is Search page"));

@@ -16,6 +16,16 @@ import local.utils.MiniOption;
  * 这里的逻辑仅起定义作用
  */
 public class errorHandler implements database.errorhandle.DBConnectionErrorHandler {
+    private static errorHandler instance;
+    private errorHandler() {
+        // Private constructor to prevent instantiation
+    }
+    public static errorHandler getInstance() {
+        if (instance == null) {
+            instance = new errorHandler();
+        }
+        return instance;
+    }
 
     @Override
     public void handleError(DBConnectError error) {

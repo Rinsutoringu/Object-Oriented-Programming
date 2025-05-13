@@ -16,17 +16,27 @@ import local.error.*;
  * 数据库操作指令: ALTER TABLE staff MODIFY staff_index INT AUTO_INCREMENT;
  */
 public class DataBaseUtils {
+    private static DataBaseUtils instance;
     private DataBase db;
     private errorHandler eh;
 
-    public DataBaseUtils() throws DBConnectError {
+    // Private init constructor, to avoid instantiation
+    private DataBaseUtils() throws DBConnectError {
         // 初始化database类
         try {
             db = new DataBase();
         } catch (Exception e) {
             throw new DBConnectError("Failed to initialize database", e);
         }
-        eh = new errorHandler();
+        eh = errorHandler.getInstance();
+    }
+
+    // Access Global instance
+    public static DataBaseUtils getInstance() throws DBConnectError {
+        if (instance == null) {
+            instance = new DataBaseUtils();
+        }
+        return instance;
     }
 
 
@@ -92,17 +102,14 @@ public class DataBaseUtils {
                 throw new UserInfoError("User not exist");
             }
             // 如果找到了不止一个人的信息则失败
-            
             // TODO 直接在数据库施加限制即可。
             // if (rs.next()) throw new UserInfoError("User name duplicate");
             
             // 如果密码不匹配则失败
             if (!pwd.equals(rs.getString("password"))) throw new UserInfoError("Password not match");
-            disconnectDB();
             return true;
         } catch (Exception e) {
             CatchException.handle(e, eh);
-            disconnectDB();
             return false;
         }
     }

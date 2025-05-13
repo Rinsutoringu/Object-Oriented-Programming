@@ -4,7 +4,6 @@ import java.sql.*;
 
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
-import database.errorhandle.DBConnectionErrorHandler;
 import database.errorhandle.errorHandler;
 
 import java.sql.SQLException;
@@ -21,6 +20,7 @@ import java.sql.SQLException;
  * 数据库操作类
  */
 public class DataBase {
+    
     private Connection connection;
     private errorHandler eh;
 
@@ -28,17 +28,19 @@ public class DataBase {
     // 我不想做了!
     public DataBase() {
         // 实例化处理对象
-        eh = new errorHandler();
+        eh = errorHandler.getInstance();
         try {
-        this.connection = connect();
+            if (connection != null && !connection.isClosed()) return;
+            this.connection = connect();
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
     }
     
     // 创建连接对象
-    public Connection connect() throws DBConnectError, Exception{
+    public Connection connect() throws DBConnectError, Exception {
         try {
+            if (connection != null && !connection.isClosed()) return connection;
             // TODO 判断LMS_sql是否存在
             // ?connectTimeout=5000
             String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql";

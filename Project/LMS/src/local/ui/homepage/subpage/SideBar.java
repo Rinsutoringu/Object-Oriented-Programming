@@ -14,7 +14,6 @@ public class SideBar extends JPanel {
         UIUtils utils = new UIUtils();
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        // TODO 从数据库获取用户名
         this.setBackground(new Color(255,255,255));
         utils.addComponent(this, new JLabel("Side Bar"), gbc, 0, 0);
         utils.addComponent(this, new JButton("Selection 1"), gbc, 0, 1);

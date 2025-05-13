@@ -9,6 +9,7 @@ import java.sql.Statement;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingWorker;
 
 import database.db.DataBaseUtils;
 import database.errorhandle.*;
@@ -21,24 +22,50 @@ public class Overview extends JPanel {
     public int NumOfObj;
 
     public Overview() {
-        dbUtils = new DataBaseUtils();
-        eh = new errorHandler();
 
-        this.NumOfReg = getNumOfUsers();
-        this.NumOfObj = getNumOfObjects();
-        dbUtils.disconnectDB();
+        // 初始化工具类
+        dbUtils = DataBaseUtils.getInstance();
+        eh = errorHandler.getInstance();
+
+        // this.NumOfReg = getNumOfUsers();
+        // this.NumOfObj = getNumOfObjects();
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        // TODO 从数据库获取用户名
         String username = "Test User";
+
+        JTextArea textArea = new JTextArea("Loading data, please wait...");
+        this.add(textArea);
+
+        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                // 在后台线程中执行耗时操作
+                NumOfReg = getNumOfUsers();
+                NumOfObj = getNumOfObjects();
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                // 在事件调度线程中更新UI
+                textArea.setText(
+                    "Good morning, " + username + "\n" +
+                    "Until now, you have registered " + NumOfReg + " users\n" +
+                    "Now is Overview page\n" +
+                    "Until now, you have recorded " + NumOfObj + " objects"
+                );
+                repaint();
+            }
+        };
+        worker.execute();
+
         this.add(new JTextArea(
             "Good morning, " + username + "\n" +
             "Until now, you have registered " + this.NumOfReg + " users\n" +
             "Now is Overview page\n" +
             "Until now, you have recorded " + this.NumOfObj + " objects"));
     }
-
 
 
     /**

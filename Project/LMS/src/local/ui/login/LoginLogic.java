@@ -19,14 +19,14 @@ public class LoginLogic extends local.ui.StandardUILogical {
     public LoginLogic() {
         super();
 
-        eh = new errorHandler();
+        eh = errorHandler.getInstance();
 
         try {
             // 实例化loginUI对象
             loginUI = new LoginUI();
 
             // 实例化数据库对象
-            dbUtils = new DataBaseUtils();
+            dbUtils = DataBaseUtils.getInstance();
 
         } catch (Exception e) {
             eh.handleError(e,eh);
@@ -91,8 +91,6 @@ public class LoginLogic extends local.ui.StandardUILogical {
                 loginUI.getCheckbox("check").setSelected(false);
                 // 将用户名注册为全局变量以便于后续使用
                 local.utils.GlobalVariables.currentUsr = usr;
-                // 断开与数据库的连接
-                dbUtils.disconnectDB();
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
