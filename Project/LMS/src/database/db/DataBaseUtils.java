@@ -3,25 +3,35 @@ package database.db;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 
 import local.error.AuthFailed;
 import local.error.UserInfoError;
 
+
+/**
+ * 数据库操作类
+ * 主要用于登录和注册
+ * 数据库结构
+ * staff_index | username | password | regdate | state
+ * 其中staff_index是一个自增的索引，表示用户的注册编号
+ * 数据库操作指令: ALTER TABLE staff MODIFY staff_index INT AUTO_INCREMENT;
+ */
 public class DataBaseUtils {
     private DataBase db;
 
     public DataBaseUtils(){
         // 初始化database类
         db = new DataBase();
-        
     }
 
     /**
-     * 登录验证
+     * 登录
      * @param username 用户登录时传入的用户名
+     * @param password 用户登录时传入的密码
+     * @exception AuthFailed 用户认证失败
+     * @exception UserInfoError 用户信息错误
      */
-    public void Login(String usr, String pwd){
+    public void Login(String usr, String pwd) throws AuthFailed, UserInfoError {
         usr = usr.trim();
         pwd = pwd.trim();
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
@@ -43,34 +53,31 @@ public class DataBaseUtils {
     /**
      * 注册
      * @param username 用户注册时传入的用户名
+     * @param password 用户注册时传入的密码
+     * @exception UserInfoError 用户信息错误
      */
-    public void Register(String usr, String pwd){
+    public void Register(String usr, String pwd) throws UserInfoError {
         usr = usr.trim();
         pwd = pwd.trim();
         // 将用户名和密码插入数据库，同时为index增加1
         // 获取当前时间
         String insertQuery = "INSERT INTO staff (username, password, regdate, state) VALUES (?, ?, NOW(), 1)";
-        String updateIndexQuery = "UPDATE staff SET staff_index = staff_index + 1 WHERE username = ?";
+        // String updateIndexQuery = "UPDATE staff SET staff_index = staff_index + 1 WHERE username = ?";
         try {
 
-            // 创建预编译语句
+            // DEBUG
+            // System.out.println("Executing query: " + insertQuery);
+            // System.out.println("Username: " + usr + ", Password: " + pwd);
+
+            // 创建预编译语句，
             PreparedStatement insertStatement = this.db.getDB().prepareStatement(insertQuery);
             insertStatement.setString(1, usr);
             insertStatement.setString(2, pwd);
-            
+            // 执行插入操作
+            insertStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new UserInfoError("Failed to prepare insert statement", e);
-        }
-
-        // 尝试注册
-            try {
-            // 插入用户数据
-            this.db.UpdateDB(insertQuery);
-            // 更新索引
-            this.db.UpdateDB(updateIndexQuery);
-        } catch (SQLException e) {
-            throw new AuthFailed("Failed to register user", e);
         }
     }
 }
