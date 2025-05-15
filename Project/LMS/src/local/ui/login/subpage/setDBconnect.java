@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
-import local.ui.StandardUI;
+import standard.StandardUI;
 
 public class setDBconnect extends StandardUI{
 

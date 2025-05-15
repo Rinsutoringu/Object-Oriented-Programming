@@ -10,8 +10,9 @@ import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
 import local.utils.MiniOption;
+import standard.StandardUILogical;
 
-public class LoginLogic extends local.ui.StandardUILogical {
+public class LoginLogic extends StandardUILogical {
     LoginUI loginUI;
     private DataBaseUtils dbUtils;
     private errorHandler eh;
@@ -24,18 +25,18 @@ public class LoginLogic extends local.ui.StandardUILogical {
         try {
             // 实例化loginUI对象
             loginUI = new LoginUI();
-
             // 实例化数据库对象
             dbUtils = DataBaseUtils.getInstance();
-
-            
+            // 展示默认内容
+            defaultView();
+            // 添加按钮事件
+            addButtonAction();
+            // DEBUG: 设置右侧输入框
+            showGetDBConnectInfo();
 
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
-
-        defaultView();
-        addButtonAction();
     }
 
     protected void defaultView() {
@@ -101,9 +102,9 @@ public class LoginLogic extends local.ui.StandardUILogical {
     }
 
     // 将右侧展示框切换到数据库连接信息获取界面
-    // public void showGetDBConnectInfo() {
-    //     show(, loginUI);
-    // }
+    public void showGetDBConnectInfo() {
+        show(loginUI.getPanel("pic"), loginUI.getPanel("getDBInfo"));
+    }
 
 
     public JPanel getThis() {return loginUI;}

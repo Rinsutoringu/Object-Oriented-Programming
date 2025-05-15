@@ -7,10 +7,11 @@ import org.xml.sax.ErrorHandler;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.UICreateFail;
+import standard.StandardUI;
 
 import java.awt.*;
 
-public class HomePageUI extends local.ui.StandardUI {
+public class HomePageUI extends StandardUI {
 
     errorHandler eh = errorHandler.getInstance();
 

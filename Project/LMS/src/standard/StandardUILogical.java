@@ -1,4 +1,4 @@
-package local.ui;
+package standard;
 
 import javax.swing.JPanel;
 

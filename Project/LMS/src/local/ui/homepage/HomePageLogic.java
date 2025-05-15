@@ -5,8 +5,9 @@ import javax.swing.SwingWorker;
 
 import local.error.ActionAddFailed;
 import local.ui.homepage.subpage.*;
+import standard.StandardUILogical;
 
-public class HomePageLogic extends local.ui.StandardUILogical {
+public class HomePageLogic extends StandardUILogical {
     // public static final int DEFAULT = 0;
     private JPanel detailJpanel;
     private JPanel overJPanel;

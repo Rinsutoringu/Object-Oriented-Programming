@@ -1,6 +1,6 @@
 package test.factory;
 
-import local.ui.StandardUI;
+import standard.StandardUI;
 import local.ui.homepage.HomePageLogic;
 import local.ui.homepage.HomePageUI;
 import local.ui.login.LoginLogic;

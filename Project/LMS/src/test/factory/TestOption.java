@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 
 import local.ui.mainwindow.MainWindowUI;
 import local.utils.MiniOption;
-import local.ui.StandardUI;
+import standard.StandardUI;
 
 public class TestOption {
 

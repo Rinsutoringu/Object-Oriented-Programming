@@ -37,8 +37,9 @@ public class Search extends JPanel {
      * @param objNum 物品数量
      * @return true if the object is found, false otherwise
      */
-    // public boolean searchObj(String objName, int objNum) {
-    //     ResultSet rs = db.SearchDB(objName)
-    //     return false;
-    // }
+    public boolean searchObj(String objName, int objNum) {
+        // ResultSet rs = db.SearchDB(objName);
+        // TODO 此处待完善文件查找逻辑
+        return false;
+    }
 }

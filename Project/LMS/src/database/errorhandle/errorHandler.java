@@ -15,7 +15,7 @@ import local.utils.MiniOption;
  * 实际的错误处理逻辑定义在了CatchException类中
  * 这里的逻辑仅起定义作用
  */
-public class errorHandler implements database.errorhandle.DBConnectionErrorHandler {
+public class errorHandler implements database.errorhandle.DBConnectionErrorHandler, standard.StandardUTIL {
     private static errorHandler instance;
     private errorHandler() {
         // Private constructor to prevent instantiation

@@ -8,7 +8,7 @@ import database.errorhandle.errorHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import local.ui.StandardUI;
+import standard.StandardUI;
 import local.utils.*;
 
 public class LoginUI extends StandardUI{
