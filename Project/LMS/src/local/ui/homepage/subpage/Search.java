@@ -2,9 +2,12 @@ package local.ui.homepage.subpage;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.sql.ResultSet;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import database.db.DataBaseUtils;
 
 /**
  * 物品搜索页面
@@ -15,6 +18,7 @@ public class Search extends JPanel {
 
     private int NumOfObj;
     private String NameOfObj;
+    private DataBaseUtils db;
 
     public Search() {
 
@@ -23,6 +27,7 @@ public class Search extends JPanel {
         String username = "Test User";
         this.add(new JLabel("Good morning, "+username));
         this.add(new JLabel("Now is Search page"));
+        db = DataBaseUtils.getInstance();
     }
 
     // TODO 物品搜索逻辑，记得做个异常
@@ -32,8 +37,8 @@ public class Search extends JPanel {
      * @param objNum 物品数量
      * @return true if the object is found, false otherwise
      */
-    public boolean searchObj(String objName, int objNum) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    // public boolean searchObj(String objName, int objNum) {
+    //     ResultSet rs = db.SearchDB(objName)
+    //     return false;
+    // }
 }

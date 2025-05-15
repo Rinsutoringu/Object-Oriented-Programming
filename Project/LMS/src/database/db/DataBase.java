@@ -41,7 +41,6 @@ public class DataBase {
     public Connection connect() throws DBConnectError, Exception {
         try {
             if (connection != null && !connection.isClosed()) return connection;
-            // TODO 判断LMS_sql是否存在
             // ?connectTimeout=5000
             String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
             String usr = "root";
@@ -63,9 +62,15 @@ public class DataBase {
     public Connection getDB() throws DBConnectError, Exception {
         // 抓取数据库连接错误并使用错误处理器处理
         try {
-            if (connection != null && !connection.isClosed()) return connection;
-            // 连接失败，抛出错误
-            throw new DBConnectError("Failed to connect to database");
+            // Check if connection is null or closed
+            if (!(connection != null && !connection.isClosed())) throw new DBConnectError("Failed to connect to database");
+            // Check table staff existence
+            if (!tableExists("staff")) throw new DBConnectError("Table 'staff' does not exist");
+
+            if (!tableExists("Shelf")) throw new DBConnectError("Table 'Shelf' does not exist");
+
+            return connection;
+
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
@@ -84,5 +89,16 @@ public class DataBase {
         }
     }
 
+    // 确定表格是否存在
+    public boolean tableExists(String tableName) {
+        try {
+            DatabaseMetaData metaData = connection.getMetaData();
+            ResultSet tables = metaData.getTables(null, null, tableName, null);
+            return tables.next();
+        } catch (SQLException e) {
+            CatchException.handle(e, eh);
+        }
+        return false;
+    }
 
 }

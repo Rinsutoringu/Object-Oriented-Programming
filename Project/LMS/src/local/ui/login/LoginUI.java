@@ -1,6 +1,10 @@
 package local.ui.login;
 
 import javax.swing.*;
+
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -9,26 +13,34 @@ import local.utils.*;
 
 public class LoginUI extends StandardUI{
 
+    errorHandler eh;
+
     public LoginUI() {
+        eh = errorHandler.getInstance();
         
         // 布局定义为GBC，其他的具体配置已经在接口中实现了
         
-        panels.put("index", indexPanel());
-        panels.put("pic", picJPanel());
-        
-        // 放置index面板进去
-        utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
-        GridBagConstraints.BOTH, 1, 1);
+        try {
+            // 初始化面板
+            init_index();
+            init_pic();
 
-        gbc.insets = new Insets(10, 10, 10, 10);
+            // 放置index面板进去
+            utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
+            GridBagConstraints.BOTH, 1, 1);
 
-        // 放置没有卵用的右侧展示板
-        utils.addComponent(this, panels.get("pic"), gbc, 1, 0, 20, 1,
-        GridBagConstraints.BOTH, 1, 1);
+            gbc.insets = new Insets(10, 10, 10, 10);
+
+            // 放置没有卵用的右侧展示板
+            utils.addComponent(this, panels.get("pic"), gbc, 1, 0, 20, 1,
+            GridBagConstraints.BOTH, 1, 1);
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
     }
 
     // 关键信息面板
-    private JPanel indexPanel() {
+    private void init_index() throws Exception {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
@@ -69,14 +81,15 @@ public class LoginUI extends StandardUI{
         utils.addComponent(panel, registerbox(), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 1, 1);
 
-        return panel;
+        panels.put("index", panel);
+        return;
     }
 
     // 推荐信息面板
-    private JPanel picJPanel() {
+    private void init_pic() throws Exception {
 
-        return new JPanel() {
-            private Image bgIMG = ImageUtils.loadImage("src\\resoueces\\loginBG.png");
+        JPanel panel =  new JPanel() {
+            private Image bgIMG = ImageUtils.loadImage("src\\resources\\loginBG.png");
             public BufferedImage bfIMG = ImageUtils.toBufferedImage(bgIMG);
             @Override
             protected void paintComponent(Graphics g) {
@@ -87,6 +100,8 @@ public class LoginUI extends StandardUI{
                 }
             }
         };
+        panels.put("pic", panel);
+        return;
     }
 
     private JButton loginbutton() {
@@ -151,7 +166,7 @@ public class LoginUI extends StandardUI{
 
     // logo
     private JLabel getLogo() {
-        Image img = ImageUtils.loadImage("src\\resoueces\\LMSlogo.png");
+        Image img = ImageUtils.loadImage("src\\resources\\LMSlogo.png");
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
         return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 

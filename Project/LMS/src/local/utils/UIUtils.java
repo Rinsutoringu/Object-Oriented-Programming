@@ -13,7 +13,7 @@ public class UIUtils {
     private int fillOption = GridBagConstraints.NONE; // 默认填充方式，组件水平填充
     private int gridwidth = 1; // 默认跨越列数为1
     private int gridheight = 1; // 默认跨越行数为1
-    public Image image = Toolkit.getDefaultToolkit().getImage("src\\resoueces\\images.png");
+    public Image image = Toolkit.getDefaultToolkit().getImage("src\\resources\\images.png");
 
     /**
      * 通用方法：添加组件到面板; 对于GridBagConstraints布局方法的再封装

@@ -39,7 +39,6 @@ public class errorHandler implements database.errorhandle.DBConnectionErrorHandl
         // Handle the status error here
         System.err.println("Database status error: " + error.getMessage());
         new MiniOption("Database status error", "Please check your database status, Info: "+error.getMessage(), MiniOption.ERROR_MESSAGE);
-
     }
 
     @Override
@@ -73,11 +72,6 @@ public class errorHandler implements database.errorhandle.DBConnectionErrorHandl
         // Handle other exceptions here
         System.err.println("Unknown error: " + error.getMessage());
         new MiniOption("Unknown error", "Unknown Error, Info: "+error.getMessage(), MiniOption.ERROR_MESSAGE);
-    }
-
-    public void handleError(Exception e, errorHandler eh) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleError'");
     }
 
 

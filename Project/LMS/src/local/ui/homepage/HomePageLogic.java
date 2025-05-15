@@ -21,6 +21,7 @@ public class HomePageLogic extends local.ui.StandardUILogical {
         this.overJPanel = homepage.getPanel("overview");
         this.topviewPanel = homepage.getPanel("topview");
 
+        // 把费事的加载丢到后台同步进行
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {

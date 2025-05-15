@@ -28,8 +28,10 @@ public class LoginLogic extends local.ui.StandardUILogical {
             // 实例化数据库对象
             dbUtils = DataBaseUtils.getInstance();
 
+            
+
         } catch (Exception e) {
-            eh.handleError(e,eh);
+            CatchException.handle(e, eh);
         }
 
         defaultView();
@@ -97,6 +99,12 @@ public class LoginLogic extends local.ui.StandardUILogical {
             }
         });
     }
+
+    // 将右侧展示框切换到数据库连接信息获取界面
+    // public void showGetDBConnectInfo() {
+    //     show(, loginUI);
+    // }
+
 
     public JPanel getThis() {return loginUI;}
 }

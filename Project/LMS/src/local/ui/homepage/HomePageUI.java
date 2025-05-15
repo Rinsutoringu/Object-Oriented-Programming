@@ -2,25 +2,30 @@ package local.ui.homepage;
 
 import javax.swing.*;
 
+import org.xml.sax.ErrorHandler;
+
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
 import local.error.UICreateFail;
 
 import java.awt.*;
 
 public class HomePageUI extends local.ui.StandardUI {
 
-    {
-        // 实例化界面各组件
-        try {
-            topview();
-            detailJPanel();
-            overJPanel();
-        } catch (Exception e) {
-            throw new UICreateFail("UI module init failed", e);
-        }
-    }
-    
+    errorHandler eh = errorHandler.getInstance();
+
     public HomePageUI() throws UICreateFail {
         super();
+
+        // init view
+        try {
+            init_topview();
+            init_detailJPanel();
+            init_overJPanel();
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+
         // 界面的基本布局已在StandardUI中完成
         // 添加组件
         utils.addComponent(this, panels.get("topview"), gbc, 0, 0,1, 0.1,
@@ -31,9 +36,8 @@ public class HomePageUI extends local.ui.StandardUI {
         GridBagConstraints.BOTH, 1, 1);
     }
 
-
     // 顶栏
-    private void topview() {
+    private void init_topview() {
 
         JPanel panel = new JPanel();
         // 设置topview建议间隔
@@ -60,14 +64,14 @@ public class HomePageUI extends local.ui.StandardUI {
         }
 
     // 大的，主，总览栏
-    private void overJPanel() {
+    private void init_overJPanel() {
             JPanel panel = new JPanel(new BorderLayout());
             panel.setBackground(Color.BLUE);        
             panels.put("overview", panel);
     }
 
     // 小的，条目一览栏
-    private void detailJPanel() {
+    private void init_detailJPanel() {
             JPanel panel = new JPanel(new BorderLayout());
             panel.setBackground(Color.ORANGE);
             panel.setPreferredSize(new Dimension(100, 100));

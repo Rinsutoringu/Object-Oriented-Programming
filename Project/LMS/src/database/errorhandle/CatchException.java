@@ -15,6 +15,9 @@ import local.error.*;
  */
 public class CatchException {
     public static void handle(Exception e, errorHandler eh) {
+        System.err.println("An error occurred: " + e.getMessage());
+        e.printStackTrace(); // 打印完整的堆栈信息
+        eh.handleOtherError(e);
         // 根据异常类型调用相应的处理方法
         if (e instanceof DBConnectError) {
             eh.handleError((DBConnectError) e);

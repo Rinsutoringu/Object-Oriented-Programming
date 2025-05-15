@@ -43,7 +43,7 @@ public class DataBaseUtils {
     /**
      * 查询数据库数据
      * @param query 数据库操作语句
-     * @return 查询到的数组，没查到会报错
+     * @return 查询到的ResultSet类型数组，没查到会报错
      */
     public ResultSet SearchDB(String query) throws SQLException, SQLTimeoutException, DBConnectError, Exception{
         try {

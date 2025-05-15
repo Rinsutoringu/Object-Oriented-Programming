@@ -23,7 +23,6 @@ public class Stock extends JPanel {
 
     // TODO 物品存放逻辑
     public boolean putObj(String objName, int objNum) {
-        // TODO Auto-generated method stub
         return false;
     }
 }
