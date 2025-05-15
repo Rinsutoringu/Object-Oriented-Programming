@@ -17,7 +17,7 @@ import local.utils.UIUtils;
  */
 public class ToDoSideBar extends JPanel {
     public ToDoSideBar() {
-        UIUtils utils = new UIUtils();
+        UIUtils utils = UIUtils.getInstance();
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.setBackground(new Color(255,255,255));

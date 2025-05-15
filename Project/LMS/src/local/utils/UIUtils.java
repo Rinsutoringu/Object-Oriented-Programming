@@ -6,7 +6,19 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-public class UIUtils {
+public class UIUtils implements standard.StandardUTIL{
+
+    private static UIUtils instance;
+
+    private UIUtils() {
+    }
+
+    public static UIUtils getInstance() {
+        if (instance == null) {
+            instance = new UIUtils();
+        }
+        return instance;
+    }
 
     private double weightx = 1; // 默认水平权重，允许组件在水平方向上分配额外空间
     private double weighty = 0; // 默认垂直权重，组件在垂直方向上不分配额外空间

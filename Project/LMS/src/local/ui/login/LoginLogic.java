@@ -125,7 +125,6 @@ public class LoginLogic extends StandardUILogical {
         topGbc.weighty = 1.0; // 分配多余空间
         topGbc.fill = GridBagConstraints.BOTH;
 
-        
         JPanel ph = new JPanel();
         ph.setOpaque(false);
         target.add(ph, topGbc);
@@ -139,8 +138,9 @@ public class LoginLogic extends StandardUILogical {
         gbc.weightx = 1.0;
         gbc.weighty = 0.0; // 不分配多余空间
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = new Insets(40, 70, 10, 70);
         target.add(setDBconnect.getPanel("getDBInfo"), gbc);
+        
 
         // target.add(setDBconnect.getPanel("getDBInfo"), gbc);
 

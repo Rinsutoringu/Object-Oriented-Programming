@@ -17,7 +17,7 @@ import local.utils.UIUtils;
  */
 public class SideBar extends JPanel {
     public SideBar() {
-        UIUtils utils = new UIUtils();
+        UIUtils utils = UIUtils.getInstance();
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         this.setBackground(new Color(255,255,255));

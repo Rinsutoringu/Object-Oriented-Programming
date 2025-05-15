@@ -23,7 +23,7 @@ public abstract class StandardUI extends JPanel {
     /**
      * 工具类
      */
-    public static final local.utils.UIUtils utils = new local.utils.UIUtils();
+    public static final local.utils.UIUtils utils = local.utils.UIUtils.getInstance();
 
     /**
      * 按钮集合
