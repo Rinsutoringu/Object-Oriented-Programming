@@ -30,6 +30,23 @@ public abstract class StandardUILogical extends StandardUI {
     }
 
     /**
+     * 把指定面板的内容替换为指定元素（如为空则直接加入）
+     * @param showPanel 目标面板
+     * @param showthings 待加入面板的元素
+     * @param constraints 要加入到什么地方
+     */
+    protected void show(JPanel showPanel, JPanel showthings, Object constraints) {
+        // DEBUG
+        showPanel.removeAll();
+
+        if (constraints != null) showPanel.add(showthings, constraints);
+        else showPanel.add(showthings);
+
+        showPanel.revalidate(); // 刷新布局
+        showPanel.repaint();    // 重绘界面
+    }
+
+    /**
      * 清空指定面板内容
      * @param hidePanel 待清空的面板
      */
