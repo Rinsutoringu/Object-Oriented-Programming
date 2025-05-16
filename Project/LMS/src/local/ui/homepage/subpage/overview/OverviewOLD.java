@@ -1,4 +1,4 @@
-package local.ui.homepage.subpage;
+package local.ui.homepage.subpage.overview;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -16,7 +16,7 @@ import database.errorhandle.*;
  * 比如注册用户数量、物品数量等
  * HelloPage本身是个综合性欢迎页，而这个页面将更多地体现有用的信息
  */
-public class Overview extends JPanel {
+public class OverviewOLD extends JPanel {
 
     // 激活工具类
     private static DataBase dbUtils = DataBase.getInstance();
@@ -25,7 +25,7 @@ public class Overview extends JPanel {
     public int NumOfReg;
     public int NumOfObj;
 
-    public Overview() {
+    public OverviewOLD() {
 
 
         // this.NumOfReg = getNumOfUsers();

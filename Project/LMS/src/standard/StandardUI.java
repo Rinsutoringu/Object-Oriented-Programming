@@ -40,7 +40,7 @@ public abstract class StandardUI extends JPanel {
     /**
      * 输入框集合 // TODO 我知道这个名字是有问题的但是我不是很想改
      */
-    protected Map<String, JTextField> inputBoxs = new java.util.HashMap<String, JTextField>();
+    protected Map<String, JTextField> textFields = new java.util.HashMap<String, JTextField>();
     /**
      * 图片集合
      */
@@ -61,6 +61,70 @@ public abstract class StandardUI extends JPanel {
     protected Map<String, JPasswordField> passwordFields = new java.util.HashMap<String, JPasswordField>();
 
     protected GridBagConstraints gbc;
+
+    /**
+     * 注册新的按钮
+     * @param name 按钮名称
+     * @param button 按钮对象
+     */
+    public void putButton(String name, AbstractButton button) {
+        buttons.put(name, button);
+    }
+
+    /**
+     * 注册新的面板
+     * @param name 面板名称
+     * @param panel 面板对象
+     */
+    public void putPanel(String name, JPanel panel) {
+        panels.put(name, panel);
+    }
+
+    /**
+     * 注册新的输入框
+     * @param name 输入框名称
+     * @param textField 输入框对象
+     */
+    public void putTextField(String name, JTextField textField) {
+        textFields.put(name, textField);
+    }
+
+    /**
+     * 注册新的图片
+     * @param name 图片名称
+     * @param image 图片对象
+     */
+    public void putImage(String name, BufferedImage image) {
+        images.put(name, image);
+    }
+
+    /**
+     * 注册新的选择框
+     * @param name 选择框名称
+     * @param checkBox 选择框对象
+     */
+    public void putCheckBox(String name, JCheckBox checkBox) {
+        checkBoxs.put(name, checkBox);
+    }
+
+    /**
+     * 注册新的下拉框
+     * @param name 下拉框名称
+     * @param comboBox 下拉框对象
+     */
+    public void putComboBox(String name, JComboBox<String> comboBox) {
+        comboBoxs.put(name, comboBox);
+    }
+
+    /**
+     * 注册新的密码输入框
+     * @param name 密码输入框名称
+     * @param passwordField 密码输入框对象
+     */
+    public void putPasswordField(String name, JPasswordField passwordField) {
+        passwordFields.put(name, passwordField);
+    }
+
 
     /**
      * 获取按钮
@@ -108,7 +172,7 @@ public abstract class StandardUI extends JPanel {
     public JTextField getTextField(String name) throws InputNotFound{
         JTextField inputBox;
         try {
-            inputBox = inputBoxs.get(name);
+            inputBox = textFields.get(name);
             // 如果输入框不为空，直接返回
             // 如果输入框为空，抛出异常
             if (inputBox != null) return inputBox;
@@ -141,7 +205,7 @@ public abstract class StandardUI extends JPanel {
      * @param name 获取到输入框名称，以键的方式存储在inputBoxs集合中
      * @return 返回选择框对象
      */
-    public JCheckBox getCheckbox(String name) throws InputNotFound{
+    public JCheckBox getCheckBox(String name) throws InputNotFound{
         JCheckBox checkBox;
         try {
             checkBox = checkBoxs.get(name);

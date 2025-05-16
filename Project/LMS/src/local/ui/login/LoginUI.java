@@ -143,12 +143,12 @@ public class LoginUI extends StandardUI{
         utils.addComponent(panel, new JLabel("Login"), gbc, 0, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
         utils.addComponent(panel, new JLabel("User Name"), gbc, 0, ++gheight);
-        inputBoxs.put("loginusr", new JTextField(16));
-        utils.addComponent(panel, inputBoxs.get("loginusr"), gbc, 1, gheight);
+        textFields.put("loginusr", new JTextField(16));
+        utils.addComponent(panel, textFields.get("loginusr"), gbc, 1, gheight);
 
         utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, ++gheight);
-        inputBoxs.put("loginpwd", new JPasswordField(16));
-        utils.addComponent(panel, inputBoxs.get("loginpwd"), gbc, 1, gheight);
+        textFields.put("loginpwd", new JPasswordField(16));
+        utils.addComponent(panel, textFields.get("loginpwd"), gbc, 1, gheight);
         // DEBUG
         // panel.setBackground(Color.red);
         return panel;
@@ -182,7 +182,7 @@ public class LoginUI extends StandardUI{
     // 获取输入框对象
     @Override
     public JTextField getTextField(String fieldName) {
-        if (inputBoxs.containsKey(fieldName)) return inputBoxs.get(fieldName);
+        if (textFields.containsKey(fieldName)) return textFields.get(fieldName);
         return null;
     }
 

@@ -64,10 +64,10 @@ public class GetDBConUI extends StandardUI{
         panel.setLayout(new GridBagLayout());
 
         createDBType();
-        inputBoxs.put("dbAddress", new javax.swing.JTextField(20));
-        inputBoxs.put("dbPort", new javax.swing.JTextField(20));
-        inputBoxs.put("dbUser", new javax.swing.JTextField(20));
-        inputBoxs.put("dbPassword", new javax.swing.JPasswordField(20));
+        textFields.put("dbAddress", new javax.swing.JTextField(20));
+        textFields.put("dbPort", new javax.swing.JTextField(20));
+        textFields.put("dbUser", new javax.swing.JTextField(20));
+        textFields.put("dbPassword", new javax.swing.JPasswordField(20));
         buttons.put("connect", new javax.swing.JButton("LINK START"));
         buttons.put("save", new javax.swing.JButton("save"));
         

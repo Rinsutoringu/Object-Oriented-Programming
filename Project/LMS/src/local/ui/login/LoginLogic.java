@@ -52,7 +52,7 @@ public class LoginLogic extends StandardUILogical {
             // 获取用户名和密码
             System.out.println("Login button clicked");
             // 傻逼java
-            JCheckBox checkBox = loginUI.getCheckbox("check");
+            JCheckBox checkBox = loginUI.getCheckBox("check");
             if(!checkBox.isSelected()) {
                 new MiniOption("Login Failed", "Please read and accept the fucking terms and conditions", JOptionPane.WARNING_MESSAGE);
                 return;

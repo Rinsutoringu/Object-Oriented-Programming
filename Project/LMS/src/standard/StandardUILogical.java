@@ -81,13 +81,49 @@ public abstract class StandardUILogical extends StandardUI {
     public abstract JPanel getThis();
 
     /*以下方法不可以在logical类使用，会炸！ */
+
     @Override
-    public AbstractButton getButton(String name) {
+    public void putButton(String name, AbstractButton button) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void putPanel(String name, JPanel panel) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void putTextField(String name, JTextField textField) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void putImage(String name, BufferedImage image) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void putCheckBox(String name, JCheckBox checkBox) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void putComboBox(String name, JComboBox<String> comboBox) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void putPasswordField(String name, JPasswordField passwordField) {
         throw new GUIActionFailed("This method is not supported in StandardUILogical");
     }
 
     @Override
     public void switchPanel(String areaKey, JPanel newPanel) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public AbstractButton getButton(String name) {
         throw new GUIActionFailed("This method is not supported in StandardUILogical");
     }
 
@@ -107,7 +143,7 @@ public abstract class StandardUILogical extends StandardUI {
     }
     
     @Override
-    public JCheckBox getCheckbox(String name) {
+    public JCheckBox getCheckBox(String name) {
         throw new GUIActionFailed("This method is not supported in StandardUILogical");
     }
 

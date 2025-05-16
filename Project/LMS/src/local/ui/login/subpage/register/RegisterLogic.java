@@ -60,7 +60,7 @@ public class RegisterLogic extends StandardUILogical {
             // 在此定义具体点击事件
             try {
 
-                JCheckBox checkBox = registerUI.getCheckbox("apply");
+                JCheckBox checkBox = registerUI.getCheckBox("apply");
                 if(!checkBox.isSelected()) {
                     new MiniOption("Register", "Please read and accept the fucking terms and conditions", JOptionPane.WARNING_MESSAGE);
                     return;

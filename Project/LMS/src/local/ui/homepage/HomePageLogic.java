@@ -5,6 +5,7 @@ import javax.swing.SwingWorker;
 
 import local.error.ActionAddFailed;
 import local.ui.homepage.subpage.*;
+import local.ui.homepage.subpage.overview.OverviewOLD;
 import standard.StandardUILogical;
 
 public class HomePageLogic extends StandardUILogical {
@@ -27,7 +28,7 @@ public class HomePageLogic extends StandardUILogical {
             @Override
             protected Void doInBackground() throws Exception {
                 panels.put("sidebar", new SideBar());
-                panels.put("overview", new Overview());
+                panels.put("overview", new OverviewOLD());
                 panels.put("search", new Search());
                 panels.put("stock", new Stock());
                 panels.put("todo", new UserToDo());
@@ -47,7 +48,6 @@ public class HomePageLogic extends StandardUILogical {
     @Override
     protected void defaultView() {
         show(detailJpanel, panels.get("hellopage"));
-        show(overJPanel, panels.get("hellopage"));
     }
 
     // 为按钮注册点击事件

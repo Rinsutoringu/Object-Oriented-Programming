@@ -15,7 +15,7 @@ public class exampleUI extends StandardUI {
         init_examplewindow();
 
         // 组件添加到面板
-        utils.addComponent(this, panels.get("examplewindow"), gbc, 1, 2);
+        utils.addComponent(this, getPanel("examplewindow"), gbc, 1, 2);
     }
     // 面板搞定
 
@@ -27,21 +27,21 @@ public class exampleUI extends StandardUI {
         panel.setLayout(new GridBagLayout()); 
 
         // 创建界面上需要的组件
-        buttons.put("example", new JButton("Example"));
-        buttons.put("example2", new JButton("Example2"));
+        putButton("example", new JButton("Example"));
+        putButton("example2", new JButton("Example2"));
 
-        checkBoxs.put("example3", new JCheckBox("Example3"));
-        checkBoxs.put("example4", new JCheckBox("Example4"));
+        putCheckBox("example3", new JCheckBox("Example3"));
+        putCheckBox("example4", new JCheckBox("Example4"));
 
         // 设置组件到面板
-        utils.addComponent(panel, buttons.get("example"), gbc, 1, 1);
+        utils.addComponent(panel, getButton("example"), gbc, 1, 1);
 
-        utils.addComponent(panel, buttons.get("example2"), gbc, 2, 1, 1, 1,
+        utils.addComponent(panel, getButton("example2"), gbc, 2, 1, 1, 1,
         GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, checkBoxs.get("example3"), gbc, 1, 2);
+        utils.addComponent(panel, getCheckBox("example3"), gbc, 1, 2);
 
-        utils.addComponent(panel, checkBoxs.get("example4"), gbc, 2, 2, 1, 1,
+        utils.addComponent(panel, getCheckBox("example4"), gbc, 2, 2, 1, 1,
         GridBagConstraints.NONE, 1, 1);
 
 

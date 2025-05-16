@@ -82,7 +82,28 @@ public class GetDBConLogic extends StandardUILogical {
 
         getdbconUI.getButton("connect").addActionListener(e -> {
             try {
+                String dbType = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
+                String dbaddr = getdbconUI.getTextField("dbAddress").getText();
+                String dbport = getdbconUI.getTextField("dbPort").getText();
+                String dbuser = getdbconUI.getTextField("dbUser").getText();
+                String dbpassword = getdbconUI.getTextField("dbPassword").getText();
+                
+                switch (dbType) {
+                    case "MySQL":
+                        dbType = "jdbc:mysql://";
+                        break;
+                    case "PostgreSQL":
+                        dbType = "jdbc:mysql://";
+                        break;
+                    case "SQLite":
+                        dbType = "jdbc:mysql://";
+                        break;
+                    default:
+                        break;
+                }
+                dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
                 dbutils.createConnect();
+                new MiniOption("LMS", "Your DataBase Connect Success! ", 1);
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
             }

@@ -54,7 +54,7 @@ public class RegisterUI extends StandardUI {
 
         // 创建界面上需要的组件
         
-        inputBoxs.put("username", new JTextField(20));
+        textFields.put("username", new JTextField(20));
         passwordFields.put("password", new JPasswordField(20));
         passwordFields.put("repassword", new JPasswordField(20));
         checkBoxs.put("apply", new JCheckBox("Allow EULA"));
