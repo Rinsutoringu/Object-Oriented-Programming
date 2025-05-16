@@ -3,10 +3,6 @@ package local.ui.login;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
@@ -53,13 +49,6 @@ public class LoginLogic extends StandardUILogical {
 
     protected void addButtonAction() {
         // 添加按钮事件
-        addLoginAction();
-    }
-
-
-    private void addLoginAction() {
-        // 登录按钮
-        
         loginUI.getButton("login").addActionListener(e -> {
             // 获取用户名和密码
             System.out.println("Login button clicked");
@@ -109,34 +98,9 @@ public class LoginLogic extends StandardUILogical {
         });
     }
 
-    // 将右侧展示框切换到数据库连接信息获取界面
     public void showGetDBConnectInfo() {
-        JPanel target = loginUI.getPanel("pic");
-        target.setLayout(new GridBagLayout());
-        
-        GridBagConstraints topGbc = new GridBagConstraints();
-        topGbc.gridx = 0;
-        topGbc.gridy = 0;
-        topGbc.weightx = 1.0;
-        topGbc.weighty = 1.0; // 分配多余空间
-        topGbc.fill = GridBagConstraints.BOTH;
-
-        JPanel ph = new JPanel();
-        ph.setOpaque(false);
-        target.add(ph, topGbc);
-
-
-
-        // 添加实际组件到底部
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0; // 不分配多余空间
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(40, 70, 10, 70);
-        target.add(getdbconlogic.getThis().getPanel("getDBInfo"), gbc);
-
+        JPanel dbInfoPanel = getdbconlogic.getThis().getPanel("getDBInfo");
+        loginUI.showGetDBConnectInfoPanel(dbInfoPanel);
     }
 
     public void closeGetDBConnectInfo() {

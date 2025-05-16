@@ -40,6 +40,7 @@ public class exampleLogic extends StandardUILogical {
     public void defaultView() {
 
         // 设置默认显示内容 第一个值是目标，第二个值是显示的内容
+        // 啥都不加就默认显示UI加载完后的内容
         show(this, this.examplewindow);
         
     }

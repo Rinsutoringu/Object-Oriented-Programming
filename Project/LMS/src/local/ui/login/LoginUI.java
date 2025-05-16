@@ -171,6 +171,35 @@ public class LoginUI extends StandardUI{
         return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 
 
+    public void showGetDBConnectInfoPanel(JPanel dbInfoPanel) {
+        JPanel target = this.getPanel("pic");
+        target.removeAll();
+        target.setLayout(new GridBagLayout());
+
+        GridBagConstraints topGbc = new GridBagConstraints();
+        topGbc.gridx = 0;
+        topGbc.gridy = 0;
+        topGbc.weightx = 1.0;
+        topGbc.weighty = 1.0;
+        topGbc.fill = GridBagConstraints.BOTH;
+
+        JPanel ph = new JPanel();
+        ph.setOpaque(false);
+        target.add(ph, topGbc);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(40, 70, 10, 70);
+        target.add(dbInfoPanel, gbc);
+
+        target.revalidate();
+        target.repaint();
+    }
+
     // 获取按钮对象
     @Override
     public AbstractButton getButton(String buttonName) {
