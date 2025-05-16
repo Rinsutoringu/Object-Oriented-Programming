@@ -1,11 +1,17 @@
 package test.factory;
 
 import standard.StandardUI;
+
 import local.ui.homepage.HomePageLogic;
 import local.ui.homepage.HomePageUI;
+
 import local.ui.login.LoginLogic;
 import local.ui.login.LoginUI;
-import local.utils.MiniOption;
+
+import local.ui.example.exampleLogic;
+import local.ui.example.exampleUI;
+
+import local.ui.miniwindow.MiniOption;
 
 public class UIModuleFactory {
 
@@ -19,8 +25,10 @@ public class UIModuleFactory {
                 return new LoginLogic();
             case "panel-loginpage-ui":
                 return new LoginUI();
-            case "panel-login":
-                return new LoginLogic();
+            case "panel-example-logic":
+                return new exampleLogic();
+            case "panel-example-ui":
+                return new exampleUI();
             default:
                 return null;
         }

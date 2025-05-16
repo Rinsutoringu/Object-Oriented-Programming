@@ -47,6 +47,7 @@ public class setDBconnect extends StandardUI{
         inputBoxs.put("dbUser", new javax.swing.JTextField(20));
         inputBoxs.put("dbPassword", new javax.swing.JPasswordField(20));
         buttons.put("dbConnect", new javax.swing.JButton("Connect"));
+        buttons.put("close", new javax.swing.JButton("close"));
 
         // utils.addComponent(panel, new JLabel("Database Address:"), gbc, gleft, gheight);
         utils.addComponent(panel, new JLabel("Please enter the database address:"), gbc, gleft, ++gheight, 1, 1, 
@@ -66,6 +67,9 @@ public class setDBconnect extends StandardUI{
         utils.addComponent(panel, inputBoxs.get("dbPassword"), gbc, gright, gheight);
 
         utils.addComponent(panel, getButton("dbConnect"), gbc, gleft, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+
+        utils.addComponent(panel, getButton("close"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
 
         panels.put("getDBInfo", panel);

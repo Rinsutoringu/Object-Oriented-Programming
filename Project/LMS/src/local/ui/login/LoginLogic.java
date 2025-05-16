@@ -18,7 +18,7 @@ import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
 import local.ui.login.subpage.setDBconnect;
-import local.utils.MiniOption;
+import local.ui.miniwindow.MiniOption;
 import standard.StandardUILogical;
 
 public class LoginLogic extends StandardUILogical {
@@ -140,12 +140,14 @@ public class LoginLogic extends StandardUILogical {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(40, 70, 10, 70);
         target.add(setDBconnect.getPanel("getDBInfo"), gbc);
-        
 
-        // target.add(setDBconnect.getPanel("getDBInfo"), gbc);
+    }
 
-        // save layout
-        // show(target, setDBconnect.getPanel("getDBInfo"), gbc);
+    public void closeGetDBConnectInfo() {
+        JPanel target = loginUI.getPanel("pic");
+        target.removeAll();
+        target.revalidate();
+        target.repaint();
     }
 
 

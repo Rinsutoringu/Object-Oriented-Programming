@@ -7,7 +7,7 @@ import database.error.DBConnectError;
 import database.error.DBStatusError;
 import local.error.AuthFailed;
 import local.error.UserInfoError;
-import local.utils.MiniOption;
+import local.ui.miniwindow.MiniOption;
 
 /**
  * 数据库连接错误处理类
@@ -30,6 +30,8 @@ public class errorHandler implements database.errorhandle.DBConnectionErrorHandl
     @Override
     public void handleError(DBConnectError error) {
         // Handle the connection error here
+        // try to handle this error
+        // TODO 正确捕获用户连不上数据库的时机，在loginPanel上展示数据库连接逻辑
         System.err.println("Database connection error: " + error.getMessage());
         new MiniOption("Database connection error", "Please check your database connection settings, Info: "+error.getMessage(), MiniOption.ERROR_MESSAGE);
     }

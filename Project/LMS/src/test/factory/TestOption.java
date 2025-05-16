@@ -3,7 +3,7 @@ package test.factory;
 import javax.swing.SwingUtilities;
 
 import local.ui.mainwindow.MainWindowUI;
-import local.utils.MiniOption;
+import local.ui.miniwindow.MiniOption;
 import standard.StandardUI;
 
 public class TestOption {

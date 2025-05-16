@@ -1,4 +1,4 @@
-package local.utils;
+package local.ui.miniwindow;
 
 /**
  * MiniOption类

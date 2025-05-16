@@ -8,6 +8,17 @@ import javax.imageio.ImageIO;
 
 public class ImageUtils {
 
+    private static ImageUtils iu;
+
+    private ImageUtils() {}
+
+    public static ImageUtils getInstance() {
+        if (iu == null) {
+            iu = new ImageUtils();
+        }
+        return iu;
+    }
+
     /**
      * 从文件载入图像
      * @param filePath 图像的相对路径
