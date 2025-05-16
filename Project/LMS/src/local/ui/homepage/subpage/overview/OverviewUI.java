@@ -1,8 +1,10 @@
 package local.ui.homepage.subpage.overview;
 
 import java.awt.*;
+import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import standard.StandardUI;
 
@@ -10,6 +12,8 @@ public class OverviewUI extends StandardUI {
 
     public OverviewUI() {
         super();
+
+        createTable();
 
         // 初始化组件,按需调用错误处理器
         init_overview();
@@ -27,13 +31,14 @@ public class OverviewUI extends StandardUI {
         panel.setLayout(new GridBagLayout()); 
 
         // 创建界面上需要的组件
-        buttons.put("example", new JButton("Example"));
-        buttons.put("example2", new JButton("Example2"));
 
-        checkBoxs.put("example3", new JCheckBox("Example3"));
-        checkBoxs.put("example4", new JCheckBox("Example4"));
+        
 
         // 设置组件到面板
+
+        utils.addComponent(panel, getPanel("table"), gbc, 0, 3, 2, 1,
+                GridBagConstraints.BOTH, 1, 1);
+
         utils.addComponent(panel, buttons.get("example"), gbc, 1, 1);
 
         utils.addComponent(panel, buttons.get("example2"), gbc, 2, 1, 1, 1,
@@ -47,6 +52,31 @@ public class OverviewUI extends StandardUI {
 
         // 注册面板
         panels.put("overview", panel);
+    }
+
+    private void createTable() {
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        Vector<String> columnNames = new Vector<String>();
+        columnNames.add("Item Name");
+        columnNames.add("Number");
+        columnNames.add("Last Updated");
+        columnNames.add("Update User");
+
+        // 创建表格模型
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+
+        // 创建表格
+        JTable table = new JTable(tableModel);
+
+        // 将表格添加到面板
+        JScrollPane scrollPane = new JScrollPane(table);
+        utils.addComponent(panel, scrollPane, gbc, 0, 3, 2, 1,
+                GridBagConstraints.BOTH, 1, 1);
+
+        putPanel("table", panel);
+
     }
 
 
