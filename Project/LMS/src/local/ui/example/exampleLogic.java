@@ -32,7 +32,7 @@ public class exampleLogic extends StandardUILogical {
 
     @Override
     public void defaultView() {
-        show()
+        show(this, this.examplewindow);
         
     }
 

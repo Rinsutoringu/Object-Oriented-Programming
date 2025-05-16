@@ -59,8 +59,14 @@
 >   - 把subpage放在这里只是为了提高界面组织的逻辑性
 >   - subpage里也是一样的page结构，这是递归的
 
-技术细节：
+**Example**
 
-UI负责注册UI组件、画面构架, 提供包含buttons, panels, images, checkBoxs等注册数据的hashMap
+参照`local.ui.example`包即可
 
-Logic负责给UI类中注册的组件添加事件（从上述hashmap中获取组件）
+**技术细节：**
+
+- UI负责注册UI组件、画面构架, 提供包含buttons, panels, images, checkBoxs等注册数据的hashMap
+
+- 其父类中已经定义好所有需要的工具类，直接使用对应方法就可以
+
+- Logic负责给UI类中注册的组件添加事件（从上述hashmap中获取组件）
