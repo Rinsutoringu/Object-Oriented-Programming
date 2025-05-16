@@ -21,16 +21,18 @@ import standard.GlobalVariables;
 public class DataBase {
     
     private Connection connection;
-    private errorHandler eh;
+    private errorHandler eh = errorHandler.getInstance();
     private static DataBaseUtils dbutils = DataBaseUtils.getInstance();
-    private static GlobalVariables GVar = GlobalVariables.getInstance();
-
     // TODO 提供降级逻辑
     // 我不想做了!
+    
     public DataBase() {
         // 实例化处理对象
+        // 不要直接连接，会出问题的
+        // 等完全初始化了再连接
+    }
 
-        eh = errorHandler.getInstance();
+    public void setConnection(Connection connection) {
         try {
             if (connection != null && !connection.isClosed()) return;
             this.connection = connect();
@@ -53,6 +55,14 @@ public class DataBase {
             String url = GlobalVariables.getDBConnAddress();
             String usr = GlobalVariables.getDBUser();
             String pwd = GlobalVariables.getDBPassword();
+
+            System.out.println("DB URL: " + url);
+            System.out.println("DB User: " + usr);
+            System.out.println("DB Password: " + pwd);
+
+            if (url == null || usr == null || pwd == null) {
+                throw new DBConnectError("数据库连接参数有空值，请检查配置加载流程。");
+            }
 
             return DriverManager.getConnection(url, usr, pwd);
 
