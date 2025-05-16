@@ -34,7 +34,7 @@ public abstract class StandardUI extends JPanel {
      */
     protected Map<String, JPanel> panels = new java.util.HashMap<String, JPanel>();
     /**
-     * 输入框集合
+     * 输入框集合 // TODO 我知道这个名字是有问题的但是我不是很想改
      */
     protected Map<String, JTextField> inputBoxs = new java.util.HashMap<String, JTextField>();
     /**

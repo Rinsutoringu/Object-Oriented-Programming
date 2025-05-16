@@ -102,7 +102,7 @@ public class LoginLogic extends StandardUILogical {
                 regpwd.setText("");
                 loginUI.getCheckbox("check").setSelected(false);
                 // 将用户名注册为全局变量以便于后续使用
-                local.utils.GlobalVariables.currentUsr = usr;
+                standard.GlobalVariables.currentUsr = usr;
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);

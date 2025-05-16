@@ -75,6 +75,10 @@ public class errorHandler implements database.errorhandle.DBConnectionErrorHandl
         System.err.println("Unknown error: " + error.getMessage());
         new MiniOption("Unknown error", "Unknown Error, Info: "+error.getMessage(), MiniOption.ERROR_MESSAGE);
     }
+    public void handleError(String string, Exception ex) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'handleError'");
+    }
 
 
 }

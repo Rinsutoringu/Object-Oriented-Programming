@@ -15,7 +15,7 @@ public class HelloPage extends JPanel {
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        String username = local.utils.GlobalVariables.currentUsr;
+        String username = standard.GlobalVariables.currentUsr;
         this.add(new JLabel("Good morning, "+username));
         
     }

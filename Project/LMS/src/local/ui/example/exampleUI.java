@@ -16,10 +16,8 @@ public class exampleUI extends StandardUI {
 
         // 组件添加到面板
         utils.addComponent(this, panels.get("examplewindow"), gbc, 1, 2);
-
-        // 面板搞定
-
     }
+    // 面板搞定
 
     // 这是一个示范组件
     private void init_examplewindow() {

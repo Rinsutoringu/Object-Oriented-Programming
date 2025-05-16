@@ -11,6 +11,9 @@ import local.ui.login.LoginUI;
 import local.ui.example.exampleLogic;
 import local.ui.example.exampleUI;
 
+import local.ui.login.subpage.GetDBConUI;
+import local.ui.login.subpage.GetDBConLogic;
+
 import local.ui.miniwindow.MiniOption;
 
 public class UIModuleFactory {
@@ -29,6 +32,10 @@ public class UIModuleFactory {
                 return new exampleLogic();
             case "panel-example-ui":
                 return new exampleUI();
+            case "panel-getdbcon-ui":
+                return new GetDBConUI();
+            case "panel-getdbcon-logic":
+                return new GetDBConLogic();
             default:
                 return null;
         }

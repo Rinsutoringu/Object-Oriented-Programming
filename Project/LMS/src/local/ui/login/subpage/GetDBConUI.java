@@ -13,18 +13,18 @@ import local.utils.UIUtils;
 
 public class GetDBConUI extends StandardUI{
 
-    UIUtils uiutils;
+    UIUtils uiutils = UIUtils.getInstance();
     errorHandler eh = errorHandler.getInstance();
     
     public GetDBConUI() {
 
-        uiutils = UIUtils.getInstance();
-
         try {
             init_getdbinfo();
+            utils.addComponent(this, this.getPanel("getDBInfo"), gbc, 1, 1);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
+
     }
 
     /**

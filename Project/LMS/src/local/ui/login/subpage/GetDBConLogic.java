@@ -3,8 +3,10 @@ package local.ui.login.subpage;
 import javax.swing.JPanel;
 
 import standard.StandardUILogical;
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
 
-public class SetDBConLogic extends StandardUILogical {
+public class GetDBConLogic extends StandardUILogical {
 
     // 需要加载逻辑的目标UI类
     private GetDBConUI getdbconUI;
@@ -13,8 +15,9 @@ public class SetDBConLogic extends StandardUILogical {
     // 这里的面板句柄是UI类中定义的面板
     private JPanel getDBInfo;
 
+    private errorHandler eh = errorHandler.getInstance();
 
-    public SetDBConLogic() {
+    public GetDBConLogic() {
         super();
 
         // 初始化界面各组件
@@ -23,7 +26,9 @@ public class SetDBConLogic extends StandardUILogical {
         // 获取可操作的面板句柄
         this.getDBInfo = getdbconUI.getPanel("getDBInfo");
 
+        defaultView();
         addButtonAction();
+
     }
 
     // 设置启动后的默认视图
@@ -38,19 +43,25 @@ public class SetDBConLogic extends StandardUILogical {
     // 为按钮注册点击事件
     @Override
     public void addButtonAction() {
-        
-        getdbconUI.getButton("example").addActionListener(e->{
-            // 在此定义具体点击事件
-            System.out.println("example button clicked");
-            
+
+
+        getdbconUI.getButton("dbConnect").addActionListener(e -> {
+            try {
+                String dbaddr = getdbconUI.getTextField("dbAddress").getText();
+                String dbport = getdbconUI.getTextField("dbPort").getText();
+                String dbuser = getdbconUI.getTextField("dbUser").getText();
+                String dbpassword = getdbconUI.getTextField("dbPassword").getText();
+                
+            } catch (Exception ex) {
+                CatchException.handle(ex, eh);
             }
-        );
+        });
 
     }
 
     // 获取实例
     @Override
-    public SetDBConLogic getThis() {
+    public GetDBConLogic getThis() {
         return this;
     }
 }

@@ -2,6 +2,8 @@ package local.ui.example;
 
 import javax.swing.JPanel;
 
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
 import standard.StandardUILogical;
 
 public class exampleLogic extends StandardUILogical {
@@ -12,6 +14,9 @@ public class exampleLogic extends StandardUILogical {
     // UI类中的面板句柄
     // 这里的面板句柄是UI类中定义的面板
     private JPanel examplewindow;
+
+    // 错误处理器
+    private errorHandler eh = errorHandler.getInstance();
 
 
     public exampleLogic() {
@@ -44,10 +49,16 @@ public class exampleLogic extends StandardUILogical {
     public void addButtonAction() {
         
         exampleui.getButton("example").addActionListener(e->{
+
             // 在此定义具体点击事件
-            System.out.println("example button clicked");
-            
+            try {
+                System.out.println("example button clicked");
+            } catch (Exception ex) {
+                // 基础的错误处理逻辑
+                CatchException.handle(ex, eh);
             }
+
+        }
         );
 
     }

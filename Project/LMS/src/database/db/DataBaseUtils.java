@@ -146,6 +146,11 @@ public class DataBaseUtils {
         }
     }
 
+    /**
+     * 更改与数据库的连接信息
+     * @throws DBConnectError
+     */
+
     public void disconnectDB() throws DBConnectError {
         // 断开数据库连接
         try {this.db.disconnect();}

@@ -22,6 +22,8 @@
                 "panel-mainwindow",
                 "panel-example-logic",
                 "panel-example-ui",
+                "panel-getdbcon-ui",
+                "panel-getdbcon-logic",
                 "mini-information",
                 "mini-warning",
                 "mini-question",
