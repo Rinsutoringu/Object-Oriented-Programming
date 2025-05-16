@@ -46,6 +46,11 @@ public abstract class StandardUI extends JPanel {
      */
     protected Map<String, JCheckBox> checkBoxs = new java.util.HashMap<String, JCheckBox>();
 
+    /**
+     * 下拉框集合
+     */
+    protected Map<String, JComboBox<String>> comboBoxs = new java.util.HashMap<String, JComboBox<String>>();
+
     protected GridBagConstraints gbc;
 
     /**
@@ -137,6 +142,24 @@ public abstract class StandardUI extends JPanel {
             throw new NullPointerException("Checkbox with key " + name + " is null");
         } catch (NullPointerException e) {
             throw new InputNotFound("Fail to found checkbox with key " + name, e);
+        }
+    }
+
+    /**
+     * 获取下拉框
+     * @param name 获取到下拉框名称，以键的方式存储在comboBoxs集合中
+     * @return 返回下拉框对象
+     */
+    public JComboBox<String> getComboBox(String name) throws InputNotFound{
+        JComboBox<String> comboBox;
+        try {
+            comboBox = comboBoxs.get(name);
+            // 如果下拉框不为空，直接返回
+            // 如果下拉框为空，抛出异常
+            if (comboBox != null) return comboBox;
+            throw new NullPointerException("Combo box with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new InputNotFound("Fail to found combobox with key " + name, e);
         }
     }
 

@@ -3,7 +3,6 @@ package local.utils;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -81,6 +80,21 @@ public class CfgIOutils implements standard.StandardUTIL {
     }
 
     /**
+     * 删
+     * @param filepath 配置文件所处文件路径
+     * @return 返回删除结果 true表示删除成功，false表示删除失败
+     */
+    public static boolean deletejson(String filepath) {
+        try {
+            Files.deleteIfExists(Paths.get(filepath));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+    /**
      * 获取一组功能配置
      * @param filepath
      * @return
@@ -116,19 +130,6 @@ public class CfgIOutils implements standard.StandardUTIL {
     //     }
     // }
 
-    /**
-     * 删
-     * @param filepath 配置文件所处文件路径
-     * @return 返回删除结果 true表示删除成功，false表示删除失败
-     */
-    public static boolean deletejson(String filepath) {
-        try {
-            Files.deleteIfExists(Paths.get(filepath));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
 
-    }
 
 }

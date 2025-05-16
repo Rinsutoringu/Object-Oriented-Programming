@@ -1,11 +1,15 @@
 package database.db;
 
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import database.error.*;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
+import local.utils.CfgIOutils;
+import local.utils.error.CfgError;
 import standard.GlobalVariables;
 
 /**
@@ -20,6 +24,7 @@ public class DataBaseUtils {
     private static DataBaseUtils instance;
     private DataBase db;
     private errorHandler eh;
+    private GlobalVariables GVar = GlobalVariables.getInstance();
 
     // Private init constructor, to avoid instantiation
     private DataBaseUtils() throws DBConnectError {
@@ -160,10 +165,65 @@ public class DataBaseUtils {
         }
     }
 
-    public void getDBCredentials() {
-        String url = GlobalVariables.dbUrl;
-        String user = GlobalVariables.dbUser;
-        String password = GlobalVariables.dbPassword;
-        String port = GlobalVariables.dbPort;
+    /**
+     * 从配置文件加载数据库连接信息
+     */
+    public void update_DBCredentials_From_Config() {
+
+        // 优先读取配置文件
+        try {
+            Map<String,Map<String, String>> map;
+            map = CfgIOutils.readjson("appconfig.cfg");
+
+            // 检查map是否为空
+            if (map == null) return;
+
+            Map<String, String> dbconfig = map.get("dbconfig");
+
+            // 检查dbconfig是否存在
+            if (dbconfig == null) return;
+
+            String url = dbconfig.get("dbaddr");
+            String user = dbconfig.get("dbuser");
+            String password = dbconfig.get("dbpassword");
+            String port = dbconfig.get("dbport");
+            String dbtype = dbconfig.get("dbtype");
+
+            // 保存这些到全局变量
+
+            GlobalVariables.setDBUrl(url);
+            GlobalVariables.setDBUser(user);
+            GlobalVariables.setDBPassword(password);
+            GlobalVariables.setDBPort(port);
+            GlobalVariables.setDBType(dbtype);
+
+            } catch (Exception e) {
+                // e.printStackTrace();
+                return;
+            }
+
+        }
+
+
+    /**
+     * 保存数据库连接信息到配置文件
+     */
+    public void addDBCredentials(String dbtype, String url, String user, String password, String port) {
+        Map<String,Map<String, String>> map = CfgIOutils.readjson("appconfig.cfg");
+
+        if (map == null) map = new HashMap<>();
+
+        Map<String, String> dbconfig = map.get("dbconfig");
+
+        if (dbconfig == null) dbconfig = new HashMap<>();
+
+        dbconfig.put("dbtype", dbtype);
+        dbconfig.put("dbaddr", url);
+        dbconfig.put("dbuser", user);
+        dbconfig.put("dbpassword", password);
+        dbconfig.put("dbport", port);
+        map.put("dbconfig", dbconfig);
+
+        CfgIOutils.writejson("appconfig.cfg", map);
     }
 }

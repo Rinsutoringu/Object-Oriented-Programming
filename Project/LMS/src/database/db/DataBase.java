@@ -1,12 +1,5 @@
 package database.db;
 
-import java.sql.*;
-
-import database.error.DBConnectError;
-import database.errorhandle.CatchException;
-import database.errorhandle.errorHandler;
-
-import java.sql.SQLException;
 /*#########################
  * 对Error Handler的说明
  * 对基础封装设置抛出特定异常
@@ -15,6 +8,12 @@ import java.sql.SQLException;
  * 
  * #########################
  */
+import java.sql.*;
+
+import database.error.DBConnectError;
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
+import standard.GlobalVariables;
 
 /**
  * 数据库操作类
@@ -23,11 +22,14 @@ public class DataBase {
     
     private Connection connection;
     private errorHandler eh;
+    private static DataBaseUtils dbutils = DataBaseUtils.getInstance();
+    private static GlobalVariables GVar = GlobalVariables.getInstance();
 
     // TODO 提供降级逻辑
     // 我不想做了!
     public DataBase() {
         // 实例化处理对象
+
         eh = errorHandler.getInstance();
         try {
             if (connection != null && !connection.isClosed()) return;
@@ -42,14 +44,22 @@ public class DataBase {
         try {
             if (connection != null && !connection.isClosed()) return connection;
             // ?connectTimeout=5000
-            String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
-            String usr = "root";
-            String pwd = "WPR_2333";
+            // String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
+            // String usr = "root";
+            // String pwd = "WPR_2333";
+            // 从配置文件读取数据库连接信息
+            dbutils.update_DBCredentials_From_Config();
+
+            String url = GlobalVariables.getDBConnAddress();
+            String usr = GlobalVariables.getDBUser();
+            String pwd = GlobalVariables.getDBPassword();
+
             return DriverManager.getConnection(url, usr, pwd);
+
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+            return null;
         }
-        // 肯定会有异常没接住的，但是不要紧，丢到下一级再处理
-        catch (Exception e) {CatchException.handle(e, eh);}
-        return null;
 
     }
 

@@ -16,6 +16,7 @@ import database.errorhandle.errorHandler;
 import local.error.*;
 import local.ui.login.subpage.GetDBConUI;
 import local.ui.miniwindow.MiniOption;
+import standard.GlobalVariables;
 import standard.StandardUILogical;
 
 public class LoginLogic extends StandardUILogical {
@@ -23,6 +24,7 @@ public class LoginLogic extends StandardUILogical {
     private GetDBConUI setDBconnect;
     private DataBaseUtils dbUtils;
     private errorHandler eh;
+    private GlobalVariables GVar = GlobalVariables.getInstance();
     
     public LoginLogic() {
         super();
@@ -102,7 +104,7 @@ public class LoginLogic extends StandardUILogical {
                 regpwd.setText("");
                 loginUI.getCheckbox("check").setSelected(false);
                 // 将用户名注册为全局变量以便于后续使用
-                standard.GlobalVariables.currentUsr = usr;
+                GlobalVariables.setUserName(usr);
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
