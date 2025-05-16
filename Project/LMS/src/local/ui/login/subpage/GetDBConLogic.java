@@ -1,10 +1,14 @@
 package local.ui.login.subpage;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JPanel;
 
 import standard.StandardUILogical;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import local.utils.CfgIOutils;
 
 public class GetDBConLogic extends StandardUILogical {
 
@@ -51,6 +55,29 @@ public class GetDBConLogic extends StandardUILogical {
                 String dbport = getdbconUI.getTextField("dbPort").getText();
                 String dbuser = getdbconUI.getTextField("dbUser").getText();
                 String dbpassword = getdbconUI.getTextField("dbPassword").getText();
+                
+                // 从配置读取所有信息
+                Map<String,Map<String, String>> cfg = CfgIOutils.readjson("appconfig.cfg");
+                
+                // 如果cfg是空的，那就创建一个空字典
+                if (cfg == null) cfg = new HashMap<>();
+                
+                Map<String, String> dbconfig = cfg.get("dbconfig");
+
+                // 如果dbconfig是空的，那就往cfg字典里加一个空字典
+                if (dbconfig == null) {
+                    dbconfig = new HashMap<>();
+                    cfg.put("dbconfig", dbconfig);
+                }
+
+                // 将用户输入的信息存入cfg字典
+                dbconfig.put("dbuser", dbuser);
+                dbconfig.put("dbpassword", dbpassword);
+                dbconfig.put("dbaddr", dbaddr);
+                dbconfig.put("dbport", dbport);
+
+                // 将更新后的cfg写回文件
+                CfgIOutils.writejson("appconfig.cfg", cfg);
                 
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);

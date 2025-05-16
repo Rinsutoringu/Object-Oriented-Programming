@@ -6,6 +6,7 @@ import database.error.*;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
+import standard.GlobalVariables;
 
 /**
  * 数据库操作类
@@ -159,4 +160,10 @@ public class DataBaseUtils {
         }
     }
 
+    public void getDBCredentials() {
+        String url = GlobalVariables.dbUrl;
+        String user = GlobalVariables.dbUser;
+        String password = GlobalVariables.dbPassword;
+        String port = GlobalVariables.dbPort;
+    }
 }

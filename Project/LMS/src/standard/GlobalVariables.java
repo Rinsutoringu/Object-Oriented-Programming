@@ -12,4 +12,9 @@ public class GlobalVariables {
 
     // 数据库连接信息存储在这里
 
+    public static String dbUrl = "jdbc:mysql://localhost:3306/your_database";
+    public static String dbUser = "your_username";
+    public static String dbPassword = "your_password";
+    public static String dbPort = "3306";
+
 }
