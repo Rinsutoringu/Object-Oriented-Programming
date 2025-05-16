@@ -30,18 +30,29 @@ public class exampleLogic extends StandardUILogical {
         addButtonAction();
     }
 
+    // 设置启动后的默认视图
     @Override
     public void defaultView() {
+
+        // 设置默认显示内容 第一个值是目标，第二个值是显示的内容
         show(this, this.examplewindow);
         
     }
 
+    // 为按钮注册点击事件
     @Override
     public void addButtonAction() {
-        // TODO Auto-generated method stub
         
+        exampleui.getButton("example").addActionListener(e->{
+            // 在此定义具体点击事件
+            System.out.println("example button clicked");
+            
+            }
+        );
+
     }
 
+    // 获取实例
     @Override
     public exampleLogic getThis() {
         return this;
