@@ -3,12 +3,9 @@ package local.ui.login;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.LayoutManager;
 
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -17,13 +14,13 @@ import database.db.DataBaseUtils;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
-import local.ui.login.subpage.setDBconnect;
+import local.ui.login.subpage.GetDBConUI;
 import local.ui.miniwindow.MiniOption;
 import standard.StandardUILogical;
 
 public class LoginLogic extends StandardUILogical {
     private LoginUI loginUI;
-    private setDBconnect setDBconnect;
+    private GetDBConUI setDBconnect;
     private DataBaseUtils dbUtils;
     private errorHandler eh;
     
@@ -36,7 +33,7 @@ public class LoginLogic extends StandardUILogical {
             // 实例化loginUI对象
             loginUI = new LoginUI();
 
-            setDBconnect = new setDBconnect();
+            setDBconnect = new GetDBConUI();
             // 实例化数据库对象
             dbUtils = DataBaseUtils.getInstance();
             // 展示默认内容

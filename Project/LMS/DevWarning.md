@@ -65,8 +65,27 @@
 
 **技术细节：**
 
-- UI负责注册UI组件、画面构架, 提供包含buttons, panels, images, checkBoxs等注册数据的hashMap
+- `UI`负责注册UI组件、画面构架, 提供包含`buttons, panels, images, checkBoxs`等注册数据的`hashMap`
 
 - 其父类中已经定义好所有需要的工具类，直接使用对应方法就可以
 
-- Logic负责给UI类中注册的组件添加事件（从上述hashmap中获取组件）
+- Logic负责给UI类中注册的组件添加事件（从上述`hashmap`中获取组件）
+
+### 如何添加模块调试
+
+完成`ui`和`logic`的构建后，需要添加测试方法
+
+`src\test\factory\UIModuleFactory.java`路径 添加一行case
+
+```java
+case "<启动指令>":
+  return new <要测试的类>();
+```
+
+然后去`.vscode`文件夹的`launch.json` 文件，`inputs -> options`添加一行预设指令
+
+```json
+"<启动指令>",
+```
+
+按下F5运行，选择对应的预设指令即可

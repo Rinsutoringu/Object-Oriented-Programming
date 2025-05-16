@@ -1,7 +1,5 @@
 package local.ui.login.subpage;
 
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -13,12 +11,12 @@ import database.errorhandle.errorHandler;
 import standard.StandardUI;
 import local.utils.UIUtils;
 
-public class setDBconnect extends StandardUI{
+public class GetDBConUI extends StandardUI{
 
     UIUtils uiutils;
     errorHandler eh = errorHandler.getInstance();
     
-    public setDBconnect() {
+    public GetDBConUI() {
 
         uiutils = UIUtils.getInstance();
 
@@ -49,7 +47,6 @@ public class setDBconnect extends StandardUI{
         buttons.put("dbConnect", new javax.swing.JButton("Connect"));
         buttons.put("close", new javax.swing.JButton("close"));
 
-        // utils.addComponent(panel, new JLabel("Database Address:"), gbc, gleft, gheight);
         utils.addComponent(panel, new JLabel("Please enter the database address:"), gbc, gleft, ++gheight, 1, 1, 
         GridBagConstraints.NONE, 2, 1);
 
@@ -74,30 +71,6 @@ public class setDBconnect extends StandardUI{
 
         panels.put("getDBInfo", panel);
 
-        // JPanel panel = new JPanel();
-        // panel.setLayout(new FlowLayout());
-        // panel.setPreferredSize(new Dimension(80, 200));
-        // inputBoxs.put("dbAddress", new javax.swing.JTextField(20));
-        // inputBoxs.put("dbPort", new javax.swing.JTextField(20));
-        // inputBoxs.put("dbUser", new javax.swing.JTextField(20));
-        // inputBoxs.put("dbPassword", new javax.swing.JPasswordField(20));
-
-        // // 添加占位组件
-        // JPanel spacer = new JPanel();
-        // spacer.setPreferredSize(new Dimension(80, 50)); // 设置占位组件的高度
-        // spacer.setOpaque(false); // 设置为透明
-        // panel.add(spacer);
-
-        // panel.add(new javax.swing.JLabel("Database Address:"));
-        // panel.add(inputBoxs.get("dbAddress")); 
-        // panel.add(new javax.swing.JLabel("Database Port:"));
-        // panel.add(inputBoxs.get("dbPort"));
-        // panel.add(new javax.swing.JLabel("Database UserName:"));
-        // panel.add(inputBoxs.get("dbUser"));
-        // panel.add(new javax.swing.JLabel("Database Password:"));
-        // panel.add(inputBoxs.get("dbPassword")); 
-
-        
     }
 // TODO 实际的检测逻辑
     

@@ -58,3 +58,15 @@ public class exampleLogic extends StandardUILogical {
         return this;
     }
 }
+
+// 完成ui和logic的构建后，需要添加测试方法
+// src\test\factory\UIModuleFactory.java路径 添加一行case
+
+// case "<启动指令>":
+//     return new <要测试的类>();
+
+// 然后去vscode的launch.json -> inputs -> options添加一行预设指令
+
+// "<启动指令>",
+
+// 按下F5运行，选择对应的预设指令即可
