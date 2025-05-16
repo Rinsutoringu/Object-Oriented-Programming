@@ -4,7 +4,7 @@ package local.ui.login.subpage;
 import javax.swing.JPanel;
 
 import standard.StandardUILogical;
-import database.db.DataBaseUtils;
+import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 
@@ -18,7 +18,7 @@ public class GetDBConLogic extends StandardUILogical {
     private JPanel getDBInfo;
 
     private errorHandler eh = errorHandler.getInstance();
-    private DataBaseUtils dbutils = DataBaseUtils.getInstance();
+    private DataBase dbutils = DataBase.getInstance();
 
     public GetDBConLogic() {
         super();

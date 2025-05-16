@@ -2,16 +2,13 @@ package local.ui.homepage.subpage;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
-import database.db.DataBaseUtils;
+import database.db.DataBase;
 import database.errorhandle.*;
 
 /**
@@ -20,17 +17,16 @@ import database.errorhandle.*;
  * HelloPage本身是个综合性欢迎页，而这个页面将更多地体现有用的信息
  */
 public class Overview extends JPanel {
-    private DataBaseUtils dbUtils;
-    private errorHandler eh;
+
+    // 激活工具类
+    private DataBase dbUtils = DataBase.getInstance();
+    private errorHandler eh = errorHandler.getInstance();
 
     public int NumOfReg;
     public int NumOfObj;
 
     public Overview() {
 
-        // 初始化工具类
-        dbUtils = DataBaseUtils.getInstance();
-        eh = errorHandler.getInstance();
 
         // this.NumOfReg = getNumOfUsers();
         // this.NumOfObj = getNumOfObjects();

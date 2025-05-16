@@ -10,7 +10,7 @@ import java.awt.Insets;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import database.db.DataBaseUtils;
+import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
@@ -22,9 +22,10 @@ import standard.StandardUILogical;
 public class LoginLogic extends StandardUILogical {
     private LoginUI loginUI;
     private GetDBConUI setDBconnect;
-    private DataBaseUtils dbUtils;
-    private errorHandler eh;
-    private GlobalVariables GVar = GlobalVariables.getInstance();
+
+    private DataBase dbUtils  = DataBase.getInstance();
+    private errorHandler eh = errorHandler.getInstance();
+
     
     public LoginLogic() {
         super();
@@ -37,7 +38,6 @@ public class LoginLogic extends StandardUILogical {
 
             setDBconnect = new GetDBConUI();
             // 实例化数据库对象
-            dbUtils = DataBaseUtils.getInstance();
             // 展示默认内容
             defaultView();
             // 添加按钮事件

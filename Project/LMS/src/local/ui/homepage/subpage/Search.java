@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import database.db.DataBaseUtils;
+import database.db.DataBase;
 
 /**
  * 物品搜索页面
@@ -18,7 +18,7 @@ public class Search extends JPanel {
 
     private int NumOfObj;
     private String NameOfObj;
-    private DataBaseUtils db;
+    private DataBase db = DataBase.getInstance();
 
     public Search() {
 
@@ -27,7 +27,6 @@ public class Search extends JPanel {
         String username = "Test User";
         this.add(new JLabel("Good morning, "+username));
         this.add(new JLabel("Now is Search page"));
-        db = DataBaseUtils.getInstance();
     }
 
     // TODO 物品搜索逻辑，记得做个异常
