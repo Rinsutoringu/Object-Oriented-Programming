@@ -7,6 +7,7 @@ import local.error.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.image.BufferedImage;
 
@@ -21,6 +22,7 @@ public abstract class StandardUI extends JPanel {
 
     public static final short gleft = 0;
     public static final short gright = 1;
+    public static final short gmiddle = 0;
 
     /**
      * 工具类
@@ -52,6 +54,11 @@ public abstract class StandardUI extends JPanel {
      * 下拉框集合
      */
     protected Map<String, JComboBox<String>> comboBoxs = new java.util.HashMap<String, JComboBox<String>>();
+
+    /**
+     * 密码输入框集合
+     */
+    protected Map<String, JPasswordField> passwordFields = new java.util.HashMap<String, JPasswordField>();
 
     protected GridBagConstraints gbc;
 
@@ -165,6 +172,24 @@ public abstract class StandardUI extends JPanel {
         }
     }
 
+    /**
+     * 获取密码输入框
+     * @param name 获取到密码输入框名称，以键的方式存储在passwordFields集合中
+     * @return 返回密码输入框对象
+     */
+    public JPasswordField getPasswordField(String name) throws InputNotFound{
+        JPasswordField passwordField;
+        try {
+            passwordField = passwordFields.get(name);
+            // 如果密码输入框不为空，直接返回
+            // 如果密码输入框为空，抛出异常
+            if (passwordField != null) return passwordField;
+            throw new NullPointerException("Password field with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new InputNotFound("Fail to found password field with key " + name, e);
+        }
+    }
+
     public StandardUI() {
         // 设置默认布局
         // 初始化GBC对象并设置间隔
@@ -181,6 +206,20 @@ public abstract class StandardUI extends JPanel {
      */
     public JPanel getThis() {
         return this;
+    }
+
+    /**
+     * 切换面板
+     * @param areaKey 目标区域
+     * @param newPanel 将要显示的新面板
+     */
+    public void switchPanel(String areaKey, JPanel newPanel) {
+        JPanel area = getPanel(areaKey);
+        area.removeAll();
+        area.setLayout(new BorderLayout());
+        area.add(newPanel, BorderLayout.CENTER);
+        area.revalidate();
+        area.repaint();
     }
 
 }

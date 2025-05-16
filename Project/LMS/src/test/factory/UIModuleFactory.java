@@ -7,13 +7,10 @@ import local.ui.homepage.HomePageUI;
 
 import local.ui.login.LoginLogic;
 import local.ui.login.LoginUI;
-
+import local.ui.login.subpage.getdbconnect.GetDBConLogic;
+import local.ui.login.subpage.getdbconnect.GetDBConUI;
 import local.ui.example.exampleLogic;
 import local.ui.example.exampleUI;
-
-import local.ui.login.subpage.GetDBConUI;
-import local.ui.login.subpage.GetDBConLogic;
-
 import local.ui.miniwindow.MiniOption;
 
 public class UIModuleFactory {

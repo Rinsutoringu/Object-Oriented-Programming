@@ -1,6 +1,15 @@
 package standard;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import local.error.GUIActionFailed;
 
 public abstract class StandardUILogical extends StandardUI {
 
@@ -70,4 +79,46 @@ public abstract class StandardUILogical extends StandardUI {
      * @return
      */
     public abstract JPanel getThis();
+
+    /*以下方法不可以在logical类使用，会炸！ */
+    @Override
+    public AbstractButton getButton(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public void switchPanel(String areaKey, JPanel newPanel) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public JPanel getPanel(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public JTextField getTextField(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public BufferedImage getImage(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+    
+    @Override
+    public JCheckBox getCheckbox(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public JComboBox<String> getComboBox(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
+    @Override
+    public JPasswordField getPasswordField(String name) {
+        throw new GUIActionFailed("This method is not supported in StandardUILogical");
+    }
+
 }

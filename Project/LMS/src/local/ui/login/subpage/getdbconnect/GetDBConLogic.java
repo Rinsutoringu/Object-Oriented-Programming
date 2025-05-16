@@ -1,4 +1,4 @@
-package local.ui.login.subpage;
+package local.ui.login.subpage.getdbconnect;
 
 
 import javax.swing.JPanel;
@@ -88,13 +88,7 @@ public class GetDBConLogic extends StandardUILogical {
             }
         });
 
-        getdbconUI.getButton("close").addActionListener(e -> {
-            try {
 
-            } catch (Exception ex) {
-                CatchException.handle(ex, eh);
-            }
-        });
 
     }
 

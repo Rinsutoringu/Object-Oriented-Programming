@@ -10,7 +10,8 @@ import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import laboratory.lab.workers.User;
 import local.error.*;
-import local.ui.login.subpage.GetDBConLogic;
+import local.ui.login.subpage.getdbconnect.GetDBConLogic;
+import local.ui.login.subpage.register.RegisterLogic;
 import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
@@ -18,25 +19,23 @@ import standard.StandardUILogical;
 public class LoginLogic extends StandardUILogical {
     private LoginUI loginUI;
     private GetDBConLogic getdbconlogic;
+    private RegisterLogic registerlogic;
     private static errorHandler eh = errorHandler.getInstance();
     
+
     public LoginLogic() {
         super();
-
-        eh = errorHandler.getInstance();
-
         try {
             // 实例化loginUI对象
             loginUI = new LoginUI();
 
             getdbconlogic = new GetDBConLogic();
+            registerlogic = new RegisterLogic();
             // 实例化数据库对象
             // 展示默认内容
             defaultView();
             // 添加按钮事件
             addButtonAction();
-            // DEBUG: 设置右侧输入框
-            showGetDBConnectInfo();
 
         } catch (Exception e) {
             CatchException.handle(e, eh);
@@ -75,40 +74,62 @@ public class LoginLogic extends StandardUILogical {
             }
         });
 
-        loginUI.getButton("reg").addActionListener(e -> {
-            // 注册按钮
-            System.out.println("Register button clicked");
-            JTextField regusr = loginUI.getTextField("regusr");
-            JTextField regpwd = loginUI.getTextField("regpwd");
-            String usr = regusr.getText();
-            String pwd = regpwd.getText();
-            System.out.println("User: " + usr + ", Password: " + pwd);
+        loginUI.getButton("setdb").addActionListener(e -> {
+            // 获取数据库连接信息
             try {
-                User.Register(usr, pwd);
-                // 注册成功后清空输入框
-                regusr.setText("");
-                regpwd.setText("");
-                loginUI.getCheckbox("check").setSelected(false);
-                // 将用户名注册为全局变量以便于后续使用
-                GlobalVariables.setUserName(usr);
-                new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
+                showGetDBConnectInfo();
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
             }
         });
+
+        loginUI.getButton("regusr").addActionListener(e -> {
+            // 获取注册信息
+            try {
+                showRegInfo();
+            } catch (Exception ex) {
+                CatchException.handle(ex, eh);
+            }
+        });
+
+        getdbconlogic.getThis().getButton("close").addActionListener(e -> {
+            try {
+                closeRight();
+            } catch (Exception ex) {
+                CatchException.handle(ex, eh);
+            }
+        });
+
+        registerlogic.getThis().getButton("close").addActionListener(e -> {
+            try {
+                closeRight();
+            } catch (Exception ex) {
+                CatchException.handle(ex, eh);
+            }
+        });
+
     }
 
     public void showGetDBConnectInfo() {
+        // 初始化数据库连接信息面板
         JPanel dbInfoPanel = getdbconlogic.getThis().getPanel("getDBInfo");
-        loginUI.showGetDBConnectInfoPanel(dbInfoPanel);
+        loginUI.switchPanel("pic", dbInfoPanel);
     }
 
-    public void closeGetDBConnectInfo() {
+    public void showRegInfo() {
+        // 初始化注册信息面板
+        JPanel regInfoPanel = registerlogic.getThis().getPanel("register");
+        loginUI.switchPanel("pic", regInfoPanel);
+    }
+
+    public void closeRight() {
         JPanel target = loginUI.getPanel("pic");
         target.removeAll();
         target.revalidate();
         target.repaint();
     }
+
+
 
 
     public LoginUI getThis() {

@@ -22,6 +22,9 @@ public class LoginUI extends StandardUI{
         
         try {
             // 初始化面板
+
+            createRegisterbox();
+
             init_index();
             init_pic();
 
@@ -44,9 +47,7 @@ public class LoginUI extends StandardUI{
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
-    /*######设置布局######*/
-        gbc.insets = new Insets(5, 5, 100, 5);
-    /*######设置布局######*/
+        gbc.insets = new Insets(0, 5, 100, 5);
         gbc.anchor = GridBagConstraints.CENTER;
 
         int Cheight = 0;
@@ -56,17 +57,14 @@ public class LoginUI extends StandardUI{
         utils.addComponent(panel, getLogo(), gbc, 0, Cheight, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
-    /*######设置布局######*/
-        gbc.insets = new Insets(220, 5, 5, 5);
-    /*######设置布局######*/
+        gbc.insets = new Insets(210, 5, 5, 5);
+
 
         // 登陆组件
         utils.addComponent(panel, loginbox(), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
-    /*######设置布局######*/
         gbc.insets = new Insets(5, 5, 5, 5);
-    /*######设置布局######*/
 
         // 登录按钮
         buttons.put("login", loginbutton());
@@ -78,7 +76,7 @@ public class LoginUI extends StandardUI{
             GridBagConstraints.NONE, 2, 1);
 
         // 注册组件
-        utils.addComponent(panel, registerbox(), gbc, 0, Cheight++, 1, 1,
+        utils.addComponent(panel, getPanel("register"), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 1, 1);
 
         panels.put("index", panel);
@@ -110,28 +108,23 @@ public class LoginUI extends StandardUI{
         return button;
     }
 
-    // 注册组件
-    private JPanel registerbox() {
+    private void createRegisterbox() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
 
-        utils.addComponent(panel, new JLabel("Register"), gbc, 0, 0);
-        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 1);
-        inputBoxs.put("regusr", new JTextField(16));
-        utils.addComponent(panel, inputBoxs.get("regusr"), gbc, 1, 1);
+        buttons.put("regusr", new JButton("Register"));
+        buttons.put("setdb", new JButton("Set DB Connect"));
 
-        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 2);
-        inputBoxs.put("regpwd", new JPasswordField(16));
-        utils.addComponent(panel, inputBoxs.get("regpwd"), gbc, 1, 2);
-        buttons.put("reg", new JButton("reg"));
-        utils.addComponent(panel, buttons.get("reg"), gbc, 3, 1, 1, 1,
-            GridBagConstraints.NONE, 1, 2);
-        // DEBUG
-        // panel.setBackground(Color.red);
-        return panel;
+        utils.addComponent(panel, getButton("regusr"), gbc, gleft, 0);
+
+        utils.addComponent(panel, getButton("setdb"), gbc, gright, 0);
+
+        // return panel;
+        panels.put("register", panel);
     }
+    
 
     // 登录组件
     private JPanel loginbox() {
@@ -140,14 +133,22 @@ public class LoginUI extends StandardUI{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
 
-        utils.addComponent(panel, new JLabel("Register"), gbc, 0, 0);
-        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, 1);
-        inputBoxs.put("loginusr", new JTextField(16));
-        utils.addComponent(panel, inputBoxs.get("loginusr"), gbc, 1, 1);
+        short gheight = 0;
 
-        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, 2);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+
+        utils.addComponent(panel, new JLabel("Login"), gbc, 0, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, ++gheight);
+        inputBoxs.put("loginusr", new JTextField(16));
+        utils.addComponent(panel, inputBoxs.get("loginusr"), gbc, 1, gheight);
+
+        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, ++gheight);
         inputBoxs.put("loginpwd", new JPasswordField(16));
-        utils.addComponent(panel, inputBoxs.get("loginpwd"), gbc, 1, 2);
+        utils.addComponent(panel, inputBoxs.get("loginpwd"), gbc, 1, gheight);
         // DEBUG
         // panel.setBackground(Color.red);
         return panel;
@@ -170,35 +171,6 @@ public class LoginUI extends StandardUI{
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
         return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 
-
-    public void showGetDBConnectInfoPanel(JPanel dbInfoPanel) {
-        JPanel target = this.getPanel("pic");
-        target.removeAll();
-        target.setLayout(new GridBagLayout());
-
-        GridBagConstraints topGbc = new GridBagConstraints();
-        topGbc.gridx = 0;
-        topGbc.gridy = 0;
-        topGbc.weightx = 1.0;
-        topGbc.weighty = 1.0;
-        topGbc.fill = GridBagConstraints.BOTH;
-
-        JPanel ph = new JPanel();
-        ph.setOpaque(false);
-        target.add(ph, topGbc);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(40, 70, 10, 70);
-        target.add(dbInfoPanel, gbc);
-
-        target.revalidate();
-        target.repaint();
-    }
 
     // 获取按钮对象
     @Override

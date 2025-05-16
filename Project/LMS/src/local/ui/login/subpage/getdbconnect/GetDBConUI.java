@@ -1,4 +1,4 @@
-package local.ui.login.subpage;
+package local.ui.login.subpage.getdbconnect;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +19,8 @@ public class GetDBConUI extends StandardUI{
     errorHandler eh = errorHandler.getInstance();
     
     public GetDBConUI() {
+        
+        super();
 
         try {
             init_getdbinfo();
@@ -71,25 +73,28 @@ public class GetDBConUI extends StandardUI{
         
         int gheight = 0;
 
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
         utils.addComponent(panel, new JLabel("Please enter the Storage information:"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+
 
         utils.addComponent(panel, new JLabel("Choose a DB type"), gbc, gleft, ++gheight);
-        utils.addComponent(panel, comboBoxs.get("dbType"), gbc, gright, gheight);
-        
+        utils.addComponent(panel, getComboBox("dbType"), gbc, gright, gheight);
+
         utils.addComponent(panel, new JLabel("Database Address:"), gbc, gleft, ++gheight);
-        utils.addComponent(panel, inputBoxs.get("dbAddress"), gbc, gright, gheight);
+        utils.addComponent(panel, getTextField("dbAddress"), gbc, gright, gheight);
 
         utils.addComponent(panel, new JLabel("Database Port:"), gbc, gleft, ++gheight);
-        utils.addComponent(panel, inputBoxs.get("dbPort"), gbc, gright, gheight);
+        utils.addComponent(panel, getTextField("dbPort"), gbc, gright, gheight);
 
         utils.addComponent(panel, new JLabel("Database User:"), gbc, gleft, ++gheight);
-        utils.addComponent(panel, inputBoxs.get("dbUser"), gbc, gright, gheight);
+        utils.addComponent(panel, getTextField("dbUser"), gbc, gright, gheight);
 
         utils.addComponent(panel, new JLabel("Database Password:"), gbc, gleft, ++gheight);
-        utils.addComponent(panel, inputBoxs.get("dbPassword"), gbc, gright, gheight);
-
-
+        utils.addComponent(panel, getTextField("dbPassword"), gbc, gright, gheight);
 
         utils.addComponent(panel, getButton("save"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);

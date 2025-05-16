@@ -22,6 +22,9 @@ public class GlobalVariables {
     // 这里存储了全局配色方案
     public static final Color getDBConLogic = new Color(244, 245, 246);
 
+    public static final Color registerLogic = new Color(244, 245, 246);
+
+
     public static String currentUsr = "TestName-RinChord";
 
     private GlobalVariables() {
@@ -88,6 +91,10 @@ public class GlobalVariables {
 
     public static Color cgetDBConLogic() {
         return getDBConLogic;
+    }
+
+    public static Color cgetRegisterLogic() {
+        return registerLogic;
     }
 
 }
