@@ -1,5 +1,6 @@
 package local.ui.login.subpage;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -9,6 +10,7 @@ import javax.swing.JPanel;
 
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import standard.GlobalVariables;
 import standard.StandardUI;
 import local.utils.UIUtils;
 
@@ -35,20 +37,40 @@ public class GetDBConUI extends StandardUI{
     private void init_getdbinfo() {
 
         JPanel panel = new JPanel();
+
+        createUserInput();
+        buttons.put("close", new javax.swing.JButton("Close"));
         panel.setLayout(new GridBagLayout());
-        int gheight = 0;
-        int gleft = 0;
-        int gright = 1;
 
+        utils.addComponent(panel, getPanel("userinput"), gbc, 0, 0, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
 
+        utils.addComponent(panel, getButton("close"), gbc, 0, 1, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+        
+        panels.put("getDBInfo", panel);
+
+    }
+
+    private void createDBType() {
+        String[] dbTypes = {"MySQL", "PostgreSQL", "SQLite"};
+        JComboBox<String> dbTypeCombo = new JComboBox<>(dbTypes);
+        comboBoxs.put("dbType", dbTypeCombo);
+    }
+
+    private void createUserInput() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+
+        createDBType();
         inputBoxs.put("dbAddress", new javax.swing.JTextField(20));
         inputBoxs.put("dbPort", new javax.swing.JTextField(20));
         inputBoxs.put("dbUser", new javax.swing.JTextField(20));
         inputBoxs.put("dbPassword", new javax.swing.JPasswordField(20));
-        buttons.put("dbConnect", new javax.swing.JButton("Connect"));
-        buttons.put("close", new javax.swing.JButton("close"));
-        createDBType();
-
+        buttons.put("connect", new javax.swing.JButton("LINK START"));
+        buttons.put("save", new javax.swing.JButton("save"));
+        
+        int gheight = 0;
 
         utils.addComponent(panel, new JLabel("Please enter the Storage information:"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
@@ -70,20 +92,15 @@ public class GetDBConUI extends StandardUI{
 
 
 
-        utils.addComponent(panel, getButton("dbConnect"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+        utils.addComponent(panel, getButton("save"), gbc, gleft, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, getButton("close"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+        utils.addComponent(panel, getButton("connect"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
 
-        panels.put("getDBInfo", panel);
+        panel.setBackground(GlobalVariables.cgetDBConLogic());
 
-    }
-
-    private void createDBType() {
-        String[] dbTypes = {"MySQL", "PostgreSQL", "SQLite"};
-        JComboBox<String> dbTypeCombo = new JComboBox<>(dbTypes);
-        comboBoxs.put("dbType", dbTypeCombo);
+        panels.put("userinput", panel);
     }
 
 

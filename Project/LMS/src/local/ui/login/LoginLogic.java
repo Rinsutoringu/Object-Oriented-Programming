@@ -23,7 +23,7 @@ public class LoginLogic extends StandardUILogical {
     private LoginUI loginUI;
     private GetDBConUI setDBconnect;
 
-    private DataBase dbUtils  = DataBase.getInstance();
+    private DataBase dbUtils = DataBase.getInstance();
     private errorHandler eh = errorHandler.getInstance();
 
     

@@ -19,7 +19,9 @@ import java.awt.image.BufferedImage;
 
 public abstract class StandardUI extends JPanel {
 
-    
+    public static final short gleft = 0;
+    public static final short gright = 1;
+
     /**
      * 工具类
      */

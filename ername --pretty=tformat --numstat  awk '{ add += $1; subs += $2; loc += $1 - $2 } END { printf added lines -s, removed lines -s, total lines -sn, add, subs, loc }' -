@@ -1,0 +1,40 @@
+[33mcommit 4bff36256a4373609919a582da8700fc443ddc28[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: Rinsutoringu <Chord_sky@outlook.com>
+Date:   Sat May 17 01:00:31 2025 +0800
+
+    rebuild database first step success
+
+ Project/LMS/src/database/db/DataBase.java          | 228 [32m+++++++++++++++++[m[31m---[m
+ Project/LMS/src/database/db/DataBaseUtils.java     | 229 [31m---------------------[m
+ Project/LMS/src/laboratory/lab/workers/User.java   |  84 [32m+++++++[m[31m-[m
+ .../src/local/ui/homepage/subpage/Overview.java    |  14 [32m+[m[31m-[m
+ .../LMS/src/local/ui/homepage/subpage/Search.java  |   5 [32m+[m[31m-[m
+ Project/LMS/src/local/ui/login/LoginLogic.java     |  10 [32m+[m[31m-[m
+ .../src/local/ui/login/subpage/GetDBConLogic.java  |   4 [32m+[m[31m-[m
+ 7 files changed, 300 insertions(+), 274 deletions(-)
+
+[33mcommit 6fc70f5e6ce78a0b69ac7dae35ad85956b8fb597[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Rinsutoringu <Chord_sky@outlook.com>
+Date:   Sat May 17 00:35:21 2025 +0800
+
+    rebuild database.java
+
+ Project/LMS/src/database/db/DataBase.java | 18 [32m++++++++++++++[m[31m----[m
+ 1 file changed, 14 insertions(+), 4 deletions(-)
+
+[33mcommit 786df3b773a8283e3903a15656b8da23bdbc5863[m
+Author: Rinsutoringu <Chord_sky@outlook.com>
+Date:   Sat May 17 00:27:34 2025 +0800
+
+    Fix loaded bug
+
+ Project/LMS/src/database/db/DataBase.java          | 36 [32m++++++[m[31m----[m
+ Project/LMS/src/database/db/DataBaseUtils.java     | 70 [32m+++++++++++++++++[m[31m--[m
+ .../src/local/ui/homepage/subpage/HelloPage.java   |  4 [32m+[m[31m-[m
+ Project/LMS/src/local/ui/login/LoginLogic.java     |  4 [32m+[m[31m-[m
+ .../src/local/ui/login/subpage/GetDBConLogic.java  | 41 [32m+++++[m[31m------[m
+ .../LMS/src/local/ui/login/subpage/GetDBConUI.java | 21 [32m+++++[m[31m-[m
+ Project/LMS/src/local/utils/CfgIOutils.java        | 29 [32m++++[m[31m----[m
+ Project/LMS/src/standard/GlobalVariables.java      | 80 [32m++++++++++++++++++++[m[31m--[m
+ Project/LMS/src/standard/StandardUI.java           | 23 [32m+++++++[m
+ 9 files changed, 241 insertions(+), 67 deletions(-)

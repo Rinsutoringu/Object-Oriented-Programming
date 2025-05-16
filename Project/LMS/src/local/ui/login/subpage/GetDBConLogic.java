@@ -48,7 +48,7 @@ public class GetDBConLogic extends StandardUILogical {
     public void addButtonAction() {
 
 
-        getdbconUI.getButton("dbConnect").addActionListener(e -> {
+        getdbconUI.getButton("save").addActionListener(e -> {
             try {
                 String dbType = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
                 String dbaddr = getdbconUI.getTextField("dbAddress").getText();

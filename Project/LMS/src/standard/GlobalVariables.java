@@ -1,5 +1,6 @@
 package standard;
 
+import java.awt.Color;
 
 /**
  * 实现从指定目录读取配置文件，本地也保持一个默认值
@@ -17,6 +18,9 @@ public class GlobalVariables {
     public static String dbUser = "root";
     public static String dbPassword = "WPR_2333";
     public static String dbPort = "3306";
+
+    // 这里存储了全局配色方案
+    public static final Color getDBConLogic = new Color(244, 245, 246);
 
     public static String currentUsr = "TestName-RinChord";
 
@@ -80,6 +84,10 @@ public class GlobalVariables {
 
     public static String getUserName() {
         return GlobalVariables.currentUsr;
+    }
+
+    public static Color cgetDBConLogic() {
+        return getDBConLogic;
     }
 
 }
