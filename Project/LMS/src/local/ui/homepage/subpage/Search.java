@@ -18,7 +18,7 @@ public class Search extends JPanel {
 
     private int NumOfObj;
     private String NameOfObj;
-    private DataBase db = DataBase.getInstance();
+    private static DataBase db = DataBase.getInstance();
 
     public Search() {
 

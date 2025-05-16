@@ -18,8 +18,8 @@ public class GetDBConLogic extends StandardUILogical {
     // 这里的面板句柄是UI类中定义的面板
     private JPanel getDBInfo;
 
-    private errorHandler eh = errorHandler.getInstance();
-    private DataBase dbutils = DataBase.getInstance();
+    private static errorHandler eh = errorHandler.getInstance();
+    private static DataBase dbutils = DataBase.getInstance();
 
     public GetDBConLogic() {
         super();
@@ -75,6 +75,22 @@ public class GetDBConLogic extends StandardUILogical {
                 dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
                 new MiniOption("LMS", "Your DataBase Connect Information save success! ", 1);
                 
+            } catch (Exception ex) {
+                CatchException.handle(ex, eh);
+            }
+        });
+
+        getdbconUI.getButton("connect").addActionListener(e -> {
+            try {
+                dbutils.createConnect();
+            } catch (Exception ex) {
+                CatchException.handle(ex, eh);
+            }
+        });
+
+        getdbconUI.getButton("close").addActionListener(e -> {
+            try {
+
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
             }

@@ -1,6 +1,5 @@
 package local.ui.login.subpage;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 

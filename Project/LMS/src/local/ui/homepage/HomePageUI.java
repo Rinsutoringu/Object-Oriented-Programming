@@ -2,8 +2,6 @@ package local.ui.homepage;
 
 import javax.swing.*;
 
-import org.xml.sax.ErrorHandler;
-
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.UICreateFail;

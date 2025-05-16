@@ -14,9 +14,13 @@ import database.db.DataBase;
 
 public class User {
 
-    errorHandler eh = errorHandler.getInstance();
+    private static errorHandler eh = errorHandler.getInstance();
     // db实例
-    DataBase db = DataBase.getInstance();
+    private static DataBase db = DataBase.getInstance();
+
+    public User() {
+        // 构造函数
+    }
 
     /**
      * 登录
@@ -26,7 +30,7 @@ public class User {
      * @exception UserInfoError 用户信息错误
      * @exception DBConnectError 数据库连接错误
      */
-    public boolean Login(String usr, String pwd) throws AuthFailed, UserInfoError, DBConnectError {
+    public static boolean Login(String usr, String pwd) throws AuthFailed, UserInfoError, DBConnectError {
         usr = usr.trim();
         pwd = pwd.trim();
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
@@ -60,7 +64,7 @@ public class User {
      * @exception UserInfoError 用户信息错误
      * @exception DBConnectError 数据库连接错误
      */
-    public void Register(String usr, String pwd) throws UserInfoError, DBConnectError {
+    public static void Register(String usr, String pwd) throws UserInfoError, DBConnectError {
         usr = usr.trim();
         pwd = pwd.trim();
         // 将用户名和密码插入数据库，同时为index增加1
@@ -74,7 +78,7 @@ public class User {
             // System.out.println("Username: " + usr + ", Password: " + pwd);
 
             // 创建预编译语句，
-            PreparedStatement insertStatement = this.db.getConnection().prepareStatement(insertQuery);
+            PreparedStatement insertStatement = DataBase.getInstance().getConnection().prepareStatement(insertQuery);
             insertStatement.setString(1, usr);
             insertStatement.setString(2, pwd);
             // 执行插入操作

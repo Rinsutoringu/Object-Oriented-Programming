@@ -19,8 +19,8 @@ import database.errorhandle.*;
 public class Overview extends JPanel {
 
     // 激活工具类
-    private DataBase dbUtils = DataBase.getInstance();
-    private errorHandler eh = errorHandler.getInstance();
+    private static DataBase dbUtils = DataBase.getInstance();
+    private static errorHandler eh = errorHandler.getInstance();
 
     public int NumOfReg;
     public int NumOfObj;

@@ -10,12 +10,11 @@ import java.awt.Insets;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import laboratory.lab.workers.User;
 import local.error.*;
 import local.ui.login.subpage.GetDBConLogic;
-import local.ui.login.subpage.GetDBConUI;
 import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
@@ -23,8 +22,7 @@ import standard.StandardUILogical;
 public class LoginLogic extends StandardUILogical {
     private LoginUI loginUI;
     private GetDBConLogic getdbconlogic;
-    private DataBase dbUtils = DataBase.getInstance();
-    private errorHandler eh = errorHandler.getInstance();
+    private static errorHandler eh = errorHandler.getInstance();
     
     public LoginLogic() {
         super();
@@ -79,7 +77,7 @@ public class LoginLogic extends StandardUILogical {
             // DEBUG
             // System.out.println("User: " + usr + ", Password: " + pwd);
             try {
-                if (!dbUtils.Login(usr, pwd)) throw new AuthFailed("Login failed"); 
+                if (!User.Login(usr, pwd)) throw new AuthFailed("Login failed"); 
                 System.out.println("Login success");
                 loginusr.setText("");
                 loginpwd.setText("");
@@ -97,7 +95,7 @@ public class LoginLogic extends StandardUILogical {
             String pwd = regpwd.getText();
             System.out.println("User: " + usr + ", Password: " + pwd);
             try {
-                dbUtils.Register(usr, pwd);
+                User.Register(usr, pwd);
                 // 注册成功后清空输入框
                 regusr.setText("");
                 regpwd.setText("");
