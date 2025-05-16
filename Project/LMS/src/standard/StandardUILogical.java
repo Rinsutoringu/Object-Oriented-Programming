@@ -65,7 +65,9 @@ public abstract class StandardUILogical extends StandardUI {
         return panel.getComponentCount() == 0 ;
     }
 
-
-    
-
+    /**
+     * 获取当前UI对象
+     * @return
+     */
+    public abstract JPanel getThis();
 }

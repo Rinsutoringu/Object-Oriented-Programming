@@ -75,6 +75,14 @@ mysql
 
 - Logic负责给UI类中注册的组件添加事件（从上述`hashmap`中获取组件）
 
+> [!WARNING]
+>
+> 请注意，logic和UI之间并非是`extend`关系，而是`have`关系！
+>
+> 这使得可视化界面在加载的时候，必须使用`xxxUI`的句柄（而非是`xxxlogic`的句柄！）
+>
+> 我提供了`getThis`方法，无论是logic还是UI，都应该指向UI的句柄，这样使得UI的递归实现成为了可能
+
 ### 如何添加模块调试
 
 完成`ui`和`logic`的构建后，需要添加测试方法

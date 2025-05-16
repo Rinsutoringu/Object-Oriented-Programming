@@ -298,5 +298,6 @@ public class DataBase {
         map.put("dbconfig", dbconfig);
 
         CfgIOutils.writejson("appconfig.cfg", map);
+        
     }
 }

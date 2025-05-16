@@ -7,6 +7,7 @@ import standard.StandardUILogical;
 import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import local.ui.miniwindow.MiniOption;
 
 public class GetDBConLogic extends StandardUILogical {
 
@@ -26,8 +27,9 @@ public class GetDBConLogic extends StandardUILogical {
         // 初始化界面各组件
         getdbconUI = new GetDBConUI();
 
-        // 获取可操作的面板句柄
+        // 获取可操作的面板句柄并注册
         this.getDBInfo = getdbconUI.getPanel("getDBInfo");
+        this.panels.put("getDBInfo", this.getDBInfo);
 
         defaultView();
         addButtonAction();
@@ -71,6 +73,7 @@ public class GetDBConLogic extends StandardUILogical {
                 }
                 // 写入到配置文件
                 dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
+                new MiniOption("LMS", "Your DataBase Connect Information save success! ", 1);
                 
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
@@ -81,8 +84,9 @@ public class GetDBConLogic extends StandardUILogical {
 
     // 获取实例
     @Override
-    public GetDBConLogic getThis() {
-        return this;
+    public GetDBConUI getThis() {
+        return getdbconUI;
     }
+
 }
 

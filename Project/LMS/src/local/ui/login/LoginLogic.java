@@ -14,6 +14,7 @@ import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import local.error.*;
+import local.ui.login.subpage.GetDBConLogic;
 import local.ui.login.subpage.GetDBConUI;
 import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
@@ -21,11 +22,9 @@ import standard.StandardUILogical;
 
 public class LoginLogic extends StandardUILogical {
     private LoginUI loginUI;
-    private GetDBConUI setDBconnect;
-
+    private GetDBConLogic getdbconlogic;
     private DataBase dbUtils = DataBase.getInstance();
     private errorHandler eh = errorHandler.getInstance();
-
     
     public LoginLogic() {
         super();
@@ -36,7 +35,7 @@ public class LoginLogic extends StandardUILogical {
             // 实例化loginUI对象
             loginUI = new LoginUI();
 
-            setDBconnect = new GetDBConUI();
+            getdbconlogic = new GetDBConLogic();
             // 实例化数据库对象
             // 展示默认内容
             defaultView();
@@ -138,7 +137,7 @@ public class LoginLogic extends StandardUILogical {
         gbc.weighty = 0.0; // 不分配多余空间
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(40, 70, 10, 70);
-        target.add(setDBconnect.getPanel("getDBInfo"), gbc);
+        target.add(getdbconlogic.getThis().getPanel("getDBInfo"), gbc);
 
     }
 
@@ -150,5 +149,7 @@ public class LoginLogic extends StandardUILogical {
     }
 
 
-    public JPanel getThis() {return loginUI;}
+    public LoginUI getThis() {
+        return loginUI;
+    }
 }

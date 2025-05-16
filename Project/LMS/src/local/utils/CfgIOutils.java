@@ -74,6 +74,7 @@ public class CfgIOutils implements standard.StandardUTIL {
             String jsonString = mapper.writeValueAsString(data);
             // 数据转化为编码写入
             Files.write(Paths.get(filepath), jsonString.getBytes());
+            
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }

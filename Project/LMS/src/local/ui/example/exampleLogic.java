@@ -65,9 +65,10 @@ public class exampleLogic extends StandardUILogical {
 
     // 获取实例
     @Override
-    public exampleLogic getThis() {
-        return this;
+    public exampleUI getThis() {
+        return exampleui;
     }
+
 }
 
 // 完成ui和logic的构建后，需要添加测试方法

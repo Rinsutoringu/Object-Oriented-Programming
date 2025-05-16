@@ -11,16 +11,16 @@ public class HomePageLogic extends StandardUILogical {
     // public static final int DEFAULT = 0;
     private JPanel detailJpanel;
     private JPanel overJPanel;
-    private JPanel topviewPanel;
-    private HomePageUI homepage;
+    // private JPanel topviewPanel;
+    private HomePageUI homepageUI;
 
     public HomePageLogic() {
         super();
         // 初始化界面各组件
-        homepage = new HomePageUI();
-        this.detailJpanel = homepage.getPanel("details");
-        this.overJPanel = homepage.getPanel("overview");
-        this.topviewPanel = homepage.getPanel("topview");
+        homepageUI = new HomePageUI();
+        this.detailJpanel = homepageUI.getPanel("details");
+        this.overJPanel = homepageUI.getPanel("overview");
+        // this.topviewPanel = homepageUI.getPanel("topview");
 
         // 把费事的加载丢到后台同步进行
         SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
@@ -55,25 +55,25 @@ public class HomePageLogic extends StandardUILogical {
     protected void addButtonAction() throws ActionAddFailed{
         try{
             // OverView页面
-            homepage.getButton("overview").addActionListener(e ->{
+            homepageUI.getButton("overview").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
                 show(overJPanel, panels.get("overview"));
             });
 
             // search页面
-            homepage.getButton("search").addActionListener(e ->{
+            homepageUI.getButton("search").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
                 show(overJPanel, panels.get("search"));
             });
 
             // stock页面
-            homepage.getButton("stock").addActionListener(e ->{
+            homepageUI.getButton("stock").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
                 show(overJPanel, panels.get("stock"));
             });
 
             // To do页面
-            homepage.getButton("todo").addActionListener(e ->{
+            homepageUI.getButton("todo").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
                 show(overJPanel, panels.get("todo"));
             });
@@ -81,7 +81,8 @@ public class HomePageLogic extends StandardUILogical {
             throw new ActionAddFailed("为按钮添加事件失败", e);
         }
     }
-    public JPanel getThis() {
-        return homepage;
+
+    public HomePageUI getThis() {
+        return homepageUI;
     }
 }

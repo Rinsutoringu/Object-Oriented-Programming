@@ -179,6 +179,8 @@ public abstract class StandardUI extends JPanel {
      * 获取当前UI对象
      * @return
      */
-    public abstract JPanel getThis();
+    public JPanel getThis() {
+        return this;
+    }
 
 }
