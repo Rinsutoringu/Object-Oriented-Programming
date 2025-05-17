@@ -18,8 +18,8 @@ public class HomePageUI extends StandardUI {
 
         // init view
         try {
-            init_homepagePL();
-            utils.addComponent( this, this.getPanel("homepage"), gbc, 1, 1);
+            init_homePL();
+            utils.addComponent( this, this.getPanel("home"), gbc, 1, 1);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
@@ -30,28 +30,33 @@ public class HomePageUI extends StandardUI {
     }
 
 
-    private void init_homepagePL() {
-        JPanel panel = new JPanel();
+    private void init_homePL() {
         
+        JPanel panel = new JPanel();
+        // DEBUG
+        panel.setPreferredSize(new Dimension(200, 200));
+
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         create_topCP();
-        create_detailCP();
-        create_overCP();
-        utils.addComponent(this, panels.get("topview"), gbc, 0, 0,1, 0.1,
+        create_subCP();
+        create_mainCP();
+        utils.addComponent(this, panels.get("top"), gbc, 0, 0,1, 0.1,
         GridBagConstraints.BOTH, 2, 1);
-        utils.addComponent(this, panels.get("details"), gbc, 0, 1, 1, 0.9,
+        utils.addComponent(this, panels.get("sub"), gbc, 0, 1, 1, 0.9,
         GridBagConstraints.BOTH, 1, 1);
-        utils.addComponent(this, panels.get("overview"), gbc, 1, 1, 2.5, 0.9,
+        utils.addComponent(this, panels.get("main"), gbc, 1, 1, 2.5, 0.9,
         GridBagConstraints.BOTH, 1, 1);
 
-        putPanel("homepage", panel);
+        putPanel("home", panel);
     }
 
     // 顶栏
     private void create_topCP() {
 
         JPanel panel = new JPanel();
+        // DEBUG
+        panel.setPreferredSize(new Dimension(20, 20));
         // 设置topview建议间隔
         panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
@@ -72,22 +77,28 @@ public class HomePageUI extends StandardUI {
         panel.add(Box.createHorizontalGlue());
         // 背景
             panel.setBackground(new Color(255,255,255));
-            panels.put("topview", panel);
+            panels.put("top", panel);
         }
 
     // 右栏(大的那个)
-    private void create_overCP() {
+    private void create_mainCP() {
+
             JPanel panel = new JPanel(new BorderLayout());
+            // DEBUG
+            panel.setPreferredSize(new Dimension(20, 20));
             panel.setBackground(Color.BLUE);        
-            panels.put("overview", panel);
+            panels.put("main", panel);
     }
 
     // 左栏(小的那个)
-    private void create_detailCP() {
+    private void create_subCP() {
+        
             JPanel panel = new JPanel(new BorderLayout());
+            // DEBUG
+            panel.setPreferredSize(new Dimension(20, 20));
             panel.setBackground(Color.ORANGE);
             panel.setPreferredSize(new Dimension(100, 100));
-            panels.put("details", panel);
+            panels.put("sub", panel);
     }
     // 按钮
     private JButton buildButton(String ButtonText) {

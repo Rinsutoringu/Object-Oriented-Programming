@@ -160,33 +160,118 @@ public abstract class StandardUILogical extends StandardUI {
     }
     
     /**
-     * logic类所持有UI对象的注册表
+     * logic类所持有的Page对象的注册表
      */
-    protected Map<String, StandardUILogical> uiRegistry = new HashMap<>();
+    protected Map<String, StandardUILogical> PageRegistry = new HashMap<>();
 
     /**
-     * logic提供对持有UI对象的注册表
+     * 注册Page对象
+     * @param name 待注册对象的名称
+     * @param PageName 待注册的Page对象
      * @exception GUIActionFailed 注册失败
      */
-    public void putUI(String name, StandardUILogical ui) {
+    public void putPage(String name, StandardUILogical PageName) {
         try {
-            this.uiRegistry.put(name, ui);
+            this.PageRegistry.put(name, PageName);
         } catch (Exception e) {
-            throw new GUIActionFailed("为UI对象添加注册失败", e);
+            throw new GUIActionFailed("为Page对象添加注册失败", e);
         }
     }
 
     /**
-     * logic类获取UI对象
-     * @param name 待获取对象的名称
-     * @return 获取到的UI对象
+     * 获取Page
+     * @param plName 待获取的pl名称
+     * @param pageName 目标page名称
+     * @return 获取到的Page对象
      * @exception GUIActionFailed 获取失败
      */
-    public StandardUILogical getUI(String name) {
+    public JPanel getPage(String plName, String pageName) {
         try {
-            return this.uiRegistry.get(name);
+            StandardUILogical ui = this.PageRegistry.get(plName);
+            if (ui != null) {
+                StandardUI standardUI = (StandardUI) ui.getThis();
+                JPanel panel = standardUI.getPanel(pageName);
+
+                return panel;
+            }
         } catch (Exception e) {
-            throw new GUIActionFailed("获取UI对象失败", e);
+            throw new GUIActionFailed("获取Page对象失败", e);
+        }
+        return null;
+    }
+
+    /**
+     * logic类本身自有的PL对象的注册表
+     */
+    protected Map<String, JPanel> plRegistry = new HashMap<>();
+
+    /**
+     * 注册PL
+     * @param name 待注册对象的名称
+     * @param ui 待注册的PL对象
+     * @exception GUIActionFailed 注册失败
+     */
+    public void putPL(String name, JPanel ui) {
+        try {
+            this.plRegistry.put(name, ui);
+        } catch (Exception e) {
+            throw new GUIActionFailed("为PL对象添加注册失败", e);
         }
     }
+
+    /**
+     * 获取PL
+     * @param name 待获取对象的名称
+     * @return 获取到的PL对象
+     * @exception GUIActionFailed 获取失败
+     */
+    public JPanel getPL(String name) {
+        try {
+            JPanel pl = this.plRegistry.get(name);
+            if (pl != null) {
+                return pl;
+            }
+        } catch (Exception e) {
+            throw new GUIActionFailed("获取PL对象失败", e);
+        }
+        return null;
+    }
+
+    /**
+     * logic类自有的CP对象的注册表
+     */
+    protected Map<String, JPanel> cpRegistry = new HashMap<>();
+
+    /**
+     * 注册CP
+     * @param name 待注册对象的名称
+     * @param cp 待注册的CP对象
+     * @exception GUIActionFailed 注册失败
+     */
+    public void putCP(String name, JPanel cp) {
+        try {
+            this.cpRegistry.put(name, cp);
+        } catch (Exception e) {
+            throw new GUIActionFailed("为CP对象添加注册失败", e);
+        }
+    }
+
+    /**
+     * 获取CP
+     * @param name 待获取对象的名称
+     * @return 获取到的CP对象
+     * @exception GUIActionFailed 获取失败
+     */
+    public JPanel getCP(String name) {
+        try {
+            JPanel cp = this.cpRegistry.get(name);
+            if (cp != null) {
+                return cp;
+            }
+        } catch (Exception e) {
+            throw new GUIActionFailed("获取CP对象失败", e);
+        }
+        return null;
+    }
+
 }

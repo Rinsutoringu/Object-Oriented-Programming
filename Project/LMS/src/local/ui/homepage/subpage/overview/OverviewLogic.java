@@ -17,7 +17,7 @@ public class OverviewLogic extends StandardUILogical {
      * 声明UI类中包含的PL句柄
      * 用于动态绘制画面
      */
-    private JPanel overviewPL;
+    private JPanel overview;
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
@@ -32,7 +32,7 @@ public class OverviewLogic extends StandardUILogical {
             overviewui = new OverviewUI();
 
             // 获取PL句柄
-            this.overviewPL = overviewui.getPanel("overviewPL");
+            this.overview = overviewui.getPanel("overview");
 
             // 初始化画面
             defaultView();
@@ -52,7 +52,7 @@ public class OverviewLogic extends StandardUILogical {
         // 设置默认显示内容 第一个值是目标，第二个值是显示的内容
         // 啥都不加就默认显示UI加载完后的内容
         try {
-            show(getThis(), this.overviewPL);
+            show(getThis(), this.overview);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
@@ -63,7 +63,7 @@ public class OverviewLogic extends StandardUILogical {
     @Override
     public void addButtonAction() {
         
-        overviewui.getButton("example").addActionListener(e->{
+        overviewui.getButton("refresh").addActionListener(e->{
 
             // 在此定义具体点击事件
             try {

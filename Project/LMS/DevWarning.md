@@ -112,8 +112,9 @@ example: `JButton closeButton = examplelogic.getThis().getButton(“close”);`
 
 ### 如何添加界面组件？
 
-1. 找到你想添加的界面对应的源文件`xxxUI.java`，在里面找到你想添加到的父`UI`\\`PL`
+1. 找到你想添加的界面对应的源文件`xxxUI.java`，在里面找到你想添加到的父`PAGE`\\`PL`
 2. 使用`put< Which Thing You Want >`
+3. 如果你做的是PL，那么别忘了把它用`putUI`方法注册到`logic`类里
 
 example: `putTextField("username", new JTextField(20));`
 
@@ -121,11 +122,11 @@ example: `putTextField("username", new JTextField(20));`
 
 | 组件名称           | 含义                                                       | 构造函数\类命名规范       |
 | ------------------ | ---------------------------------------------------------- | ------------------------- |
-| `UI`               | 用户视角的**每一个程序的主界面**（如`login`、`homepage`）  | [Class]`xxxUI`&`xxxLogic` |
+| `PAGE`             | 用户视角的**每一个程序的主界面**（如`login`、`homepage`）  | [Class]`xxxUI`&`xxxLogic` |
 | `PL`(`Panel`)      | 主界面里包含的子显示单元，(如`userInputBox`)封装为`JPanel` | [Function]`init_xxxPL`    |
 | `CP`(`Components`) | 子显示单元的构成组件                                       | [Function]`create_xxxCP`  |
 
-- 每一个大`UI`具有1~3个不等的`Panel`
+- 每一个大`PAGE`具有1~3个不等的`Panel`
 
 - UI支持嵌套实现，即UI本身也可以作为UI的显示框架
 

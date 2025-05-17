@@ -14,14 +14,14 @@ public class OverviewUI extends StandardUI {
         super();
 
         // 初始化面板
-        init_overviewPL();
+        init_overview();
 
         // 组件添加到面板
-        utils.addComponent(this, getPanel("overviewPL"), gbc, 1, 2);
+        utils.addComponent(this, getPanel("overview"), gbc, 1, 2);
     }
 
     // 主面板
-    private void init_overviewPL() {
+    private void init_overview() {
         JPanel panel = new JPanel();
         // 设置layout manager
         // panel.setPreferredSize(new Dimension(0, 9));
@@ -42,7 +42,7 @@ public class OverviewUI extends StandardUI {
 
 
         // 注册面板
-        panels.put("overviewPL", panel);
+        panels.put("overview", panel);
     }
 
     /**

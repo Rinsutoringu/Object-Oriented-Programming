@@ -22,7 +22,11 @@ public class exampleLogic extends StandardUILogical {
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
 
-
+    /**
+     * 构造函数要做的事情：
+     * 1. 初始化持有的Page对象
+     * 2. 把要用到的可视化组件（Page PL CP）注册到逻辑层
+     */
     public exampleLogic() {
 
         // 注册默认方法
