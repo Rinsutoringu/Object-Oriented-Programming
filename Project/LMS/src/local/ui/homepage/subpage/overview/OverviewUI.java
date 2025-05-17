@@ -10,6 +10,8 @@ import standard.StandardUI;
 
 public class OverviewUI extends StandardUI {
 
+    private DefaultTableModel tableModel;
+
     public OverviewUI() {
         super();
 
@@ -49,30 +51,34 @@ public class OverviewUI extends StandardUI {
      * 表格组件
      */
     private void createTableCP() {
-        
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+
+        // 创建表头
         Vector<String> columnNames = new Vector<String>();
         columnNames.add("Item Name");
         columnNames.add("Number");
         columnNames.add("Last Updated");
         columnNames.add("Update User");
 
-        // 创建表格模型
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-
-        // 创建表格
+        // 初始化表格模型，行数为0
+        tableModel = new DefaultTableModel(columnNames, 0);
+        
+        // 创建表格实体并应用表格模型
         JTable table = new JTable(tableModel);
 
-        // 将表格添加到面板
+        // 允许表格上下拖拽
         JScrollPane scrollPane = new JScrollPane(table);
-        utils.addComponent(panel, scrollPane, gbc, 0, 3, 2, 1,
+
+        utils.addComponent(panel, scrollPane, gbc, 0, 1, 1, 1,
                 GridBagConstraints.BOTH, 1, 1);
 
         putPanel("tableCP", panel);
-
     }
 
+    public DefaultTableModel getTableModel() {
+        return tableModel;
+    }
 
     @Override
     public OverviewUI getThis() {

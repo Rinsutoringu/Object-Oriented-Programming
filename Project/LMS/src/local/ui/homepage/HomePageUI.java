@@ -61,7 +61,7 @@ public class HomePageUI extends StandardUI {
         panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
         
-        buttons.put("overview", buildButton("OverView"));
+        buttons.put("briefing", buildButton("Show Briefing"));
         buttons.put("operation", buildButton("Operation"));
         buttons.put("stock", buildButton("Stock-in"));
         buttons.put("todo", buildButton("My ToDo"));
@@ -92,7 +92,7 @@ public class HomePageUI extends StandardUI {
 
     // 左栏(小的那个)
     private void create_subCP() {
-        
+
             JPanel panel = new JPanel(new BorderLayout());
             // DEBUG
             panel.setPreferredSize(new Dimension(20, 20));

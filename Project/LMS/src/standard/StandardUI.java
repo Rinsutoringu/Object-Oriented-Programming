@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import local.error.*;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
@@ -32,33 +32,33 @@ public abstract class StandardUI extends JPanel {
     /**
      * 按钮集合
      */
-    protected Map<String, AbstractButton> buttons = new HashMap<String, AbstractButton>();
+    protected Map<String, AbstractButton> buttons = new LinkedHashMap<String, AbstractButton>();
     /**
      * 面板集合
      */
-    protected Map<String, JPanel> panels = new java.util.HashMap<String, JPanel>();
+    protected Map<String, JPanel> panels = new LinkedHashMap<String, JPanel>();
     /**
      * 输入框集合 // TODO 我知道这个名字是有问题的但是我不是很想改
      */
-    protected Map<String, JTextField> textFields = new java.util.HashMap<String, JTextField>();
+    protected Map<String, JTextField> textFields = new LinkedHashMap<String, JTextField>();
     /**
      * 图片集合
      */
-    protected Map<String, BufferedImage> images = new java.util.HashMap<String, BufferedImage>();
+    protected Map<String, BufferedImage> images = new LinkedHashMap<String, BufferedImage>();
     /**
      * 选择框集合
      */
-    protected Map<String, JCheckBox> checkBoxs = new java.util.HashMap<String, JCheckBox>();
+    protected Map<String, JCheckBox> checkBoxs = new LinkedHashMap<String, JCheckBox>();
 
     /**
      * 下拉框集合
      */
-    protected Map<String, JComboBox<String>> comboBoxs = new java.util.HashMap<String, JComboBox<String>>();
+    protected Map<String, JComboBox<String>> comboBoxs = new LinkedHashMap<String, JComboBox<String>>();
 
     /**
      * 密码输入框集合
      */
-    protected Map<String, JPasswordField> passwordFields = new java.util.HashMap<String, JPasswordField>();
+    protected Map<String, JPasswordField> passwordFields = new LinkedHashMap<String, JPasswordField>();
 
     protected GridBagConstraints gbc;
 

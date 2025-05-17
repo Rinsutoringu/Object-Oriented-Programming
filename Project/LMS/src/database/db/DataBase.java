@@ -9,7 +9,9 @@ package database.db;
  * #########################
  */
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import database.error.DBConnectError;
@@ -213,5 +215,77 @@ public class DataBase {
 
         CfgIOutils.writejson("appconfig.cfg", map);
         
+    }
+
+    /**
+     * 获取数据库中的注册用户数量
+     * @return 用户数量
+     */
+    public int getNumOfUsers() {
+        String checkmsg = "SELECT COUNT(*) FROM staff";
+        try {
+            ResultSet rs = this.SearchDB(checkmsg);
+            // 检查 ResultSet 是否有数据
+            if (rs != null && rs.next()) {
+                return rs.getInt(1); // 获取第一列的计数值
+            }
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+        // 如果 ResultSet 为空或查询失败，返回默认值 0
+        return 0;
+    }
+
+    /**
+     * 获取数据库中记录的物资量
+     * @return 物资量
+     */
+    public int getNumOfObjects() {
+        String checkmsg = "SELECT COUNT(*) FROM Shelf";
+        try {
+            ResultSet rs = this.SearchDB(checkmsg);
+            // 检查 ResultSet 是否有数据
+            if (rs != null && rs.next()) {
+                return rs.getInt(1); // 获取第一列的计数值
+            }
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+        // 如果 ResultSet 为空或查询失败，返回默认值 0
+        return 0;
+    }
+
+    /**
+     * 从数据库拉取库存表
+     */
+    public List<Object[]> queryShelfTable() {
+        List<Object[]> result = new ArrayList<>();
+        String query = "SELECT obj_name, obj_number, obj_lastuptime, lastuser FROM shelf";
+        ResultSet rs = null;
+        try {
+            rs = this.SearchDB(query);
+            while (rs!= null && rs.next()) {
+                // 获取一行数据
+                Object[] row = new Object[4];
+                row[0] = rs.getString("obj_name");
+                row[1] = rs.getInt("obj_number");
+                row[2] = rs.getString("obj_lastuptime");
+                row[3] = rs.getString("lastuser");
+                // 将数据添加到结果列表中
+                result.add(row);
+            }
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        } finally {
+            // 关闭ResultSet
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                CatchException.handle(e, eh);
+            }
+        }
+        return result;
     }
 }

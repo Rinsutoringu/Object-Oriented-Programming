@@ -1,7 +1,9 @@
 package local.ui.homepage.subpage.overview;
 
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
+import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import standard.StandardUILogical;
@@ -22,6 +24,9 @@ public class OverviewLogic extends StandardUILogical {
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
 
+    // 获取工具
+    private DataBase dbUtils = DataBase.getInstance();
+
 
     public OverviewLogic() {
 
@@ -36,6 +41,7 @@ public class OverviewLogic extends StandardUILogical {
 
             // 初始化画面
             defaultView();
+            refreshTableData();
 
             // 初始化点击事件
             addButtonAction();
@@ -67,7 +73,7 @@ public class OverviewLogic extends StandardUILogical {
 
             // 在此定义具体点击事件
             try {
-                System.out.println("example button clicked");
+                refreshTableData();
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);
@@ -76,6 +82,20 @@ public class OverviewLogic extends StandardUILogical {
         }
         );
 
+    }
+
+    private void refreshTableData() {
+        try {
+            DefaultTableModel model = overviewui.getTableModel();
+            model.setRowCount(0); // 清空表格
+            // 查询数据库，返回List<Object[]>，每个Object[]为一行
+            java.util.List<Object[]> data = dbUtils.queryShelfTable();
+            for (Object[] row : data) {
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
     }
 
     // 获取实例

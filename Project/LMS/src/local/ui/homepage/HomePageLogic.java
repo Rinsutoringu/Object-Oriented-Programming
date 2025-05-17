@@ -11,10 +11,15 @@ public class HomePageLogic extends StandardUILogical {
      */
     private HomePageUI homepageUI;
 
+    private boolean isShowOverview;
+    private boolean isShowOperation;
+    private boolean isShowStock;
+
 
     // 本类构造函数
     public HomePageLogic() {
-        // 初始化父类
+        
+        // 注册默认方法
         super();
 
         // 初始化本类的UI对象
@@ -31,6 +36,9 @@ public class HomePageLogic extends StandardUILogical {
         putCP("sub", getThis().getPanel("sub"));
         putCP("main", getThis().getPanel("main"));
 
+        isShowOverview = false;
+        isShowOperation = false;
+        isShowStock = false;
 
         addButtonAction();
         defaultView();
@@ -39,7 +47,8 @@ public class HomePageLogic extends StandardUILogical {
     // 默认视图
     @Override
     protected void defaultView() {
-        // show(detailJpanel, panels.get("hellopage"));
+        showOverview();
+        
     }
 
     // 为按钮注册点击事件
@@ -47,9 +56,10 @@ public class HomePageLogic extends StandardUILogical {
     protected void addButtonAction() throws ActionAddFailed{
         try{
             // 在左侧窄栏展示数据总览
-            homepageUI.getButton("overview").addActionListener(e ->{
+            homepageUI.getButton("briefing").addActionListener(e ->{
                 // show(detailJpanel, panels.get("sidebar"));
-                show(getCP("main"), getPage("overview", "overview"));
+                // show(getCP("main"), getPage("overview", "overview"));
+                
             });
 
             // 在左栏展示聚合工具菜单
@@ -82,6 +92,39 @@ public class HomePageLogic extends StandardUILogical {
         } catch (Exception e) {
             throw new ActionAddFailed("为按钮添加事件失败", e);
         }
+    }
+
+    public void showOverview() {
+        if (isShowOverview) {
+            close();
+            
+            return;
+        }
+        else {
+            show(getCP("main"), getPage("overview", "overview"));
+            isShowOverview = true;
+        }
+    }
+
+    public void showOperation() {
+        if (isShowOperation) {
+            return;
+        }
+        isShowOperation = true;
+    }
+
+    public void showStock() {
+        if (isShowStock) {
+            return;
+        }
+        isShowStock = true;
+    }
+
+    public void close() {
+        show(getCP("sub"), getPage("overview", "overview"));
+        isShowOverview = false;
+        isShowOperation = false;
+        isShowStock = false;
     }
 
     public HomePageUI getThis() {

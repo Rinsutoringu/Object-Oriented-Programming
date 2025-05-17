@@ -34,12 +34,13 @@ public class User {
         usr = usr.trim();
         pwd = pwd.trim();
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
+        ResultSet rs = null;
         try {
             Connection connection = db.getConnection();
             if (connection == null || connection.isClosed()) 
                 throw new DBConnectError("Database connection is not available");
             // 查找这个用户名对应的数据库信息
-            ResultSet rs = db.SearchDB(query);
+            rs = db.SearchDB(query);
             // 如果查找失败\压根没这个人则失败
             if (rs == null || !rs.next()) {
                 throw new UserInfoError("User not exist");
@@ -54,7 +55,16 @@ public class User {
         } catch (Exception e) {
             CatchException.handle(e, eh);
             return false;
+        } finally {
+            // 关闭连接
+            try {
+                rs.close();
+                }
+             catch (Exception e) {
+                CatchException.handle(e, eh);
+            }
         }
+
     }
 
     /**
