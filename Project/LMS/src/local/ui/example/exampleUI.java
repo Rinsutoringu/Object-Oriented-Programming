@@ -4,51 +4,70 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import database.errorhandle.CatchException;
+import database.errorhandle.errorHandler;
 import standard.StandardUI;
 
 public class exampleUI extends StandardUI {
 
+    // 定义错误处理器
+    private errorHandler eh = errorHandler.getInstance();
+
     public exampleUI() {
+        
+        // 初始化UI并注册默认方法
         super();
 
-        // 初始化组件,按需调用错误处理器
-        init_examplewindow();
+        try {
+            // 初始化本类自有的PL
+            init_examplePL();
 
-        // 组件添加到面板
-        utils.addComponent(this, getPanel("examplewindow"), gbc, 1, 2);
+            // 把本类PL加入到UI
+            utils.addComponent(this, getPanel("examplewindow"), gbc, 1, 2);
+        } catch (Exception e) {
+            // 使用默认错误处理器处理错误
+            CatchException.handle(e, eh);
+        }
     }
-    // 面板搞定
 
-    // 这是一个示范组件
-    private void init_examplewindow() {
+    // 这是一个示范PL单元
+    private void init_examplePL() {
         JPanel panel = new JPanel();
         // 设置layout manager
         // panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new GridBagLayout()); 
 
-        // 创建界面上需要的组件
+        // 创建PL单元上需要的组件
+        createExample();
         putButton("example", new JButton("Example"));
-        putButton("example2", new JButton("Example2"));
 
-        putCheckBox("example3", new JCheckBox("Example3"));
-        putCheckBox("example4", new JCheckBox("Example4"));
+        // 设置组件到PL单元
 
-        // 设置组件到面板
-        utils.addComponent(panel, getButton("example"), gbc, 1, 1);
+        short gheight = 0;
 
-        utils.addComponent(panel, getButton("example2"), gbc, 2, 1, 1, 1,
+        utils.addComponent(panel, getPanel("example1"), gbc, gmiddle, ++gheight);
+
+        utils.addComponent(panel, getButton("example"), gbc, gmiddle, ++gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, getCheckBox("example3"), gbc, 1, 2);
-
-        utils.addComponent(panel, getCheckBox("example4"), gbc, 2, 2, 1, 1,
-        GridBagConstraints.NONE, 1, 1);
-
-
-        // 注册面板
+        // 注册PL单元
         panels.put("examplewindow", panel);
     }
 
+    // 这是一个示范CP组件
+    private void createExample() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout()); 
+
+        putButton("example1", new JButton("Example1"));
+
+        // 设置组件到CP组件
+        utils.addComponent(panel, getButton("example1"), gbc, 1, 1, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+        // 注册CP组件
+        panels.put("example1", panel);
+    }
 
     @Override
     public exampleUI getThis() {

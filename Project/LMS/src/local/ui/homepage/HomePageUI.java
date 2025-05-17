@@ -18,35 +18,48 @@ public class HomePageUI extends StandardUI {
 
         // init view
         try {
-            init_topview();
-            init_detailJPanel();
-            init_overJPanel();
+            init_homepagePL();
+            utils.addComponent( this, this.getPanel("homepage"), gbc, 1, 1);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
 
         // 界面的基本布局已在StandardUI中完成
         // 添加组件
+
+    }
+
+
+    private void init_homepagePL() {
+        JPanel panel = new JPanel();
+        
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        create_topCP();
+        create_detailCP();
+        create_overCP();
         utils.addComponent(this, panels.get("topview"), gbc, 0, 0,1, 0.1,
         GridBagConstraints.BOTH, 2, 1);
         utils.addComponent(this, panels.get("details"), gbc, 0, 1, 1, 0.9,
         GridBagConstraints.BOTH, 1, 1);
         utils.addComponent(this, panels.get("overview"), gbc, 1, 1, 2.5, 0.9,
         GridBagConstraints.BOTH, 1, 1);
+
+        putPanel("homepage", panel);
     }
 
     // 顶栏
-    private void init_topview() {
+    private void create_topCP() {
 
         JPanel panel = new JPanel();
         // 设置topview建议间隔
         panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
         
-        buttons.put("overview", topButton("OverView"));
-        buttons.put("search", topButton("Search Lab"));
-        buttons.put("stock", topButton("Stock-in"));
-        buttons.put("todo", topButton("My ToDo"));
+        buttons.put("overview", buildButton("OverView"));
+        buttons.put("operation", buildButton("Operation"));
+        buttons.put("stock", buildButton("Stock-in"));
+        buttons.put("todo", buildButton("My ToDo"));
 
         // 按钮间隔
         int buttonGap = 20;
@@ -62,22 +75,22 @@ public class HomePageUI extends StandardUI {
             panels.put("topview", panel);
         }
 
-    // 大的，主，总览栏
-    private void init_overJPanel() {
+    // 右栏(大的那个)
+    private void create_overCP() {
             JPanel panel = new JPanel(new BorderLayout());
             panel.setBackground(Color.BLUE);        
             panels.put("overview", panel);
     }
 
-    // 小的，条目一览栏
-    private void init_detailJPanel() {
+    // 左栏(小的那个)
+    private void create_detailCP() {
             JPanel panel = new JPanel(new BorderLayout());
             panel.setBackground(Color.ORANGE);
             panel.setPreferredSize(new Dimension(100, 100));
             panels.put("details", panel);
     }
     // 按钮
-    private JButton topButton(String ButtonText) {
+    private JButton buildButton(String ButtonText) {
         JButton button = new JButton();
         button.setText(ButtonText);
         return button;        

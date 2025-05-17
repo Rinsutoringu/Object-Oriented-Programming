@@ -13,48 +13,42 @@ public class OverviewUI extends StandardUI {
     public OverviewUI() {
         super();
 
-        createTable();
-
-        // 初始化组件,按需调用错误处理器
-        init_overview();
+        // 初始化面板
+        init_overviewPL();
 
         // 组件添加到面板
-        utils.addComponent(this, getPanel("overview"), gbc, 1, 2);
+        utils.addComponent(this, getPanel("overviewPL"), gbc, 1, 2);
     }
-    // 面板搞定
 
-    // 这是一个示范组件
-    private void init_overview() {
+    // 主面板
+    private void init_overviewPL() {
         JPanel panel = new JPanel();
         // 设置layout manager
         // panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new GridBagLayout()); 
 
         // 创建界面上需要的组件
-
-        
+        createTableCP();
+        this.putButton("refresh", new JButton("Refresh"));
 
         // 设置组件到面板
+        short gheight = 0;
 
-        utils.addComponent(panel, getPanel("table"), gbc, 0, 3, 2, 1,
-                GridBagConstraints.BOTH, 1, 1);
-
-        utils.addComponent(panel, buttons.get("example"), gbc, 1, 1);
-
-        utils.addComponent(panel, buttons.get("example2"), gbc, 2, 1, 1, 1,
-        GridBagConstraints.NONE, 1, 1);
-
-        utils.addComponent(panel, checkBoxs.get("example3"), gbc, 1, 2);
-
-        utils.addComponent(panel, checkBoxs.get("example4"), gbc, 2, 2, 1, 1,
-        GridBagConstraints.NONE, 1, 1);
+        utils.addComponent(panel, getPanel("tableCP"), gbc, gmiddle, gheight++, 1, 1, 
+            GridBagConstraints.BOTH, 1, 1);
+        
+        utils.addComponent(panel, getButton("refresh"), gbc, gmiddle, gheight++, 1, 1,
+            GridBagConstraints.NONE, 1, 1);
 
 
         // 注册面板
-        panels.put("overview", panel);
+        panels.put("overviewPL", panel);
     }
 
-    private void createTable() {
+    /**
+     * 表格组件
+     */
+    private void createTableCP() {
         
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
@@ -75,7 +69,7 @@ public class OverviewUI extends StandardUI {
         utils.addComponent(panel, scrollPane, gbc, 0, 3, 2, 1,
                 GridBagConstraints.BOTH, 1, 1);
 
-        putPanel("table", panel);
+        putPanel("tableCP", panel);
 
     }
 

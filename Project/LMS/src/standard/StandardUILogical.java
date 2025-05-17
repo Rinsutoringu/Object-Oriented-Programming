@@ -1,6 +1,8 @@
 package standard;
 
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.AbstractButton;
 import javax.swing.JCheckBox;
@@ -156,5 +158,35 @@ public abstract class StandardUILogical extends StandardUI {
     public JPasswordField getPasswordField(String name) {
         throw new GUIActionFailed("This method is not supported in StandardUILogical");
     }
+    
+    /**
+     * logic类所持有UI对象的注册表
+     */
+    protected Map<String, StandardUILogical> uiRegistry = new HashMap<>();
 
+    /**
+     * logic提供对持有UI对象的注册表
+     * @exception GUIActionFailed 注册失败
+     */
+    public void putUI(String name, StandardUILogical ui) {
+        try {
+            this.uiRegistry.put(name, ui);
+        } catch (Exception e) {
+            throw new GUIActionFailed("为UI对象添加注册失败", e);
+        }
+    }
+
+    /**
+     * logic类获取UI对象
+     * @param name 待获取对象的名称
+     * @return 获取到的UI对象
+     * @exception GUIActionFailed 获取失败
+     */
+    public StandardUILogical getUI(String name) {
+        try {
+            return this.uiRegistry.get(name);
+        } catch (Exception e) {
+            throw new GUIActionFailed("获取UI对象失败", e);
+        }
+    }
 }

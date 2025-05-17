@@ -1,81 +1,88 @@
 package local.ui.homepage;
 
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
-
 import local.error.ActionAddFailed;
-import local.ui.homepage.subpage.*;
-import local.ui.homepage.subpage.overview.OverviewOLD;
+import local.ui.homepage.subpage.overview.OverviewLogic;
 import standard.StandardUILogical;
 
 public class HomePageLogic extends StandardUILogical {
-    // public static final int DEFAULT = 0;
+
+    // 声明UI句柄变量
+    /**
+     * 本类持有Overview UI
+     */
+    private OverviewLogic overviewLogic;
+
+    // 声明PL句柄变量
+    /**
+     * 本类持有detail PL
+     */
     private JPanel detailJpanel;
+
+    /**
+     * 本类持有overview PL
+     */
     private JPanel overJPanel;
+
+    /**
+     * 本类持有topview PL
+     */
     // private JPanel topviewPanel;
+
+    /**
+     * 本类持有homepage UI
+     */
     private HomePageUI homepageUI;
 
-    public HomePageLogic() {
-        super();
-        // 初始化界面各组件
-        homepageUI = new HomePageUI();
-        this.detailJpanel = homepageUI.getPanel("details");
-        this.overJPanel = homepageUI.getPanel("overview");
-        // this.topviewPanel = homepageUI.getPanel("topview");
 
-        // 把费事的加载丢到后台同步进行
-        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-                panels.put("sidebar", new SideBar());
-                panels.put("overview", new OverviewOLD());
-                panels.put("search", new Search());
-                panels.put("stock", new Stock());
-                panels.put("todo", new UserToDo());
-                panels.put("hellopage", new HelloPage());
-                return null;
-            }
-            @Override
-            protected void done() {
-                defaultView();
-            }
-        };
-        worker.execute();
+    // 本类构造函数
+    public HomePageLogic() {
+        // 初始化父类
+        super();
+
+        // 初始化UI
+        homepageUI = new HomePageUI();
+
+        // 初始化UI所持有的UI定义
+        overviewLogic = new OverviewLogic();
+
+
         addButtonAction();
+        defaultView();
    }
 
     // 默认视图
     @Override
     protected void defaultView() {
-        show(detailJpanel, panels.get("hellopage"));
+        // show(detailJpanel, panels.get("hellopage"));
     }
 
     // 为按钮注册点击事件
     @Override
     protected void addButtonAction() throws ActionAddFailed{
         try{
-            // OverView页面
+            // 在左侧窄栏展示数据总览
             homepageUI.getButton("overview").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
                 show(overJPanel, panels.get("overview"));
             });
 
-            // search页面
-            homepageUI.getButton("search").addActionListener(e ->{
+            // 在左栏展示聚合工具菜单
+            homepageUI.getButton("operation").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
-                show(overJPanel, panels.get("search"));
+                show(overJPanel, panels.get("operation"));
             });
 
-            // stock页面
+            // 在左栏展示快速添加菜单
             homepageUI.getButton("stock").addActionListener(e ->{
                 show(detailJpanel, panels.get("sidebar"));
                 show(overJPanel, panels.get("stock"));
             });
 
-            // To do页面
+            // 打开新UI：用户的个人待办
+            // TODO 该按钮应该被注册到MainWindowLogic.java中
             homepageUI.getButton("todo").addActionListener(e ->{
-                show(detailJpanel, panels.get("sidebar"));
-                show(overJPanel, panels.get("todo"));
+                throw new ActionAddFailed("请到MainWindowLogic.java中注册该按钮");
             });
         } catch (Exception e) {
             throw new ActionAddFailed("为按钮添加事件失败", e);

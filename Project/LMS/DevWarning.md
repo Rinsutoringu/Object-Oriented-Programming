@@ -72,6 +72,7 @@ mysql
 - `UI`负责注册UI组件、画面构架, 提供包含`buttons, panels, images, checkBoxs`等注册数据的`hashMap`
 
 - 其父类中已经定义好所有需要的工具类，直接使用对应方法就可以
+- UI包含了PL的集合，
 
 - Logic负责给UI类中注册的组件添加事件（从上述`hashmap`中获取组件）
 
@@ -101,3 +102,34 @@ case "<启动指令>":
 ```
 
 按下F5运行，选择对应的预设指令即可
+
+### 如何获取一个界面组件？
+
+1. 拿到那个组件所属界面的logic句柄
+2. 使用`xxxlogic.getThis().get< Which Thing You Want >()`，该方法返回(如果有的话)该组件的句柄
+
+example: `JButton closeButton = examplelogic.getThis().getButton(“close”);`
+
+### 如何添加界面组件？
+
+1. 找到你想添加的界面对应的源文件`xxxUI.java`，在里面找到你想添加到的父`UI`\\`PL`
+2. 使用`put< Which Thing You Want >`
+
+example: `putTextField("username", new JTextField(20));`
+
+### 设计规范
+
+| 组件名称           | 含义                                                       | 构造函数\类命名规范       |
+| ------------------ | ---------------------------------------------------------- | ------------------------- |
+| `UI`               | 用户视角的**每一个程序的主界面**（如`login`、`homepage`）  | [Class]`xxxUI`&`xxxLogic` |
+| `PL`(`Panel`)      | 主界面里包含的子显示单元，(如`userInputBox`)封装为`JPanel` | [Function]`init_xxxPL`    |
+| `CP`(`Components`) | 子显示单元的构成组件                                       | [Function]`create_xxxCP`  |
+
+- 每一个大`UI`具有1~3个不等的`Panel`
+
+- UI支持嵌套实现，即UI本身也可以作为UI的显示框架
+
+- 每个`Panel`具有很多的`Components`
+
+- 被持有者的初始化交给其持有者进行
+- CP不应出现在`Logic`的构造函数中
