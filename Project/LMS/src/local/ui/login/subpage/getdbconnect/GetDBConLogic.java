@@ -63,10 +63,10 @@ public class GetDBConLogic extends StandardUILogical {
                         dbType = "jdbc:mysql://";
                         break;
                     case "PostgreSQL":
-                        dbType = "jdbc:mysql://";
+                        dbType = "jdbc:postgresql://";
                         break;
                     case "SQLite":
-                        dbType = "jdbc:mysql://";
+                        dbType = "jdbc:sqlite:";
                         break;
                     default:
                         break;

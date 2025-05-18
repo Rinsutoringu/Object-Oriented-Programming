@@ -79,6 +79,22 @@ public class DataBase {
 
     }
 
+    // 获取当前时间的SQL
+    public String getNowFunction() {
+        String dbType = GlobalVariables.getDBType();
+        switch (dbType) {
+            case "MySQL":
+                return "NOW()";
+            case "PostgreSQL":
+                return "CURRENT_TIMESTAMP";
+            case "SQLite":
+                return "datetime('now')";
+            default:
+                return "NOW()";
+        }
+    }
+
+
     // 断开连接
     public void disconnect() {
         try {
