@@ -19,6 +19,9 @@ public class GlobalVariables {
     public static String dbPassword = "WPR_2333";
     public static String dbPort = "3306";
 
+    public static String staffTableName = "staff";
+    public static String shelfTableName = "shelf";
+
     // 这里存储了全局配色方案
     public static final Color getDBConLogic = new Color(244, 245, 246);
 
@@ -102,6 +105,22 @@ public class GlobalVariables {
 
     public static Color cgetSideBarLogic() {
         return sideBarLogic;
+    }
+
+    public static void setShelfTableName(String shelfTableName) {
+        GlobalVariables.shelfTableName = shelfTableName;
+    }
+
+    public static String getShelfTableName() {
+        return shelfTableName;
+    }
+
+    public static void setStaffTableName(String staffTableName) {
+        GlobalVariables.staffTableName = staffTableName;
+    }
+
+    public static String getStaffTableName() {
+        return staffTableName;
     }
 
 }

@@ -74,18 +74,15 @@ public class SideBarUI extends StandardUI {
         putPanel("addandedit", panel);
     }
 
-    // 这是一个示范CP组件
+    // 增改组件
     private void userinput() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
 
-        putButton("example", new JButton("Example"));
         putTextField("objectname", new JTextField(15));
         putButton("minus1", new JButton("-1"));
-        putTextField("objectnumber", new JTextField(4));
+        putTextField("objectnumber", new JTextField("1",4));
         putButton("plus1", new JButton("+1"));
-
-
 
         short gheight = 0;
 
@@ -114,13 +111,14 @@ public class SideBarUI extends StandardUI {
         putPanel("userinput", panel);
     }
 
+    // 搜索组件
     private void createSearch() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
 
         putTextField("search", new JTextField(10));
         putButton("search", new JButton("Search"));
-        putTextField("result", new JTextField(18));
+        putTextField("result", new JTextField("Search Result will show here.",18));
         putButton("clear", new JButton("Clear"));
 
 

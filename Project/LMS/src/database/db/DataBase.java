@@ -118,7 +118,7 @@ public class DataBase {
     }
 
     /**
-     * 查询数据库数据
+     * 查询数据库数据-已弃用
      * @param query 数据库操作语句
      * @return 查询到的ResultSet类型数组，没查到会报错
      */
@@ -134,25 +134,110 @@ public class DataBase {
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
-
         return null;
     }
 
     /**
-     * 编辑数据库数据
-     * @param query 数据库操作语句
-     * @return 受到影响的行数
+     * 通用数据库查询方法
+     * @param tableName 表名
+     * @param whereMap 条件map，key为字段名，value为字段值
+     * @return 查询结果ResultSet（用完后记得关闭）
      */
-    public int UpdateDB(String query) throws SQLException {
-        try {
-            Connection connection = this.getConnection();
-            Statement statement = connection.createStatement();
-            return statement.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new SQLException("Failed to update database", e);
+    public ResultSet queryRow(String tableName, Map<String, Object> whereMap) throws Exception {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(tableName);
+        if (whereMap != null && !whereMap.isEmpty()) {
+            sql.append(" WHERE ");
+            int i = 0;
+            for (Map.Entry<String, Object> entry : whereMap.entrySet()) {
+                if (i++ > 0) sql.append(" AND ");
+                sql.append(entry.getKey()).append("='").append(entry.getValue()).append("'");
+            }
         }
-    } 
+        Connection conn = getConnection();
+        Statement stmt = conn.createStatement();
+        return stmt.executeQuery(sql.toString());
+    }
+
+    /**
+     * 编辑数据库数据
+     * @param tableName 表名
+     * @param whereMap 条件map，key为字段名，value为字段值
+     * @param updateMap 更新map，key为字段名，value为字段值
+     */
+    public void updateRow(String tableName, Map<String, Object> whereMap, Map<String, Object> updateMap) throws Exception {
+        if (whereMap == null || whereMap.isEmpty() || updateMap == null || updateMap.isEmpty()) {
+            throw new IllegalArgumentException("whereMap和updateMap不能为空");
+        }
+        StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
+        int i = 0;
+        for (Map.Entry<String, Object> entry : updateMap.entrySet()) {
+            if (i++ > 0) sql.append(", ");
+            sql.append(entry.getKey()).append("='").append(entry.getValue()).append("'");
+        }
+        sql.append(" WHERE ");
+        i = 0;
+        for (Map.Entry<String, Object> entry : whereMap.entrySet()) {
+            if (i++ > 0) sql.append(" AND ");
+            sql.append(entry.getKey()).append("='").append(entry.getValue()).append("'");
+        }
+        try (Connection conn = getConnection();
+            Statement stmt = conn.createStatement()) {
+            System.out.println("SQL: " + sql.toString());
+            stmt.executeUpdate(sql.toString());
+        }
+    }
+
+    /**
+     * 插入数据库数据
+     * @param tableName 表名
+     * @param valueMap 插入map，key为字段名，value为字段值
+     */
+    public void insertRow(String tableName, Map<String, Object> valueMap) throws Exception {
+        if (valueMap == null || valueMap.isEmpty()) {
+            throw new IllegalArgumentException("valueMap不能为空");
+        }
+        StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
+        StringBuilder values = new StringBuilder();
+        int i = 0;
+        for (Map.Entry<String, Object> entry : valueMap.entrySet()) {
+            if (i++ > 0) {
+                sql.append(", ");
+                values.append(", ");
+            }
+            sql.append(entry.getKey());
+            values.append("'").append(entry.getValue()).append("'");
+        }
+        sql.append(") VALUES (").append(values).append(")");
+        try (Connection conn = getConnection();
+            Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql.toString());
+        }
+    }
+
+    /**
+     * 通用数据库删除方法
+     * @param tableName 表名
+     * @param whereMap 条件map，key为字段名，value为字段值
+     */
+    public void deleteRow(String tableName, Map<String, Object> whereMap) throws Exception {
+        if (whereMap == null || whereMap.isEmpty()) {
+            throw new IllegalArgumentException("whereMap不能为空");
+        }
+        StringBuilder sql = new StringBuilder("DELETE FROM ").append(tableName).append(" WHERE ");
+        int i = 0;
+        for (String key : whereMap.keySet()) {
+            if (i++ > 0) sql.append(" AND ");
+            sql.append(key).append("=?");
+        }
+        try (Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+            int idx = 1;
+            for (Object value : whereMap.values()) {
+                pstmt.setObject(idx++, value);
+            }
+            pstmt.executeUpdate();
+        }
+    }
 
     /**
      * 从配置文件加载数据库连接信息

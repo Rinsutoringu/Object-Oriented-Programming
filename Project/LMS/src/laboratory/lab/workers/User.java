@@ -3,12 +3,14 @@ package laboratory.lab.workers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
 import local.error.AuthFailed;
 import local.error.UserInfoError;
-
+import standard.GlobalVariables;
 import database.errorhandle.errorHandler;
 import database.db.DataBase;
 
@@ -77,23 +79,14 @@ public class User {
     public static void Register(String usr, String pwd) throws UserInfoError, DBConnectError {
         usr = usr.trim();
         pwd = pwd.trim();
-        // 将用户名和密码插入数据库，同时为index增加1
-        // 获取当前时间
-        String insertQuery = "INSERT INTO staff (username, password, regdate, state) VALUES (?, ?, NOW(), 1)";
-        // String updateIndexQuery = "UPDATE staff SET staff_index = staff_index + 1 WHERE username = ?";
+        // 构造键值表
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", usr);
+        map.put("password", pwd);
+        map.put("regdate", new java.sql.Timestamp(System.currentTimeMillis()));
+        map.put("state", 1);
         try {
-
-            // DEBUG
-            // System.out.println("Executing query: " + insertQuery);
-            // System.out.println("Username: " + usr + ", Password: " + pwd);
-
-            // 创建预编译语句，
-            PreparedStatement insertStatement = DataBase.getInstance().getConnection().prepareStatement(insertQuery);
-            insertStatement.setString(1, usr);
-            insertStatement.setString(2, pwd);
-            // 执行插入操作
-            insertStatement.executeUpdate();
-
+            db.insertRow(GlobalVariables.getStaffTableName(), map);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
