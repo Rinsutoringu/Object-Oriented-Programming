@@ -3,6 +3,7 @@ package local.ui.login.subpage.getdbconnect;
 
 import javax.swing.JPanel;
 
+import standard.GlobalVariables;
 import standard.StandardUILogical;
 import database.db.DataBase;
 import database.errorhandle.CatchException;
@@ -52,27 +53,30 @@ public class GetDBConLogic extends StandardUILogical {
 
         getdbconUI.getButton("save").addActionListener(e -> {
             try {
-                String dbType = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
+                String dbHead = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
                 String dbaddr = getdbconUI.getTextField("dbAddress").getText();
                 String dbport = getdbconUI.getTextField("dbPort").getText();
                 String dbuser = getdbconUI.getTextField("dbUser").getText();
                 String dbpassword = getdbconUI.getTextField("dbPassword").getText();
                 
-                switch (dbType) {
+                switch (dbHead) {
                     case "MySQL":
-                        dbType = "jdbc:mysql://";
+                        dbHead = "jdbc:mysql://";
+                        GlobalVariables.setDBHead(dbHead);
                         break;
                     case "PostgreSQL":
-                        dbType = "jdbc:postgresql://";
+                        dbHead = "jdbc:postgresql://";
+                        GlobalVariables.setDBHead(dbHead);
                         break;
                     case "SQLite":
-                        dbType = "jdbc:sqlite:";
+                        dbHead = "jdbc:sqlite:";
+                        GlobalVariables.setDBHead(dbHead);
                         break;
                     default:
                         break;
                 }
                 // 写入到配置文件
-                dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
+                dbutils.addDBCredentials(dbHead, dbaddr, dbuser, dbpassword, dbport);
                 new MiniOption("LMS", "Your DataBase Connect Information save success! ", 1);
                 
             } catch (Exception ex) {

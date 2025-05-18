@@ -13,11 +13,12 @@ public class GlobalVariables {
     // 数据库连接信息存储在这里
     // public static String dbfullUrl = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
     public static String dbUrl = "192.168.101.103";
-    public static String dbType = "jdbc:mysql://";
+    public static String dbHead = "jdbc:mysql://";
     public static String dbName = "LMS_sql";
     public static String dbUser = "root";
     public static String dbPassword = "WPR_2333";
     public static String dbPort = "3306";
+    public static String dbType = "mysql";
 
     public static String staffTableName = "staff";
     public static String shelfTableName = "shelf";
@@ -35,7 +36,7 @@ public class GlobalVariables {
 
     private GlobalVariables() {
         dbUrl = "192.168.101.103";
-        dbType = "jdbc:mysql://";
+        dbHead = "jdbc:mysql://";
         dbName = "LMS_sql";
         dbUser = "root";
         dbPassword = "WPR_2333";
@@ -54,8 +55,17 @@ public class GlobalVariables {
         GlobalVariables.dbUrl = dbUrl;
     }
 
-    public static void setDBType(String dbType) {
-        GlobalVariables.dbType = dbType;
+    // Renamed to setDBHead for clarity and to avoid duplicate method
+    public static void setDBHead(String dbHead) {
+        GlobalVariables.dbHead = dbHead;
+    }
+
+    public static String getDBHead() {
+        return dbHead;
+    }
+
+    public static String getDBName() {
+        return dbName;
     }
 
     public static void setDBName(String dbName) {
@@ -73,26 +83,30 @@ public class GlobalVariables {
     public static void setDBPort(String dbPort) {
         GlobalVariables.dbPort = dbPort;
     }
-    
-    public static String getDBConnAddress() {
-        return GlobalVariables.dbType + GlobalVariables.dbUrl + ":" + GlobalVariables.dbPort + "/" + GlobalVariables.dbName;
+
+    public static String getDBUrl() {
+        return dbUrl;
+    }
+
+    public static String getDBPort() {
+        return dbPort;
     }
 
     public static String getDBUser() {
-        return GlobalVariables.dbUser;
+        return dbUser;
     }
 
     public static String getDBPassword() {
-        return GlobalVariables.dbPassword;
+        return dbPassword;
     }
 
 
     public static void setUserName(String userName) {
-        GlobalVariables.currentUsr = userName;
+        currentUsr = userName;
     }
 
     public static String getUserName() {
-        return GlobalVariables.currentUsr;
+        return currentUsr;
     }
 
     public static Color cgetDBConLogic() {
@@ -121,6 +135,14 @@ public class GlobalVariables {
 
     public static String getStaffTableName() {
         return staffTableName;
+    }
+
+    public static void setDBType(String dbType) {
+        GlobalVariables.dbType = dbType;
+    }
+
+    public static String getDBType() {
+        return dbType;
     }
 
 }

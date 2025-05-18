@@ -61,22 +61,51 @@ public class DataBase {
         return null;
     }
 
+    // 获取驱动类名
+    private String getDriverClass() {
+        String dbType = GlobalVariables.getDBType();
+        switch (dbType) {
+            case "MySQL":
+                return "com.mysql.cj.jdbc.Driver";
+            case "PostgreSQL":
+                return "org.postgresql.Driver";
+            case "SQLite":
+                return "org.sqlite.JDBC";
+            default:
+                return "com.mysql.cj.jdbc.Driver";
+        }
+    }
+
+    // 获取连接字符串
+    private String getConnectionUrl() {
+        String dbHead = GlobalVariables.getDBHead();
+        String url = GlobalVariables.getDBUrl();
+        String port = GlobalVariables.getDBPort();
+        String dbName = GlobalVariables.getDBName(); // 你可以从url或配置中解析出数据库名
+        switch (dbHead) {
+            case "MySQL":
+                return "jdbc:mysql://" + url + ":" + port + "/" + dbName + "?useSSL=false&serverTimezone=UTC";
+            case "PostgreSQL":
+                return "jdbc:postgresql://" + url + ":" + port + "/" + dbName;
+            case "SQLite":
+                return "jdbc:sqlite:" + url; // SQLite只需要文件路径
+            default:
+                return "";
+        }
+    }
+
     // 创建连接对象
     public Connection createConnect() throws DBConnectError, Exception {
         try {
-            // ?connectTimeout=5000
-            // String url = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
-            // String usr = "root";
-            // String pwd = "WPR_2333";
-            // 从配置文件读取数据库连接信息
             this.update_DBCredentials_From_Config();
-            return DriverManager.getConnection(GlobalVariables.getDBConnAddress(), GlobalVariables.getDBUser(), GlobalVariables.getDBPassword());
-
+            String driver = getDriverClass();
+            Class.forName(driver);
+            String url = getConnectionUrl();
+            return DriverManager.getConnection(url, GlobalVariables.getDBUser(), GlobalVariables.getDBPassword());
         } catch (Exception e) {
             CatchException.handle(e, eh);
             return null;
         }
-
     }
 
     // 获取当前时间的SQL
@@ -284,7 +313,7 @@ public class DataBase {
     /**
      * 保存数据库连接信息到配置文件
      */
-    public void addDBCredentials(String dbtype, String url, String user, String password, String port) {
+    public void addDBCredentials(String dbHead, String url, String user, String password, String port) {
         Map<String,Map<String, String>> map = CfgIOutils.readjson("appconfig.cfg");
 
         if (map == null) map = new HashMap<>();
@@ -293,7 +322,7 @@ public class DataBase {
 
         if (dbconfig == null) dbconfig = new HashMap<>();
 
-        dbconfig.put("dbtype", dbtype);
+        dbconfig.put("dbtype", dbHead);
         dbconfig.put("dbaddr", url);
         dbconfig.put("dbuser", user);
         dbconfig.put("dbpassword", password);

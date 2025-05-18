@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
         "src",
+        "lib"
     ],
     "java.project.outputPath": "bin",
     "java.debug.settings.onBuildFailureProceed": true

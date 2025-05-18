@@ -57,6 +57,19 @@ public class GetDBConUI extends StandardUI{
         String[] dbTypes = {"MySQL", "PostgreSQL", "SQLite"};
         JComboBox<String> dbTypeCombo = new JComboBox<>(dbTypes);
         comboBoxs.put("dbType", dbTypeCombo);
+
+        dbTypeCombo.addActionListener(e -> {
+            String selected = (String) dbTypeCombo.getSelectedItem();
+            javax.swing.JTextField dbAddress = getTextField("dbAddress");
+            javax.swing.JTextField dbPort = getTextField("dbPort");
+            if ("SQLite".equals(selected)) {
+                dbAddress.setEnabled(true);
+                dbPort.setEnabled(false);
+            } else {
+                dbAddress.setEnabled(true);
+                dbPort.setEnabled(true);
+            }
+        });
     }
 
     private void createUserInput() {
