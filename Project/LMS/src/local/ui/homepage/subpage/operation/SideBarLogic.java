@@ -42,6 +42,8 @@ public class SideBarLogic extends StandardUILogical {
 
     private DataBase dbutils = DataBase.getInstance();
 
+    private JTable table;
+
     /**
      * 构造函数要做的事情：
      * 1. 初始化持有的Page对象
@@ -60,6 +62,9 @@ public class SideBarLogic extends StandardUILogical {
 
             // 初始化父类句柄
             this.homepagelogic = homepagelogic;
+
+            // 初始化类中持有的句柄
+            this.table = getTable();
 
             // 初始化类中自有的PL（全屏）
             // TODO 并没有PL
@@ -162,7 +167,9 @@ public class SideBarLogic extends StandardUILogical {
             try {
                 String userInput = getUserInput();
                 if (userInput.isEmpty()) return;
-                getTable().getCellEditor().stopCellEditing();
+                if (table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
                 // 构造键值对
                 Map<String, Object> whereMap = new java.util.HashMap<>();
                 whereMap.put("obj_name", userInput);
@@ -242,6 +249,19 @@ public class SideBarLogic extends StandardUILogical {
                 CatchException.handle(ex, eh);
             }
         });
+
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = table.getSelectedRow();
+                int rowCount = table.getRowCount();
+                if (selectedRow != -1 && selectedRow < rowCount) {
+                    setUserInput((String)table.getValueAt(selectedRow, 0));
+                }
+            }
+        });
+
+
+
     }
 
     private String getUserSearch() {

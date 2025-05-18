@@ -84,27 +84,29 @@ public class OverviewLogic extends StandardUILogical {
 
     }
 
-public void refreshTableData() {
-    try {
-        DefaultTableModel model = overviewui.getTableModel();
-        int columnCount = model.getColumnCount();
-        model.setRowCount(0);
-        java.util.List<Object[]> data = dbUtils.queryShelfTable();
-        for (Object[] row : data) {
-            if (row.length != columnCount) {
-                Object[] fixedRow = new Object[columnCount];
-                for (int i = 0; i < columnCount; i++) {
-                    fixedRow[i] = i < row.length ? row[i] : null;
+    public void refreshTableData() {
+        try {
+            DefaultTableModel model = overviewui.getTableModel();
+            int columnCount = model.getColumnCount();
+            model.setRowCount(0);
+            java.util.List<Object[]> data = dbUtils.queryShelfTable();
+            for (Object[] row : data) {
+                if (row.length != columnCount) {
+                    Object[] fixedRow = new Object[columnCount];
+                    for (int i = 0; i < columnCount; i++) {
+                        fixedRow[i] = i < row.length ? row[i] : null;
+                    }
+                    model.addRow(fixedRow);
+                } else {
+                    model.addRow(row);
                 }
-                model.addRow(fixedRow);
-            } else {
-                model.addRow(row);
             }
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
         }
-    } catch (Exception e) {
-        CatchException.handle(e, eh);
     }
-}
+
+    
 
     // 获取实例
     @Override

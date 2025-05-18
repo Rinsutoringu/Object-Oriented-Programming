@@ -70,20 +70,7 @@ public class DataBase {
             // String pwd = "WPR_2333";
             // 从配置文件读取数据库连接信息
             this.update_DBCredentials_From_Config();
-
-            String url = GlobalVariables.getDBConnAddress();
-            String usr = GlobalVariables.getDBUser();
-            String pwd = GlobalVariables.getDBPassword();
-
-            System.out.println("DB URL: " + url);
-            System.out.println("DB User: " + usr);
-            System.out.println("DB Password: " + pwd);
-
-            if (url == null || usr == null || pwd == null) {
-                throw new DBConnectError("数据库连接参数有空值，请检查配置加载流程。");
-            }
-
-            return DriverManager.getConnection(url, usr, pwd);
+            return DriverManager.getConnection(GlobalVariables.getDBConnAddress(), GlobalVariables.getDBUser(), GlobalVariables.getDBPassword());
 
         } catch (Exception e) {
             CatchException.handle(e, eh);
