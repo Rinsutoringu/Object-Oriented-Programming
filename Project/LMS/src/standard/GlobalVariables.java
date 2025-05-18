@@ -24,6 +24,9 @@ public class GlobalVariables {
 
     public static final Color registerLogic = new Color(244, 245, 246);
 
+    public static final Color sideBarLogic = new Color(244, 245, 246);
+
+
 
     public static String currentUsr = "TestName-RinChord";
 
@@ -95,6 +98,10 @@ public class GlobalVariables {
 
     public static Color cgetRegisterLogic() {
         return registerLogic;
+    }
+
+    public static Color cgetSideBarLogic() {
+        return sideBarLogic;
     }
 
 }

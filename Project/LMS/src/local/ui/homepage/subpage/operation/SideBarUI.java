@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import standard.GlobalVariables;
 import standard.StandardUI;
 
 public class SideBarUI extends StandardUI {
@@ -33,41 +34,70 @@ public class SideBarUI extends StandardUI {
     // 这是一个示范PL单元
     private void init_sidebarPL() {
         JPanel panel = new JPanel();
-        // 设置layout manager
-        // panel.setPreferredSize(new Dimension(0, 9));
+
         panel.setLayout(new GridBagLayout()); 
 
         // 创建PL单元上需要的组件
-        createExample();
-        putButton("example", new JButton("Example"));
-
-        // 设置组件到PL单元
+        putButton("submit", new JButton("Add/Edit"));
+        putButton("delete", new JButton(" DELETE "));
 
         short gheight = 0;
 
-        utils.addComponent(panel, getPanel("example1"), gbc, gmiddle, ++gheight);
+        createUserInputCP();
+        utils.addComponent(panel, getPanel("userinput"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
 
-        utils.addComponent(panel, getButton("example"), gbc, gmiddle, ++gheight, 1, 1,
+        utils.addComponent(panel, getButton("submit"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);
+        utils.addComponent(panel, getButton("delete"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
 
         // 注册PL单元
         panels.put("sidebar", panel);
     }
 
     // 这是一个示范CP组件
-    private void createExample() {
+    private void createUserInputCP() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
 
-        putButton("example1", new JButton("Example1"));
+        putButton("example", new JButton("Example"));
+        putTextField("objectname", new JTextField(15));
+        putButton("minus1", new JButton("-1"));
+        putTextField("objectnumber", new JTextField(4));
+        putButton("plus1", new JButton("+1"));
 
-        // 设置组件到CP组件
-        utils.addComponent(panel, getButton("example1"), gbc, 1, 1, 1, 1,
+
+
+        short gheight = 0;
+
+        utils.addComponent(panel, new JLabel("Name"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 3, 1);
+
+        utils.addComponent(panel, getTextField("objectname"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 3, 1);
+
+        utils.addComponent(panel, new JLabel("Number"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 3, 1);
+
+        utils.addComponent(panel, getButton("minus1"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);
 
+        utils.addComponent(panel, getTextField("objectnumber"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+        utils.addComponent(panel, getButton("plus1"), gbc, gright+1, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+
+
+        panel.setBackground(GlobalVariables.cgetSideBarLogic());
         // 注册CP组件
-        panels.put("example1", panel);
+        panels.put("userinput", panel);
     }
+
+    
 
     @Override
     public SideBarUI getThis() {

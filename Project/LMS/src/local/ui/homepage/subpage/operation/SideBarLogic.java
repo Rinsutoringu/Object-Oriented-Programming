@@ -45,7 +45,7 @@ public class SideBarLogic extends StandardUILogical {
 
             // 初始化类中自有的CP（部分显示）
             // TODO 并没有CP
-            putCP("example1", sidebarui.getPanel("example1"));
+            // putCP("example1", sidebarui.getPanel("example1"));
 
             // 初始化画面
             defaultView();
@@ -66,7 +66,7 @@ public class SideBarLogic extends StandardUILogical {
         // 啥都不加就默认显示UI加载完后的内容
         try {
             // TODO 并没有PL
-            show(getThis(), this.examplePL);
+            show(getThis(), getPL("sidebar"));
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
@@ -77,11 +77,11 @@ public class SideBarLogic extends StandardUILogical {
     @Override
     public void addButtonAction() {
 
-        sidebarui.getButton("example").addActionListener(e->{
+        sidebarui.getButton("submit").addActionListener(e->{
 
             // 在此定义具体点击事件
             try {
-                System.out.println("example button clicked");
+                System.out.println("submit button clicked");
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);

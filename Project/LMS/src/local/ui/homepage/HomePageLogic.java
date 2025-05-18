@@ -1,6 +1,7 @@
 package local.ui.homepage;
 
 import local.error.ActionAddFailed;
+import local.ui.homepage.subpage.operation.SideBarLogic;
 import local.ui.homepage.subpage.overview.OverviewLogic;
 import standard.StandardUILogical;
 
@@ -18,7 +19,7 @@ public class HomePageLogic extends StandardUILogical {
 
     // 本类构造函数
     public HomePageLogic() {
-        
+
         // 注册默认方法
         super();
 
@@ -27,6 +28,7 @@ public class HomePageLogic extends StandardUILogical {
 
         // 初始化本类持有的Page
         putPage("overview", new OverviewLogic());
+        putPage("sidebar", new SideBarLogic());
 
         // 初始化类中自有的PL（全屏）
         putPL("home", getThis().getPanel("home"));
@@ -59,7 +61,7 @@ public class HomePageLogic extends StandardUILogical {
             homepageUI.getButton("briefing").addActionListener(e ->{
                 // show(detailJpanel, panels.get("sidebar"));
                 // show(getCP("main"), getPage("overview", "overview"));
-                
+                show(getCP("sub"), getPage("sidebar", "sidebar"));
             });
 
             // 在左栏展示聚合工具菜单
