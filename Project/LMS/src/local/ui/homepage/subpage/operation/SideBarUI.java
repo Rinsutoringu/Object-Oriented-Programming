@@ -38,27 +38,44 @@ public class SideBarUI extends StandardUI {
         panel.setLayout(new GridBagLayout()); 
 
         // 创建PL单元上需要的组件
-        putButton("submit", new JButton("Add/Edit"));
-        putButton("delete", new JButton(" DELETE "));
+        createAddAndEditCP();
+        createSearch();
 
         short gheight = 0;
 
-        createUserInputCP();
-        utils.addComponent(panel, getPanel("userinput"), gbc, gmiddle, ++gheight, 1, 1,
+        utils.addComponent(panel, getPanel("search"), gbc, gmiddle, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
 
-        utils.addComponent(panel, getButton("submit"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 1, 1);
-        utils.addComponent(panel, getButton("delete"), gbc, gright, gheight, 1, 1,
-        GridBagConstraints.NONE, 1, 1);
+        utils.addComponent(panel, getPanel("addandedit"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
 
 
         // 注册PL单元
         panels.put("sidebar", panel);
     }
 
+    private void createAddAndEditCP() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout()); 
+        userinput();
+        putButton("submit", new JButton("Add/Edit"));
+        putButton("delete", new JButton(" DELETE "));
+        short gheight = 0;
+        utils.addComponent(panel, getPanel("userinput"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+        utils.addComponent(panel, getButton("submit"), gbc, gleft, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+        utils.addComponent(panel, getButton("delete"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+
+        panel.setBackground(GlobalVariables.cgetSideBarLogic());
+        // 注册CP组件
+        putPanel("addandedit", panel);
+    }
+
     // 这是一个示范CP组件
-    private void createUserInputCP() {
+    private void userinput() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
 
@@ -72,13 +89,13 @@ public class SideBarUI extends StandardUI {
 
         short gheight = 0;
 
-        utils.addComponent(panel, new JLabel("Name"), gbc, gmiddle, ++gheight, 1, 1,
+        utils.addComponent(panel, new JLabel("Plz Type In Item Name"), gbc, gmiddle, ++gheight, 1, 1,
         GridBagConstraints.NONE, 3, 1);
 
         utils.addComponent(panel, getTextField("objectname"), gbc, gmiddle, ++gheight, 1, 1,
         GridBagConstraints.NONE, 3, 1);
 
-        utils.addComponent(panel, new JLabel("Number"), gbc, gmiddle, ++gheight, 1, 1,
+        utils.addComponent(panel, new JLabel("Number?"), gbc, gmiddle, ++gheight, 1, 1,
         GridBagConstraints.NONE, 3, 1);
 
         utils.addComponent(panel, getButton("minus1"), gbc, gleft, ++gheight, 1, 1,
@@ -94,10 +111,40 @@ public class SideBarUI extends StandardUI {
 
         panel.setBackground(GlobalVariables.cgetSideBarLogic());
         // 注册CP组件
-        panels.put("userinput", panel);
+        putPanel("userinput", panel);
     }
 
-    
+    private void createSearch() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout()); 
+
+        putTextField("search", new JTextField(10));
+        putButton("search", new JButton("Search"));
+        putTextField("result", new JTextField(18));
+        putButton("clear", new JButton("Clear"));
+
+
+        short gheight = 0;
+
+        utils.addComponent(panel, new JLabel("Name"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+
+        utils.addComponent(panel, getTextField("search"), gbc, gleft, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+        utils.addComponent(panel, getButton("search"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+        utils.addComponent(panel, getTextField("result"), gbc, gleft, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+
+        utils.addComponent(panel, getButton("clear"), gbc, gleft, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+
+        panel.setBackground(GlobalVariables.cgetSideBarLogic());
+        // 注册CP组件
+        putPanel("search", panel);
+    }
 
     @Override
     public SideBarUI getThis() {
