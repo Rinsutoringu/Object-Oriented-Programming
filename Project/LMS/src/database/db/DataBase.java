@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
@@ -38,6 +39,7 @@ public class DataBase {
 
     private static DataBase instance;
     private DataBase() {
+        GlobalVariables.getInstance();
         // 实例化处理对象
         // 不要直接连接，会出问题的
         // 等完全初始化了再连接
@@ -54,6 +56,10 @@ public class DataBase {
         try {
             // 如果发现链接有问题就进行重建
             if (connection == null || connection.isClosed()) connection = createConnect();
+            
+            if (!isTableExists("staff")) createStaffTableIfNotExists();
+            if (!isTableExists("shelf")) createShelfTableIfNotExists();
+            
             return connection;
         } catch (Exception e) {
             CatchException.handle(e, eh);
@@ -78,15 +84,15 @@ public class DataBase {
 
     // 获取连接字符串
     private String getConnectionUrl() {
-        String dbHead = GlobalVariables.getDBHead();
+        String dbType = GlobalVariables.getDBType();
         String url = GlobalVariables.getDBUrl();
         String port = GlobalVariables.getDBPort();
-        String dbName = GlobalVariables.getDBName(); // 你可以从url或配置中解析出数据库名
-        switch (dbHead) {
+        String dbsubname = GlobalVariables.getDBSubName();
+        switch (dbType) {
             case "MySQL":
-                return "jdbc:mysql://" + url + ":" + port + "/" + dbName + "?useSSL=false&serverTimezone=UTC";
+                return "jdbc:mysql://" + url + ":" + port + "/" + dbsubname + "?useSSL=false&serverTimezone=UTC";
             case "PostgreSQL":
-                return "jdbc:postgresql://" + url + ":" + port + "/" + dbName;
+                return "jdbc:postgresql://" + url + ":" + port + "/" + dbsubname;
             case "SQLite":
                 return "jdbc:sqlite:" + url; // SQLite只需要文件路径
             default:
@@ -95,18 +101,33 @@ public class DataBase {
     }
 
     // 创建连接对象
-    public Connection createConnect() throws DBConnectError, Exception {
-        try {
-            this.update_DBCredentials_From_Config();
-            String driver = getDriverClass();
-            Class.forName(driver);
-            String url = getConnectionUrl();
-            return DriverManager.getConnection(url, GlobalVariables.getDBUser(), GlobalVariables.getDBPassword());
-        } catch (Exception e) {
-            CatchException.handle(e, eh);
-            return null;
+public Connection createConnect() throws DBConnectError, Exception {
+    try {
+        this.update_DBCredentials_From_Config();
+        String driver = getDriverClass();
+        Class.forName(driver);
+        String url = getConnectionUrl();
+        String usr = GlobalVariables.getDBUser();
+        String pwd = GlobalVariables.getDBPassword();
+        String dbType = GlobalVariables.getDBType();
+
+        if ("SQLite".equalsIgnoreCase(dbType)) {
+            if (usr != null && !usr.isEmpty()) {
+                Properties props = new Properties();
+                props.setProperty("user", usr);
+                if (pwd != null && !pwd.isEmpty()) {
+                    props.setProperty("password", pwd);
+                }
+            }
+            return DriverManager.getConnection(url);
+        } else {
+            return DriverManager.getConnection(url, usr, pwd);
         }
+    } catch (Exception e) {
+        CatchException.handle(e, eh);
+        return null;
     }
+}
 
     // 获取当前时间的SQL
     public String getNowFunction() {
@@ -138,15 +159,118 @@ public class DataBase {
     }
 
     // 确定表格是否存在
-    public boolean tableExists(String tableName) {
+    /**
+     * 检查表格是否存在
+     * @param tableName 要检查的表名
+     * @return 如果表存在则返回true，否则返回false
+     */
+    public boolean isTableExists(String tableName) {
         try {
+            if (connection == null || connection.isClosed()) {
+                return false;
+            }
             DatabaseMetaData metaData = connection.getMetaData();
-            ResultSet tables = metaData.getTables(null, null, tableName, null);
-            return tables.next();
+            String dbType = GlobalVariables.getDBType();
+            ResultSet tables;
+            if ("SQLite".equalsIgnoreCase(dbType)) {
+                tables = metaData.getTables(null, null, tableName, new String[]{"TABLE"});
+                if (!tables.next()) {
+                    tables = metaData.getTables(null, null, tableName.toLowerCase(), new String[]{"TABLE"});
+                }
+            } else {
+                tables = metaData.getTables(null, null, tableName, new String[]{"TABLE"});
+            }
+            boolean exists = tables.next();
+            tables.close();
+            return exists;
         } catch (SQLException e) {
             CatchException.handle(e, eh);
         }
         return false;
+    }
+
+    // 创建staff表格
+    public void createStaffTableIfNotExists() {
+        String dbType = GlobalVariables.getDBType();
+        String sql;
+        switch (dbType) {
+            case "MySQL":
+                sql = "CREATE TABLE IF NOT EXISTS staff (" +
+                        "staff_index INT AUTO_INCREMENT PRIMARY KEY," +
+                        "username VARCHAR(20)," +
+                        "password TEXT," +
+                        "regdate DATETIME," +
+                        "state INT" +
+                    ")";
+                break;
+            case "PostgreSQL":
+                sql = "CREATE TABLE IF NOT EXISTS staff (" +
+                        "staff_index SERIAL PRIMARY KEY," +
+                        "username VARCHAR(20)," +
+                        "password TEXT," +
+                        "regdate TIMESTAMP," +
+                        "state INT" +
+                    ")";
+                break;
+            case "SQLite":
+                sql = "CREATE TABLE IF NOT EXISTS staff (" +
+                        "staff_index INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "username VARCHAR(20)," +
+                        "password TEXT," +
+                        "regdate DATETIME," +
+                        "state INTEGER" +
+                    ")";
+                break;
+            default:
+                throw new UnsupportedOperationException("Unsupported DB type: " + dbType);
+        }
+        try (Statement stmt = this.connection.createStatement()) {
+            stmt.execute(sql);
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+    }
+
+    // 创建Shelf表格
+    public void createShelfTableIfNotExists() {
+        String dbType = GlobalVariables.getDBType();
+        String sql;
+        switch (dbType) {
+            case "MySQL":
+                sql = "CREATE TABLE IF NOT EXISTS shelf (" +
+                        "shelf_index INT AUTO_INCREMENT PRIMARY KEY," +
+                        "obj_name TEXT," +
+                        "obj_number INT," +
+                        "obj_lastuptime DATETIME," +
+                        "lastuser TEXT" +
+                    ")";
+                break;
+            case "PostgreSQL":
+                sql = "CREATE TABLE IF NOT EXISTS shelf (" +
+                        "shelf_index SERIAL PRIMARY KEY," +
+                        "obj_name TEXT," +
+                        "obj_number INT," +
+                        "obj_lastuptime TIMESTAMP," +
+                        "lastuser TEXT" +
+                    ")";
+                break;
+            case "SQLite":
+                sql = "CREATE TABLE IF NOT EXISTS shelf (" +
+                        "shelf_index INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "obj_name TEXT," +
+                        "obj_number INTEGER," +
+                        "obj_lastuptime DATETIME," +
+                        "lastuser TEXT" +
+                    ")";
+                break;
+            default:
+                throw new UnsupportedOperationException("Unsupported DB type: " + dbType);
+        }
+        try (Statement stmt = this.connection.createStatement()) {
+            stmt.execute(sql);
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
     }
 
     /**

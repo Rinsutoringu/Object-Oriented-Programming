@@ -53,30 +53,26 @@ public class GetDBConLogic extends StandardUILogical {
 
         getdbconUI.getButton("save").addActionListener(e -> {
             try {
-                String dbHead = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
+                String dbType = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
                 String dbaddr = getdbconUI.getTextField("dbAddress").getText();
                 String dbport = getdbconUI.getTextField("dbPort").getText();
                 String dbuser = getdbconUI.getTextField("dbUser").getText();
                 String dbpassword = getdbconUI.getTextField("dbPassword").getText();
-                
-                switch (dbHead) {
+                switch (dbType) {
                     case "MySQL":
-                        dbHead = "jdbc:mysql://";
-                        GlobalVariables.setDBHead(dbHead);
+                        GlobalVariables.setDBType("MySQL");
                         break;
                     case "PostgreSQL":
-                        dbHead = "jdbc:postgresql://";
-                        GlobalVariables.setDBHead(dbHead);
+                        GlobalVariables.setDBType("PostgreSQL");
                         break;
                     case "SQLite":
-                        dbHead = "jdbc:sqlite:";
-                        GlobalVariables.setDBHead(dbHead);
+                        GlobalVariables.setDBType("SQLite");
                         break;
                     default:
                         break;
                 }
                 // 写入到配置文件
-                dbutils.addDBCredentials(dbHead, dbaddr, dbuser, dbpassword, dbport);
+                dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
                 new MiniOption("LMS", "Your DataBase Connect Information save success! ", 1);
                 
             } catch (Exception ex) {
@@ -86,27 +82,7 @@ public class GetDBConLogic extends StandardUILogical {
 
         getdbconUI.getButton("connect").addActionListener(e -> {
             try {
-                String dbType = getdbconUI.getComboBox("dbType").getSelectedItem().toString();
-                String dbaddr = getdbconUI.getTextField("dbAddress").getText();
-                String dbport = getdbconUI.getTextField("dbPort").getText();
-                String dbuser = getdbconUI.getTextField("dbUser").getText();
-                String dbpassword = getdbconUI.getTextField("dbPassword").getText();
-                
-                switch (dbType) {
-                    case "MySQL":
-                        dbType = "jdbc:mysql://";
-                        break;
-                    case "PostgreSQL":
-                        dbType = "jdbc:mysql://";
-                        break;
-                    case "SQLite":
-                        dbType = "jdbc:mysql://";
-                        break;
-                    default:
-                        break;
-                }
-                dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
-                dbutils.createConnect();
+                dbutils.getConnection();
                 new MiniOption("LMS", "Your DataBase Connect Success! ", 1);
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);

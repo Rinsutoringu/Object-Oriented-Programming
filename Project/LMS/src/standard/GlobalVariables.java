@@ -12,16 +12,24 @@ public class GlobalVariables {
 
     // 数据库连接信息存储在这里
     // public static String dbfullUrl = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
-    public static String dbUrl = "192.168.101.103";
-    public static String dbHead = "jdbc:mysql://";
-    public static String dbName = "LMS_sql";
-    public static String dbUser = "root";
-    public static String dbPassword = "WPR_2333";
-    public static String dbPort = "3306";
-    public static String dbType = "mysql";
 
-    public static String staffTableName = "staff";
-    public static String shelfTableName = "shelf";
+
+    // 数据库地址
+    public static String dbUrl;
+    // 数据库端口
+    public static String dbPort;
+    // 数据库类型
+    public static String dbType;
+    // 数据库子名称
+    public static String dbSubName;
+    // 数据库账号名
+    public static String dbUser;
+    // 数据库密码
+    public static String dbPassword;
+
+    // 表格名
+    public static String staffTableName;
+    public static String shelfTableName;
 
     // 这里存储了全局配色方案
     public static final Color getDBConLogic = new Color(244, 245, 246);
@@ -30,17 +38,20 @@ public class GlobalVariables {
 
     public static final Color sideBarLogic = new Color(244, 245, 246);
 
-
-
-    public static String currentUsr = "TestName-RinChord";
+    public static String currentUsr;
 
     private GlobalVariables() {
-        dbUrl = "192.168.101.103";
-        dbHead = "jdbc:mysql://";
-        dbName = "LMS_sql";
-        dbUser = "root";
-        dbPassword = "WPR_2333";
-        dbPort = "3306";
+        setDBUrl("192.168.101.103");
+        setDBPort("56003");
+        setDBType("MySQL");
+        setDBSubName("LMS_sql");
+        setUserName("root");
+        setDBPassword("WPR_2333");
+        setStaffTableName("staff");
+        setShelfTableName("shelf");
+
+        // DEBUG
+        setUserName("TestName-RinChord");
         // 私有构造函数，防止外部实例化
     }
 
@@ -55,21 +66,24 @@ public class GlobalVariables {
         GlobalVariables.dbUrl = dbUrl;
     }
 
-    // Renamed to setDBHead for clarity and to avoid duplicate method
-    public static void setDBHead(String dbHead) {
-        GlobalVariables.dbHead = dbHead;
+    public static String getDBUrl() {
+        return dbUrl;
     }
 
-    public static String getDBHead() {
-        return dbHead;
+    public static void setDBSubName(String dbSubName) {
+        GlobalVariables.dbSubName = dbSubName;
     }
 
-    public static String getDBName() {
-        return dbName;
+    public static String getDBSubName() {
+        return dbSubName;
     }
 
-    public static void setDBName(String dbName) {
-        GlobalVariables.dbName = dbName;
+    public static void setDBType(String dbType) {
+        GlobalVariables.dbType = dbType;
+    }
+
+    public static String getDBType() {
+        return dbType;
     }
 
     public static void setDBUser(String dbUser) {
@@ -82,10 +96,6 @@ public class GlobalVariables {
 
     public static void setDBPort(String dbPort) {
         GlobalVariables.dbPort = dbPort;
-    }
-
-    public static String getDBUrl() {
-        return dbUrl;
     }
 
     public static String getDBPort() {
@@ -136,14 +146,5 @@ public class GlobalVariables {
     public static String getStaffTableName() {
         return staffTableName;
     }
-
-    public static void setDBType(String dbType) {
-        GlobalVariables.dbType = dbType;
-    }
-
-    public static String getDBType() {
-        return dbType;
-    }
-
 }
 
