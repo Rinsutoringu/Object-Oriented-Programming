@@ -201,6 +201,24 @@ public abstract class StandardUILogical extends StandardUI {
     }
 
     /**
+     * 获取Page
+     * @param name 待获取的pl名称
+     * @return 获取到的Page对象
+     * @exception GUIActionFailed 获取失败
+     */
+    public StandardUILogical getPage(String plName) {
+        try {
+            StandardUILogical ui = this.PageRegistry.get(plName);
+            if (ui != null) {
+                return ui;
+            }
+        } catch (Exception e) {
+            throw new GUIActionFailed("获取Page对象失败", e);
+        }
+        return null;
+    }
+
+    /**
      * logic类本身自有的PL对象的注册表
      */
     protected Map<String, JPanel> plRegistry = new HashMap<>();

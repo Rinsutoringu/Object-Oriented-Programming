@@ -5,10 +5,16 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import local.ui.homepage.HomePageLogic;
+import local.ui.homepage.subpage.overview.OverviewLogic;
 import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
@@ -21,10 +27,15 @@ public class SideBarLogic extends StandardUILogical {
     private SideBarUI sidebarui;
 
     /**
+     * 父页面句柄
+     */
+    private HomePageLogic homepagelogic;
+
+    /**
      * 声明UI类中包含的PL句柄
      * 用于动态绘制画面
      */
-    private JPanel examplePL;
+    // private JPanel examplePL;
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
@@ -36,7 +47,7 @@ public class SideBarLogic extends StandardUILogical {
      * 1. 初始化持有的Page对象
      * 2. 把要用到的可视化组件（Page PL CP）注册到逻辑层
      */
-    public SideBarLogic() {
+    public SideBarLogic(HomePageLogic homepagelogic) {
 
         // 注册默认方法
         super();
@@ -46,6 +57,9 @@ public class SideBarLogic extends StandardUILogical {
 
             // 初始化本类持有的Page
             // putPage("name", new xxxlogical());
+
+            // 初始化父类句柄
+            this.homepagelogic = homepagelogic;
 
             // 初始化类中自有的PL（全屏）
             // TODO 并没有PL
@@ -98,12 +112,42 @@ public class SideBarLogic extends StandardUILogical {
                 whereMap.put("obj_name", userInput);
                 Map<String, Object> updateMap = new java.util.HashMap<>();
                 updateMap.put("obj_number", number);
+                ResultSet rs = null;
                 try {
-                    System.out.println("即将进行数据库操作，传入参数" + updateMap + " 和 " + whereMap);
                     // 执行数据库操作
-                    dbutils.updateRow("shelf", updateMap, whereMap);
+
+                    rs = dbutils.queryRow(GlobalVariables.getShelfTableName(), whereMap);
+                    if (rs == null || !rs.next()) {
+                        // 如果没有记录，则插入新记录
+                        updateMap.put("obj_name", userInput);
+                        updateMap.put("obj_lastuptime", new java.sql.Timestamp(System.currentTimeMillis()));
+                        updateMap.put("lastuser", GlobalVariables.getUserName());
+                        dbutils.insertRow(GlobalVariables.getShelfTableName(), updateMap);
+                    } else {
+                        // 如果有记录，则更新记录
+                        int newNumber = rs.getInt("obj_number") + number;
+                        if (newNumber < 0) {
+                            new MiniOption("Input Error", "Object number cannot be negative.", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        updateMap.put("obj_number", newNumber);
+                        updateMap.put("obj_name", userInput);
+                        updateMap.put("obj_lastuptime", new java.sql.Timestamp(System.currentTimeMillis()));
+                        updateMap.put("lastuser", GlobalVariables.getUserName());
+                    }
+                    dbutils.updateRow(GlobalVariables.getShelfTableName(), whereMap, updateMap);
+
                 } catch (Exception ex) {
                     CatchException.handle(ex, eh);      
+                } finally {
+                    if (rs != null) {
+                        try {
+                            rs.close();
+                            getOverviewLogic().refreshTableData();
+                        } catch (Exception ex) {
+                            CatchException.handle(ex, eh);
+                        }
+                    }
                 }
                 System.out.println("submit button clicked");
             } catch (Exception ex) {
@@ -118,11 +162,13 @@ public class SideBarLogic extends StandardUILogical {
             try {
                 String userInput = getUserInput();
                 if (userInput.isEmpty()) return;
-
+                getTable().getCellEditor().stopCellEditing();
                 // 构造键值对
                 Map<String, Object> whereMap = new java.util.HashMap<>();
                 whereMap.put("obj_name", userInput);
                 dbutils.deleteRow(GlobalVariables.getShelfTableName(), whereMap);
+                getTableModel().removeRow(getTableModel().getRowCount() - 1);
+                getOverviewLogic().refreshTableData();
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);
@@ -145,7 +191,7 @@ public class SideBarLogic extends StandardUILogical {
                     new MiniOption("Search Error", "No results found.", JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
-                getThis().getTextField("objectname").setText(
+                getThis().getTextField("result").setText(
                     "Search Result: Item name " + 
                     rs.getString("obj_name") + 
                     ", Number " + 
@@ -177,11 +223,6 @@ public class SideBarLogic extends StandardUILogical {
             // 在此定义具体点击事件
             try {
                 int numberInput = getNumberInput();
-                if (numberInput == -1) {
-                    new MiniOption("[-1 Button]Input Error", "Please enter a valid number.", JOptionPane.INFORMATION_MESSAGE);
-                    setUserInput("1");
-                    return;
-                }
                 numberInput++;
                 setNumber(String.valueOf(numberInput));
             } catch (Exception ex) {
@@ -195,38 +236,12 @@ public class SideBarLogic extends StandardUILogical {
             // 在此定义具体点击事件
             try {
                 int numberInput = getNumberInput();
-                if (numberInput == -1) {
-                    setNumber("0");
-                    new MiniOption("Input Error", "Please enter a valid number.", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                int result = numberInput-1;
-                if (result < 0) {
-                    new MiniOption("Input Error", "Number cannot be negative.", JOptionPane.INFORMATION_MESSAGE);
-                    return;
-                }
-                setNumber(String.valueOf(result));
+                setNumber(String.valueOf(numberInput - 1));
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);
             }
         });
-
-        // // 刷新按钮逻辑
-        // sidebarui.getButton("minus1").addActionListener(e->{
-        //     // 在此定义具体点击事件
-        //     try {
-
-
-        //     } catch (Exception ex) {
-        //         // 基础的错误处理逻辑
-        //         CatchException.handle(ex, eh);
-        //     }
-        // });
-
-    
-
-
     }
 
     private String getUserSearch() {
@@ -254,18 +269,44 @@ public class SideBarLogic extends StandardUILogical {
         String numberInput = getThis().getTextField("objectnumber").getText();
         if (numberInput.isEmpty()) {
             new MiniOption("Input Error", "Please enter a number.", JOptionPane.INFORMATION_MESSAGE);
-            return -1;
+            return 0;
         }
         try {
             return Integer.parseInt(numberInput);
         } catch (NumberFormatException ex) {
             new MiniOption("Input Error", "Please enter a valid number.", JOptionPane.INFORMATION_MESSAGE);
-            return -1;
+            return 0;
         }
     }
 
     private void setNumber(String numberInput) {
         getThis().getTextField("objectnumber").setText(numberInput);
+    }
+
+    private OverviewLogic getOverviewLogic() {
+        // 这里假设 this 指向 HomePageLogic 的实例
+        homepagelogic.getPage("overview");
+        return (OverviewLogic) homepagelogic.getPage("overview");
+    }
+
+    private DefaultTableModel getTableModel() {
+        // 这里假设 this 指向 HomePageLogic 的实例
+        try {
+            return (DefaultTableModel) getOverviewLogic().getThis().getTableModel();
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+        return null;
+    }
+
+    private JTable getTable() {
+        // 这里假设 this 指向 HomePageLogic 的实例
+        try {
+            return getOverviewLogic().getThis().getTable();
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+        return null;
     }
 
     // 获取实例

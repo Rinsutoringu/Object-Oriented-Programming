@@ -28,7 +28,7 @@ public class HomePageLogic extends StandardUILogical {
 
         // 初始化本类持有的Page
         putPage("overview", new OverviewLogic());
-        putPage("sidebar", new SideBarLogic());
+        putPage("sidebar", new SideBarLogic(this));
 
         // 初始化类中自有的PL（全屏）
         putPL("home", getThis().getPanel("home"));

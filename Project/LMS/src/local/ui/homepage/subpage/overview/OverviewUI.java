@@ -12,6 +12,8 @@ public class OverviewUI extends StandardUI {
 
     private DefaultTableModel tableModel;
 
+    private JTable table;
+
     public OverviewUI() {
         super();
 
@@ -65,7 +67,7 @@ public class OverviewUI extends StandardUI {
         tableModel = new DefaultTableModel(columnNames, 0);
         
         // 创建表格实体并应用表格模型
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
 
         // 允许表格上下拖拽
         JScrollPane scrollPane = new JScrollPane(table);
@@ -78,6 +80,10 @@ public class OverviewUI extends StandardUI {
 
     public DefaultTableModel getTableModel() {
         return tableModel;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 
     @Override

@@ -182,7 +182,6 @@ public class DataBase {
         }
         try (Connection conn = getConnection();
             Statement stmt = conn.createStatement()) {
-            System.out.println("SQL: " + sql.toString());
             stmt.executeUpdate(sql.toString());
         }
     }
