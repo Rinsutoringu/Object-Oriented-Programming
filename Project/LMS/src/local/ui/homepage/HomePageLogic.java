@@ -1,8 +1,15 @@
 package local.ui.homepage;
 
+import java.time.LocalTime;
+
+import org.postgresql.hostchooser.GlobalHostStatusTracker;
+
 import local.error.ActionAddFailed;
+import local.ui.homepage.subpage.count.countLogic;
+import local.ui.homepage.subpage.count.countUI;
 import local.ui.homepage.subpage.operation.SideBarLogic;
 import local.ui.homepage.subpage.overview.OverviewLogic;
+import standard.GlobalVariables;
 import standard.StandardUILogical;
 
 public class HomePageLogic extends StandardUILogical {
@@ -29,6 +36,7 @@ public class HomePageLogic extends StandardUILogical {
         // 初始化本类持有的Page
         putPage("overview", new OverviewLogic());
         putPage("sidebar", new SideBarLogic(this));
+        putPage("count", new countLogic());
 
         // 初始化类中自有的PL（全屏）
         putPL("home", getThis().getPanel("home"));
@@ -59,28 +67,31 @@ public class HomePageLogic extends StandardUILogical {
         try{
             // 在左侧窄栏展示数据总览
             homepageUI.getButton("briefing").addActionListener(e ->{
-                // show(detailJpanel, panels.get("sidebar"));
-                // show(getCP("main"), getPage("overview", "overview"));
+
                 show(getCP("sub"), getPage("sidebar", "sidebar"));
             });
 
             // 在左栏展示聚合工具菜单
             homepageUI.getButton("operation").addActionListener(e ->{
 
-                System.out.println("home   "+getPL("home").getSize());
-                System.out.println("top    "+getCP("top").getSize());
-                System.out.println("sub     "+getCP("sub").getSize());
-                System.out.println("main    "+getCP("main").getSize());
-                System.out.println(" ");
-                
-                // TODO  // show(detailJpanel, panels.get("sidebar"));
-                
-                // TODO  // show(overJPanel, panels.get("operation"));
+
+                // TODO 拼接一堆字符串
+                String welcomeMsg = generateWelcomeMessage(GlobalVariables.getUserName(), false);
+
+                ((countUI) getPage("count").getThis()).getLabel("welcomemsg").setText("欢迎使用聚合工具");
+
+                show(getCP("sub"), getPage("count", "count"));
             });
 
             // 在左栏展示快速添加菜单
             homepageUI.getButton("stock").addActionListener(e ->{
                 
+                System.out.println("home   "+getPL("home").getSize());
+                System.out.println("top    "+getCP("top").getSize());
+                System.out.println("sub     "+getCP("sub").getSize());
+                System.out.println("main    "+getCP("main").getSize());
+                System.out.println(" ");
+
                 // TODO  // show(detailJpanel, panels.get("sidebar"));
                 
                 // TODO  // show(overJPanel, panels.get("stock"));
@@ -94,6 +105,28 @@ public class HomePageLogic extends StandardUILogical {
         } catch (Exception e) {
             throw new ActionAddFailed("为按钮添加事件失败", e);
         }
+    }
+
+    private String generateWelcomeMessage(String username, boolean isAdmin) {
+        LocalTime now = LocalTime.now();
+        String timePeriod;
+
+        if (now.isBefore(LocalTime.of(6, 0))) {
+            timePeriod = "Good Night";
+        } else if (now.isBefore(LocalTime.of(9, 0))) {
+            timePeriod = "Good Morning";
+        } else if (now.isBefore(LocalTime.of(12, 0))) {
+            timePeriod = "Good Morning";
+        } else if (now.isBefore(LocalTime.of(18, 0))) {
+            timePeriod = "Good Afternoon";
+        } else if (now.isBefore(LocalTime.of(22, 0))) {
+            timePeriod = "Good Evening";
+        } else {
+            timePeriod = "Good Night";
+        }
+
+        String role = isAdmin ? "Admin" : "User";
+        return String.format("%s, %s%s", timePeriod, role, username);
     }
 
     public void showOverview() {

@@ -57,13 +57,10 @@ public class LoginLogic extends StandardUILogical {
                 new MiniOption("Login Failed", "Please read and accept the fucking terms and conditions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
             JTextField loginusr = loginUI.getTextField("loginusr");
             JTextField loginpwd = loginUI.getTextField("loginpwd");
             String usr = loginusr.getText();
             String pwd = loginpwd.getText();
-            // DEBUG
-            // System.out.println("User: " + usr + ", Password: " + pwd);
             try {
                 if (!User.Login(usr, pwd)) throw new AuthFailed("Login failed"); 
                 System.out.println("Login success");

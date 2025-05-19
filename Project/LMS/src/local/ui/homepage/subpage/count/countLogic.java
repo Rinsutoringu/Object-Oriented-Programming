@@ -12,7 +12,7 @@ public class countLogic extends StandardUILogical {
     /**
      * 声明本Logicl类对应的UI类实例句柄
      */
-    private countUI exampleui;
+    private countUI countui;
 
     /**
      * 声明UI类中包含的PL句柄
@@ -26,27 +26,20 @@ public class countLogic extends StandardUILogical {
     // 获取工具
     private DataBase dbUtils = DataBase.getInstance();
 
-    /**
-     * 构造函数要做的事情：
-     * 1. 初始化持有的Page对象
-     * 2. 把要用到的可视化组件（Page PL CP）注册到逻辑层
-     */
+
     public countLogic() {
 
         // 注册默认方法
         super();
         try {
             // 初始化本类的UI对象
-            exampleui = new countUI();
-
-            // 初始化本类持有的Page
-            // putPage("name", new xxxlogical());
+            countui = new countUI();
 
             // 初始化类中自有的PL（全屏）
-            putPL("examplewindow", getThis().getPanel("examplewindow"));
+            putPL("count", getThis().getPanel("count"));
 
             // 初始化类中自有的CP（部分显示）
-            putCP("example1", exampleui.getPanel("example1"));
+            putCP("dataview", countui.getPanel("dataview"));
 
             // 初始化画面
             defaultView();
@@ -65,11 +58,11 @@ public class countLogic extends StandardUILogical {
 
         // 设置默认显示内容 第一个值是目标，第二个值是显示的内容
         // 啥都不加就默认显示UI加载完后的内容
-        try {
-            show(getThis(), this.examplePL);
-        } catch (Exception e) {
-            CatchException.handle(e, eh);
-        }
+        // try {
+        //     show(getThis(), this.examplePL);
+        // } catch (Exception e) {
+        //     CatchException.handle(e, eh);
+        // }
         
     }
 
@@ -77,41 +70,13 @@ public class countLogic extends StandardUILogical {
     @Override
     public void addButtonAction() {
         
-        exampleui.getButton("example").addActionListener(e->{
-
-            // 在此定义具体点击事件
-            try {
-                System.out.println("example button clicked");
-            } catch (Exception ex) {
-                // 基础的错误处理逻辑
-                CatchException.handle(ex, eh);
-            }
-
-        }
-        );
 
     }
 
     // 获取实例
     @Override
     public countUI getThis() {
-        return exampleui;
+        return countui;
     }
 
 }
-
-/**#######################################################
-##########################################################
-
- * 完成ui和logic的构建后，需要添加测试方法
- * src\test\factory\UIModuleFactory.java路径 添加一行case
- * case "<启动指令>":
- *     return new <要测试的类>();
- * 然后去vscode的launch.json -> inputs -> options添加一行预设指令
- * "<启动指令>",
- * 按下F5运行，选择对应的预设指令即可
-
-###########################################################
-########################################################### */
-
-

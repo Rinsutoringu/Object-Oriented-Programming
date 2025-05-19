@@ -21,6 +21,9 @@ public class exampleUI extends StandardUI {
         try {
             // 初始化本类自有的PL
             init_examplePL();
+            
+            // 设置样式
+            setStyle();
 
             // 把本类PL加入到UI
             utils.addComponent(this, getPanel("examplewindow"), gbc, 1, 2);
@@ -28,6 +31,10 @@ public class exampleUI extends StandardUI {
             // 使用默认错误处理器处理错误
             CatchException.handle(e, eh);
         }
+    }
+    @Override
+    protected void setStyle() {
+        // your style settings here
     }
 
     // 这是一个示范PL单元
