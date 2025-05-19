@@ -1,4 +1,4 @@
-package local.ui.homepage.subpage.leftbar.operation;
+package local.ui.homepage.subpage.leftbar.itemoperation;
 
 import java.sql.ResultSet;
 import java.util.Map;
@@ -20,12 +20,12 @@ import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
 
-public class SideBarLogic extends StandardUILogical {
+public class itemoperationLogic extends StandardUILogical {
 
     /**
      * 声明本Logicl类对应的UI类实例句柄
      */
-    private SideBarUI sidebarui;
+    private itemoperationUI sidebarui;
 
     /**
      * 父页面句柄
@@ -50,13 +50,13 @@ public class SideBarLogic extends StandardUILogical {
      * 1. 初始化持有的Page对象
      * 2. 把要用到的可视化组件（Page PL CP）注册到逻辑层
      */
-    public SideBarLogic(HomePageLogic homepagelogic) {
+    public itemoperationLogic(HomePageLogic homepagelogic) {
 
         // 注册默认方法
         super();
         try {
             // 初始化本类的UI对象
-            sidebarui = new SideBarUI();
+            sidebarui = new itemoperationUI();
 
             // 初始化本类持有的Page
             // putPage("name", new xxxlogical());
@@ -362,7 +362,7 @@ public class SideBarLogic extends StandardUILogical {
 
     // 获取实例
     @Override
-    public SideBarUI getThis() {
+    public itemoperationUI getThis() {
         return sidebarui;
     }
 

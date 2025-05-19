@@ -10,7 +10,8 @@ import laboratory.lab.workers.User;
 import local.error.ActionAddFailed;
 import local.ui.homepage.subpage.leftbar.count.countLogic;
 import local.ui.homepage.subpage.leftbar.count.countUI;
-import local.ui.homepage.subpage.leftbar.operation.SideBarLogic;
+import local.ui.homepage.subpage.leftbar.itemoperation.itemoperationLogic;
+import local.ui.homepage.subpage.leftbar.useroperation.useroperationLogic;
 import local.ui.homepage.subpage.rightbar.competence.competenceLogic;
 import local.ui.homepage.subpage.rightbar.overview.OverviewLogic;
 import standard.GlobalVariables;
@@ -27,7 +28,6 @@ public class HomePageLogic extends StandardUILogical {
     private boolean isShowOperation;
     private boolean isShowStock;
 
-
     // 本类构造函数
     public HomePageLogic() {
 
@@ -39,8 +39,9 @@ public class HomePageLogic extends StandardUILogical {
 
         // 初始化本类持有的Page
         putPage("overview", new OverviewLogic());
-        putPage("sidebar", new SideBarLogic(this));
+        putPage("sidebar", new itemoperationLogic(this));
         putPage("count", new countLogic());
+        putPage("useroperation", new useroperationLogic(this));
         putPage("competence", new competenceLogic());
 
         // 初始化类中自有的PL（全屏）
@@ -62,7 +63,7 @@ public class HomePageLogic extends StandardUILogical {
     // 默认视图
     @Override
     protected void defaultView() {
-        showOverview();
+        homepageUI.getButton("operation").doClick();
         
     }
 
@@ -104,34 +105,19 @@ public class HomePageLogic extends StandardUILogical {
 
             // 在左栏展示快速添加菜单
             homepageUI.getButton("stock").addActionListener(e ->{
-                
-                // System.out.println("home   "+getPL("home").getSize());
-                // System.out.println("top    "+getCP("top").getSize());
-                // System.out.println("sub     "+getCP("sub").getSize());
-                // System.out.println("main    "+getCP("main").getSize());
-                // System.out.println(" ");
 
                 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
-
-
                         return null;
                     }
                 };
                 worker.execute();
+                show(getCP("sub"), getPage("useroperation", "useroperation"));
                 show(getCP("main"), getPage("competence", "competence"));
 
-                // TODO  // show(detailJpanel, panels.get("sidebar"));
-                
-                // TODO  // show(overJPanel, panels.get("stock"));
             });
 
-            // TODO  // 打开新UI：用户的个人待办
-            homepageUI.getButton("todo").addActionListener(e ->{
-                // 该按钮应该被注册到MainWindowLogic.java中
-                throw new ActionAddFailed("请到MainWindowLogic.java中注册该按钮");
-            });
         } catch (Exception e) {
             throw new ActionAddFailed("为按钮添加事件失败", e);
         }
@@ -162,7 +148,7 @@ public class HomePageLogic extends StandardUILogical {
     private String generateLastOperationMsg() {
         String[] lastUpdate = Shelf.getClosestLastUpdate();
         if (lastUpdate != null) {
-            return String.format("Last operation user: %s \nAt time: \n%s", lastUpdate[0], lastUpdate[1]);
+            return String.format("Last operation user: [%s] \n\nAt time: \n[%s]", lastUpdate[0], lastUpdate[1]);
         }
         return "Last operation: Unknown";
     }
@@ -173,9 +159,9 @@ public class HomePageLogic extends StandardUILogical {
         if (itemQuantity == -1 || totalItemQuantity == -1) {
             return "Error: Unable to retrieve item quantities.";
         }
-        return String.format("Until now\n"+
-                        "Types of Materials: %d.\n" +
-                        "Total Number: %d\n", itemQuantity, totalItemQuantity);
+        return String.format(
+                        "Types of Materials: \n[%d]\n\n" +
+                        "Total Number: \n[%d]\n\n", itemQuantity, totalItemQuantity);
     }
 
     public void showOverview() {

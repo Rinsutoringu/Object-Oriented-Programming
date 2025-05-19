@@ -37,7 +37,7 @@ public class competenceUI extends StandardUI {
         utils.addComponent(panel, getPanel("tableCP"), gbc, gmiddle, ++gheight, 1, 2,
             GridBagConstraints.BOTH, 1, 1);
             
-        utils.addComponent(panel, getButton("refresh"), gbc, gmiddle, ++gheight, 1, 1,
+        utils.addComponent(panel, getButton("refresh"), gbc, gmiddle, ++gheight, 1, 0.05,
             GridBagConstraints.NONE, 1, 1);
         // 注册面板
         panels.put("competence", panel);
@@ -49,6 +49,8 @@ public class competenceUI extends StandardUI {
     private void createTableCP() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setPreferredSize(new Dimension(1000, 1000));
+
 
         // 创建表头
         Vector<String> columnNames = new Vector<>();

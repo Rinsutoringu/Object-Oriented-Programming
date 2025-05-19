@@ -1,4 +1,4 @@
-package local.ui.homepage.subpage.leftbar.operation;
+package local.ui.homepage.subpage.leftbar.itemoperation;
 
 import java.awt.*;
 
@@ -9,14 +9,14 @@ import database.errorhandle.errorHandler;
 import standard.GlobalVariables;
 import standard.StandardUI;
 
-public class SideBarUI extends StandardUI {
+public class itemoperationUI extends StandardUI {
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
     private int subwindow_width = 260;
     private int subwindow_height = 228;
 
-    public SideBarUI() {
+    public itemoperationUI() {
 
         // 初始化UI并注册默认方法
         super();
@@ -208,7 +208,7 @@ public class SideBarUI extends StandardUI {
 
 
     @Override
-    public SideBarUI getThis() {
+    public itemoperationUI getThis() {
         return this;
     }
 }

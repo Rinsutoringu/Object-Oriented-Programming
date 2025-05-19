@@ -227,6 +227,7 @@ public Connection createConnect() throws DBConnectError, Exception {
             default:
                 throw new UnsupportedOperationException("Unsupported DB type: " + dbType);
         }
+        getConnection();
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (Exception e) {
@@ -272,7 +273,7 @@ public Connection createConnect() throws DBConnectError, Exception {
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (Exception e) {
-            CatchException.handle(e, eh);
+            // CatchException.handle(e, eh);
         }
     }
 
@@ -394,6 +395,8 @@ public Connection createConnect() throws DBConnectError, Exception {
                 pstmt.setObject(idx++, value);
             }
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            // CatchException.handle(e, eh);
         }
     }
 
@@ -465,6 +468,8 @@ public Connection createConnect() throws DBConnectError, Exception {
      * @return 用户数量
      */
     public int getNumOfUsers() {
+        getConnection();
+
         String checkmsg = "SELECT COUNT(*) FROM staff";
         try {
             ResultSet rs = this.SearchDB(checkmsg);
@@ -484,6 +489,8 @@ public Connection createConnect() throws DBConnectError, Exception {
      * @return 物资量
      */
     public int getNumOfObjects() {
+        getConnection();
+
         String checkmsg = "SELECT COUNT(*) FROM Shelf";
         try {
             ResultSet rs = this.SearchDB(checkmsg);

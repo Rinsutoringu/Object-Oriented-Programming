@@ -45,6 +45,14 @@ public class competenceLogic extends StandardUILogical {
 
             // 查询 staff 表数据
             String sql = "SELECT username, regdate, state FROM staff";
+            try {
+                dbUtils.getConnection();
+            } catch (Exception e) {
+                try {
+                    dbUtils.getConnection();
+                } catch (Exception ex) {
+                }
+            }
             java.util.List<Object[]> data = dbUtils.queryCustomShelfTable(sql);
 
             for (Object[] row : data) {

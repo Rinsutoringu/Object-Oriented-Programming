@@ -45,6 +45,8 @@ public class GlobalVariables {
 
     public static final Color countLogic = new Color(244, 245, 246);
 
+    public static final Color userOperationLogic = new Color(244, 245, 246);
+
 
     // 字体
     public static Font customFont;
@@ -175,7 +177,10 @@ public class GlobalVariables {
     public static Color cgetCountLogic() {
         return countLogic;
     }
-
+    
+    public static Color cgetUserOperationLogic() {
+        return userOperationLogic;
+    }
     
 
     
