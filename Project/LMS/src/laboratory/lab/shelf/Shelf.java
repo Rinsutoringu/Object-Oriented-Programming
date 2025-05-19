@@ -25,5 +25,43 @@ public class Shelf {
         }
         return -1;
     }
+    /**
+     * 获取 shelf 表中所有 obj_number 的总和
+     * @return 总物资量，如果查询失败返回 -1
+     */
+    public static int getTotalItemQuantity() {
+        String query = "SELECT SUM(obj_number) FROM shelf";
+        try (PreparedStatement stmt = dbUtils.getConnection().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); // 返回总和
+            }
+        } catch (Exception e) {
+            System.err.println("Error occurred while fetching total item quantity from shelf table.");
+            e.printStackTrace();
+        }
+        return -1; // 查询失败返回 -1
+    }
+
+    /**
+     * 获取 shelf 表中 obj_lastuptime 最接近当前时间的条目
+     * @return 包含 lastuser 和 obj_lastuptime 的字符串数组，如果查询失败返回 null
+     */
+    public static String[] getClosestLastUpdate() {
+        String query = "SELECT lastuser, obj_lastuptime FROM shelf ORDER BY ABS(TIMESTAMPDIFF(SECOND, obj_lastuptime, NOW())) ASC LIMIT 1";
+        try (PreparedStatement stmt = dbUtils.getConnection().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                String lastUser = rs.getString("lastuser");
+                String lastUpdateTime = rs.getString("obj_lastuptime");
+                return new String[]{lastUser, lastUpdateTime}; // 返回结果
+            }
+        } catch (Exception e) {
+            System.err.println("Error occurred while fetching the closest last update from shelf table.");
+            e.printStackTrace();
+        }
+        return null; // 查询失败返回 null
+    }
+
     
 }

@@ -1,6 +1,9 @@
 package standard;
 
 import java.awt.Color;
+import java.awt.Font;
+
+import local.ui.font.FontUtil;
 
 /**
  * 实现从指定目录读取配置文件，本地也保持一个默认值
@@ -40,6 +43,12 @@ public class GlobalVariables {
 
     public static final Color loginUILogic = new Color(244, 245, 246);
 
+    public static final Color countLogic = new Color(244, 245, 246);
+
+
+    // 字体
+    public static Font customFont;
+
     public static String currentUsr;
 
     private GlobalVariables() {
@@ -52,8 +61,10 @@ public class GlobalVariables {
         setStaffTableName("staff");
         setShelfTableName("shelf");
 
+        customFont = FontUtil.loadCustomFont("/resources/fonts/JetBrainsMono-Bold.ttf", 14f);
+
         // DEBUG
-        setUserName("TestName-RinChord");
+        setUserName("RinChord");
         // 私有构造函数，防止外部实例化
     }
 
@@ -152,6 +163,20 @@ public class GlobalVariables {
     public static Color cgetLoginUILogic() {
         return loginUILogic;
     }
+
+    public static Font getCustomFont() {
+        return customFont;
+    }
+
+    public static void setCustomFont(Font customFont) {
+        GlobalVariables.customFont = customFont;
+    }
+
+    public static Color cgetCountLogic() {
+        return countLogic;
+    }
+
+    
 
     
 }

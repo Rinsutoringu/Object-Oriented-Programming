@@ -119,7 +119,7 @@ public class User {
             new MiniOption("User Not Found", "Cannot find this user, Please check.", MiniOption.WARNING_MESSAGE);
             return false;
         }
-        if (dbutils.getUserPermission(name) == 1) {
+        if (dbutils.getUserPermission(name) == 2) {
             return true;
         } else {
             return false;

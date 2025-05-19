@@ -66,6 +66,11 @@ public abstract class StandardUI extends JPanel {
      */
     protected Map<String, JLabel> labels = new LinkedHashMap<String, JLabel>();
 
+    /**
+     * TextArea集合
+     */
+    protected Map<String, JTextArea> textAreas = new LinkedHashMap<String, JTextArea>();
+
     protected GridBagConstraints gbc;
 
     /**
@@ -131,8 +136,34 @@ public abstract class StandardUI extends JPanel {
         passwordFields.put(name, passwordField);
     }
 
-
     /**
+     * 注册新的textArea
+     * @param name
+     * @return
+     */
+    public void putTextArea(String name, JTextArea textArea) {
+        textAreas.put(name, textArea);
+    }
+    
+    /**
+     * 获取新的textArea
+     * @param name
+     * @return
+     */
+    public JTextArea getTextArea(String name) throws TextAreaNotFound{
+        JTextArea textArea;
+        try {
+            textArea = textAreas.get(name);
+            // 如果textArea不为空，直接返回
+            // 如果textArea为空，抛出异常
+            if (textArea != null) return textArea;
+            throw new NullPointerException("TextArea with key " + name + " is null");
+        } catch (NullPointerException e) {
+            throw new ButtonNotFound("Fail to found TextArea with key " + name, e);
+        }
+    }
+
+        /**
      * 获取按钮
      * @param name 获取到按钮名称，以键的方式存储在buttons集合中
      * @return 返回按钮对象

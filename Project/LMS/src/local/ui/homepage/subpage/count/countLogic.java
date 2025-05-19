@@ -39,7 +39,7 @@ public class countLogic extends StandardUILogical {
             putPL("count", getThis().getPanel("count"));
 
             // 初始化类中自有的CP（部分显示）
-            putCP("dataview", countui.getPanel("dataview"));
+            // putCP("dataview", countui.getPanel("dataview"));
 
             // 初始化画面
             defaultView();

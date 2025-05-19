@@ -2,7 +2,8 @@ package local.ui.homepage;
 
 import java.time.LocalTime;
 
-import org.postgresql.hostchooser.GlobalHostStatusTracker;
+import javax.swing.SwingWorker;
+
 
 import laboratory.lab.shelf.Shelf;
 import laboratory.lab.workers.User;
@@ -76,12 +77,22 @@ public class HomePageLogic extends StandardUILogical {
             // 在左栏展示聚合工具菜单
             homepageUI.getButton("operation").addActionListener(e ->{
 
-                // TODO 拼接一堆字符串
-                String welcomeMsg = generateWelcomeMessage(GlobalVariables.getUserName(), User.isAdmin(GlobalVariables.getUserName()));
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
 
-                String itemsquantity = "Until now, the laboratory has registered "+ Shelf.getItemQuantity() +" types of materials";
+                        String welcomeMsg = generateWelcomeMessage(GlobalVariables.getUserName(), User.isAdmin(GlobalVariables.getUserName()));
+                        String itemsquantity = generateItemsQuantityMsg();
+                        String lastoperation = generateLastOperationMsg();
 
-                ((countUI) getPage("count").getThis()).getLabel("welcomemsg").setText(welcomeMsg);
+                        ((countUI) getPage("count").getThis()).getTextArea("welcomemsg").setText(welcomeMsg);
+                        ((countUI) getPage("count").getThis()).getTextArea("itemsquantity").setText(itemsquantity);
+                        ((countUI) getPage("count").getThis()).getTextArea("lastoperation").setText(lastoperation);
+
+                        return null;
+                    }
+                };
+                worker.execute();
 
                 show(getCP("sub"), getPage("count", "count"));
             });
@@ -129,13 +140,31 @@ public class HomePageLogic extends StandardUILogical {
         }
 
         String role = isAdmin ? "Admin" : "User";
-        return String.format("%s, %s%s", timePeriod, role, username);
+        return String.format("%s, \n%s %s\n\n", timePeriod, role, username);
+    }
+
+    private String generateLastOperationMsg() {
+        String[] lastUpdate = Shelf.getClosestLastUpdate();
+        if (lastUpdate != null) {
+            return String.format("Last operation user: %s \nAt time: \n%s", lastUpdate[0], lastUpdate[1]);
+        }
+        return "Last operation: Unknown";
+    }
+
+    private String generateItemsQuantityMsg() {
+        int itemQuantity = Shelf.getItemQuantity();
+        int totalItemQuantity = Shelf.getTotalItemQuantity();
+        if (itemQuantity == -1 || totalItemQuantity == -1) {
+            return "Error: Unable to retrieve item quantities.";
+        }
+        return String.format("Until now\n"+
+                        "Types of Materials: %d.\n" +
+                        "Total Number: %d\n", itemQuantity, totalItemQuantity);
     }
 
     public void showOverview() {
         if (isShowOverview) {
             close();
-            
             return;
         }
         else {

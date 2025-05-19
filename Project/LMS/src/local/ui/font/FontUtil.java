@@ -28,4 +28,14 @@ public class FontUtil {
             e.printStackTrace();
         }
     }
+
+    public static Font loadCustomFont(String fontPath, float size) {
+        try (InputStream is = FontUtil.class.getResourceAsStream(fontPath)) {
+            Font font = Font.createFont(Font.TRUETYPE_FONT, is);
+            return font.deriveFont(size);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Font("SansSerif", Font.PLAIN, (int) size);
+        }
+    }
 }
