@@ -1,4 +1,4 @@
-package local.ui.homepage.subpage.overview;
+package local.ui.homepage.subpage.rightbar.overview;
 
 import java.awt.*;
 import java.util.Vector;

@@ -4,8 +4,8 @@ import standard.StandardUI;
 
 import local.ui.homepage.HomePageLogic;
 import local.ui.homepage.HomePageUI;
-import local.ui.homepage.subpage.overview.OverviewLogic;
-import local.ui.homepage.subpage.overview.OverviewUI;
+import local.ui.homepage.subpage.rightbar.overview.OverviewLogic;
+import local.ui.homepage.subpage.rightbar.overview.OverviewUI;
 import local.ui.login.LoginLogic;
 import local.ui.login.LoginUI;
 import local.ui.login.subpage.getdbconnect.GetDBConLogic;

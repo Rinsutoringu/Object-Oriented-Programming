@@ -8,10 +8,11 @@ import javax.swing.SwingWorker;
 import laboratory.lab.shelf.Shelf;
 import laboratory.lab.workers.User;
 import local.error.ActionAddFailed;
-import local.ui.homepage.subpage.count.countLogic;
-import local.ui.homepage.subpage.count.countUI;
-import local.ui.homepage.subpage.operation.SideBarLogic;
-import local.ui.homepage.subpage.overview.OverviewLogic;
+import local.ui.homepage.subpage.leftbar.count.countLogic;
+import local.ui.homepage.subpage.leftbar.count.countUI;
+import local.ui.homepage.subpage.leftbar.operation.SideBarLogic;
+import local.ui.homepage.subpage.rightbar.competence.competenceLogic;
+import local.ui.homepage.subpage.rightbar.overview.OverviewLogic;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
 
@@ -40,6 +41,7 @@ public class HomePageLogic extends StandardUILogical {
         putPage("overview", new OverviewLogic());
         putPage("sidebar", new SideBarLogic(this));
         putPage("count", new countLogic());
+        putPage("competence", new competenceLogic());
 
         // 初始化类中自有的PL（全屏）
         putPL("home", getThis().getPanel("home"));
@@ -72,6 +74,7 @@ public class HomePageLogic extends StandardUILogical {
             homepageUI.getButton("briefing").addActionListener(e ->{
 
                 show(getCP("sub"), getPage("sidebar", "sidebar"));
+                show(getCP("main"), getPage("overview", "overview"));
             });
 
             // 在左栏展示聚合工具菜单
@@ -95,16 +98,29 @@ public class HomePageLogic extends StandardUILogical {
                 worker.execute();
 
                 show(getCP("sub"), getPage("count", "count"));
+                show(getCP("main"), getPage("overview", "overview"));
+
             });
 
             // 在左栏展示快速添加菜单
             homepageUI.getButton("stock").addActionListener(e ->{
                 
-                System.out.println("home   "+getPL("home").getSize());
-                System.out.println("top    "+getCP("top").getSize());
-                System.out.println("sub     "+getCP("sub").getSize());
-                System.out.println("main    "+getCP("main").getSize());
-                System.out.println(" ");
+                // System.out.println("home   "+getPL("home").getSize());
+                // System.out.println("top    "+getCP("top").getSize());
+                // System.out.println("sub     "+getCP("sub").getSize());
+                // System.out.println("main    "+getCP("main").getSize());
+                // System.out.println(" ");
+
+                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+
+
+                        return null;
+                    }
+                };
+                worker.execute();
+                show(getCP("main"), getPage("competence", "competence"));
 
                 // TODO  // show(detailJpanel, panels.get("sidebar"));
                 
