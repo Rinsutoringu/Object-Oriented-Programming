@@ -49,8 +49,11 @@ public class SideBarUI extends StandardUI {
         setFontSize(getButton("minus1"), 20);
         getTextField("objectnumber").setHorizontalAlignment(JTextField.CENTER);
         getButton("search").setMargin(new Insets(0, 5, 0, 5));
-        getButton("search").setPreferredSize(new Dimension(50, 30));
-        setFontSize(getButton("search"), 14);
+        getButton("search").setPreferredSize(new Dimension(60, 25));
+        setFontSize(getButton("search"), 12);
+        getTextField("search").setPreferredSize(new Dimension(120, 25));
+        getTextField("result").setPreferredSize(new Dimension(200, 30));
+        getTextField("objectname").setPreferredSize(new Dimension(200, 30));
         
     }
 
@@ -93,6 +96,7 @@ public class SideBarUI extends StandardUI {
         GridBagConstraints.NONE, 1, 1);
 
 
+
         panel.setBackground(GlobalVariables.cgetSideBarLogic());
         // 注册CP组件
         putPanel("addandedit", panel);
@@ -132,6 +136,7 @@ public class SideBarUI extends StandardUI {
         putPanel("userinput", panel);
     }
 
+    // 加减按钮
     private void createplusorminus() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
@@ -152,6 +157,7 @@ public class SideBarUI extends StandardUI {
         utils.addComponent(panel, getButton("plus1"), 
         gbc, 3, 1, 1, 1,GridBagConstraints.NONE, 1, 1);
         
+        panel.setBackground(GlobalVariables.cgetSideBarLogic());
         putPanel("plusorminus", panel);
     }
 
@@ -162,32 +168,38 @@ public class SideBarUI extends StandardUI {
 
         panel.setPreferredSize(new Dimension(subwindow_width, subwindow_height)); 
 
+
         putLabel("searchitem", new JLabel("Search Item here"));
-        putTextField("search", new JTextField(15));
+        putLabel("searchlabel", new JLabel("Item"));
+        putTextField("search", new JTextField(12));
         putButton("search", new JButton("Search"));
         putTextField("result", new JTextField("Search Result will show here.", 29));
         putButton("clear", new JButton("Clear"));
+
 
         short gheight = 0;
 
         gbc.insets = new Insets(10, 10, 35, 10);
 
         utils.addComponent(panel, getLabel("searchitem"), gbc, gmiddle, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+        GridBagConstraints.NONE, 3, 1);
 
         gbc.insets = new Insets(5, 10, 5, 10);
 
-        utils.addComponent(panel, getTextField("search"), gbc, gleft, ++gheight, 1, 1,
+        utils.addComponent(panel, getLabel("searchlabel"), gbc, gleft, ++gheight, 0.1, 1,
         GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, getButton("search"), gbc, gright, gheight, 1, 1,
+        utils.addComponent(panel, getTextField("search"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
+
+        utils.addComponent(panel, getButton("search"), gbc, gright+1, gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);
 
         utils.addComponent(panel, getTextField("result"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+        GridBagConstraints.NONE, 3, 1);
 
         utils.addComponent(panel, getButton("clear"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+        GridBagConstraints.NONE, 3, 1);
 
         panel.setBackground(GlobalVariables.cgetSideBarLogic());
         putPanel("search", panel);
