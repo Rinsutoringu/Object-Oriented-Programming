@@ -41,7 +41,7 @@ public class OverviewLogic extends StandardUILogical {
 
             // 初始化画面
             defaultView();
-            refreshTableData();
+            refreshTableData(null, true);
 
             // 初始化点击事件
             addButtonAction();
@@ -73,38 +73,49 @@ public class OverviewLogic extends StandardUILogical {
 
             // 在此定义具体点击事件
             try {
-                refreshTableData();
+                refreshTableData(null, true);
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);
             }
-
         }
         );
-
+            overviewui.getButton("sortNameAsc").addActionListener(e -> refreshTableData("obj_name", true));
+            overviewui.getButton("sortNameDesc").addActionListener(e -> refreshTableData("obj_name", false));
+            overviewui.getButton("sortNumberAsc").addActionListener(e -> refreshTableData("obj_number", true));
+            overviewui.getButton("sortNumberDesc").addActionListener(e -> refreshTableData("obj_number", false));
     }
 
-    public void refreshTableData() {
-        try {
-            DefaultTableModel model = overviewui.getTableModel();
-            int columnCount = model.getColumnCount();
-            model.setRowCount(0);
-            java.util.List<Object[]> data = dbUtils.queryShelfTable();
-            for (Object[] row : data) {
-                if (row.length != columnCount) {
-                    Object[] fixedRow = new Object[columnCount];
-                    for (int i = 0; i < columnCount; i++) {
-                        fixedRow[i] = i < row.length ? row[i] : null;
-                    }
-                    model.addRow(fixedRow);
-                } else {
-                    model.addRow(row);
-                }
-            }
-        } catch (Exception e) {
-            CatchException.handle(e, eh);
+public void refreshTableData(String orderBy, boolean asc) {
+    try {
+        DefaultTableModel model = overviewui.getTableModel();
+        int columnCount = model.getColumnCount();
+        model.setRowCount(0);
+
+        // 只查询需要的字段
+        String sql = "SELECT obj_name, obj_number, obj_lastuptime, lastuser FROM shelf";
+        if (orderBy != null && !orderBy.isEmpty()) {
+            sql += " ORDER BY " + orderBy + (asc ? " ASC" : " DESC");
         }
+        java.util.List<Object[]> data = dbUtils.queryCustomShelfTable(sql);
+
+        for (Object[] row : data) {
+            if (row.length != columnCount) {
+                Object[] fixedRow = new Object[columnCount];
+                for (int i = 0; i < columnCount; i++) {
+                    fixedRow[i] = i < row.length ? row[i] : null;
+                }
+                model.addRow(fixedRow);
+            } else {
+                model.addRow(row);
+            }
+        }
+    } catch (Exception e) {
+        CatchException.handle(e, eh);
     }
+}
+
+
 
     
 

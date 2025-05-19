@@ -8,6 +8,7 @@ import database.errorhandle.errorHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import standard.GlobalVariables;
 import standard.StandardUI;
 import local.utils.*;
 
@@ -27,6 +28,7 @@ public class LoginUI extends StandardUI{
 
             init_index();
             init_pic();
+            setFontSize();
 
             // 放置index面板进去
             utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
@@ -41,6 +43,14 @@ public class LoginUI extends StandardUI{
             CatchException.handle(e, eh);
         }
     }
+
+    // 设置字体大小
+    private void setFontSize() {
+        setFontSize(getLabel("login"), 24);
+        setFontSize(getButton("login"), 18);
+
+    }
+
 
     // 关键信息面板
     private void init_index() throws Exception {
@@ -115,7 +125,7 @@ public class LoginUI extends StandardUI{
         gbc.insets = new Insets(5,5,0,5);
 
         buttons.put("regusr", new JButton("Register"));
-        buttons.put("setdb", new JButton("Set DB Connect"));
+        buttons.put("setdb", new JButton(" Set DB "));
 
         utils.addComponent(panel, getButton("regusr"), gbc, gleft, 0);
 
@@ -133,24 +143,31 @@ public class LoginUI extends StandardUI{
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
 
+        // 创建组件
+        putLabel("login", new JLabel("Login             "));
+        putLabel("username", new JLabel("UserName"));
+        putLabel("password", new JLabel("Password"));
+
         short gheight = 0;
 
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+
+        utils.addComponent(panel, getLabel("login"), gbc, 0, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
+
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
 
-        utils.addComponent(panel, new JLabel("Login"), gbc, 0, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
-        utils.addComponent(panel, new JLabel("User Name"), gbc, 0, ++gheight);
-        textFields.put("loginusr", new JTextField(16));
+        utils.addComponent(panel, getLabel("username"), gbc, 0, ++gheight);
+        textFields.put("loginusr", new JTextField(22));
         utils.addComponent(panel, textFields.get("loginusr"), gbc, 1, gheight);
 
-        utils.addComponent(panel, new JLabel("PassWord"), gbc, 0, ++gheight);
+        utils.addComponent(panel, getLabel("password"), gbc, 0, ++gheight);
         textFields.put("loginpwd", new JPasswordField(16));
         utils.addComponent(panel, textFields.get("loginpwd"), gbc, 1, gheight);
         // DEBUG
-        // panel.setBackground(Color.red);
+        // panel.setBackground(GlobalVariables.cgetLoginUILogic());
         return panel;
     }
 
@@ -158,7 +175,7 @@ public class LoginUI extends StandardUI{
     private JPanel usrprotocal() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
         panel.setBackground(new Color(255, 255, 255));
-        JLabel label = new JLabel("Check to agree to the \"User Agreement\".");
+        JLabel label = new JLabel("Agree the \"User Agreement\".");
         this.checkBoxs.put("check", new JCheckBox());
         panel.add(checkBoxs.get("check"));
         panel.add(label);

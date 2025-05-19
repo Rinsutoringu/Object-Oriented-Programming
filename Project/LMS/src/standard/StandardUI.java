@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.image.BufferedImage;
 
@@ -59,6 +60,11 @@ public abstract class StandardUI extends JPanel {
      * 密码输入框集合
      */
     protected Map<String, JPasswordField> passwordFields = new LinkedHashMap<String, JPasswordField>();
+
+    /**
+     * Lable集合
+     */
+    protected Map<String, JLabel> labels = new LinkedHashMap<String, JLabel>();
 
     protected GridBagConstraints gbc;
 
@@ -254,6 +260,32 @@ public abstract class StandardUI extends JPanel {
         }
     }
 
+    /**
+     * 获取Lable
+     * @param name 获取到Lable名称，以键的方式存储在labels集合中
+     * @return 返回Lable对象
+     */
+    public JLabel getLabel(String name) throws LabelNotFound{
+        JLabel label;
+        try {
+            label = labels.get(name);
+            // 如果Lable不为空，直接返回
+            // 如果Lable为空，抛出异常
+            if (label != null) return label;
+            throw new NullPointerException("Label with key " + name + " is null");
+        } catch (NullPointerException e) {
+                throw new LabelNotFound("Fail to found label with key " + name, e);
+            }
+    }
+
+    /**
+     * 设置Lable
+     * @param name Lable名称
+     */
+    public void putLabel(String name, JLabel label) {
+        labels.put(name, label);
+    }
+
     public StandardUI() {
         // 设置默认布局
         // 初始化GBC对象并设置间隔
@@ -284,6 +316,15 @@ public abstract class StandardUI extends JPanel {
         area.add(newPanel, BorderLayout.CENTER);
         area.revalidate();
         area.repaint();
+    }
+
+    protected void setFontSize(JComponent component, int size) {
+        Font font = component.getFont();
+        component.setFont(font.deriveFont((float)size)); // 只改字号
+    }
+
+    protected void setStyle() {
+        throw new UnsupportedOperationException("setStyle() not implemented");
     }
 
 }

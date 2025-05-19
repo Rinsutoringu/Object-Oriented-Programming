@@ -15,9 +15,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import local.ui.miniwindow.MiniOption;
 import local.utils.CfgIOutils;
 import standard.GlobalVariables;
 
@@ -495,37 +498,28 @@ public Connection createConnect() throws DBConnectError, Exception {
         return 0;
     }
 
-    /**
-     * 从数据库拉取库存表
-     */
-    public List<Object[]> queryShelfTable() {
+
+    public List<Object[]> queryCustomShelfTable(String sql) {
         List<Object[]> result = new ArrayList<>();
-        String query = "SELECT obj_name, obj_number, obj_lastuptime, lastuser FROM shelf";
-        ResultSet rs = null;
         try {
-            rs = this.SearchDB(query);
-            while (rs!= null && rs.next()) {
-                // 获取一行数据
-                Object[] row = new Object[4];
-                row[0] = rs.getString("obj_name");
-                row[1] = rs.getInt("obj_number");
-                row[2] = rs.getString("obj_lastuptime");
-                row[3] = rs.getString("lastuser");
-                // 将数据添加到结果列表中
-                result.add(row);
+            if (connection == null || connection.isClosed()) {
+                connection = getConnection();
+            }
+            try (Statement stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+                int columnCount = rs.getMetaData().getColumnCount();
+                while (rs.next()) {
+                    Object[] row = new Object[columnCount];
+                    for (int i = 0; i < columnCount; i++) {
+                        row[i] = rs.getObject(i + 1);
+                    }
+                    result.add(row);
+                }
             }
         } catch (Exception e) {
             CatchException.handle(e, eh);
-        } finally {
-            // 关闭ResultSet
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (SQLException e) {
-                CatchException.handle(e, eh);
-            }
         }
         return result;
     }
+
 }

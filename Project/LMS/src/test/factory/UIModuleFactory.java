@@ -4,7 +4,8 @@ import standard.StandardUI;
 
 import local.ui.homepage.HomePageLogic;
 import local.ui.homepage.HomePageUI;
-
+import local.ui.homepage.subpage.overview.OverviewLogic;
+import local.ui.homepage.subpage.overview.OverviewUI;
 import local.ui.login.LoginLogic;
 import local.ui.login.LoginUI;
 import local.ui.login.subpage.getdbconnect.GetDBConLogic;
@@ -33,6 +34,10 @@ public class UIModuleFactory {
                 return new GetDBConUI();
             case "panel-getdbcon-logic":
                 return new GetDBConLogic();
+            case "panel-overview-ui":
+                return new OverviewUI();
+            case "panel-overview-logic":
+                return new OverviewLogic();
             default:
                 return null;
         }

@@ -38,6 +38,8 @@ public class GlobalVariables {
 
     public static final Color sideBarLogic = new Color(244, 245, 246);
 
+    public static final Color loginUILogic = new Color(244, 245, 246);
+
     public static String currentUsr;
 
     private GlobalVariables() {
@@ -146,5 +148,11 @@ public class GlobalVariables {
     public static String getStaffTableName() {
         return staffTableName;
     }
+
+    public static Color cgetLoginUILogic() {
+        return loginUILogic;
+    }
+
+    
 }
 

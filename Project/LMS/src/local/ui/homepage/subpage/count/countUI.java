@@ -1,4 +1,4 @@
-package local.ui.example;
+package local.ui.homepage.subpage.count;
 
 import java.awt.*;
 
@@ -8,12 +8,12 @@ import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import standard.StandardUI;
 
-public class exampleUI extends StandardUI {
+public class countUI extends StandardUI {
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
 
-    public exampleUI() {
+    public countUI() {
         
         // 初始化UI并注册默认方法
         super();
@@ -51,7 +51,7 @@ public class exampleUI extends StandardUI {
         GridBagConstraints.NONE, 1, 1);
 
         // 注册PL单元
-        putPanel("examplewindow", panel);
+        panels.put("examplewindow", panel);
     }
 
     // 这是一个示范CP组件
@@ -66,11 +66,11 @@ public class exampleUI extends StandardUI {
         GridBagConstraints.NONE, 1, 1);
 
         // 注册CP组件
-        putPanel("example1", panel);
+        panels.put("example1", panel);
     }
 
     @Override
-    public exampleUI getThis() {
+    public countUI getThis() {
         return this;
     }
 }

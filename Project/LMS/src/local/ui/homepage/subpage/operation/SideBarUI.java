@@ -13,6 +13,8 @@ public class SideBarUI extends StandardUI {
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
+    private int subwindow_width = 260;
+    private int subwindow_height = 228;
 
     public SideBarUI() {
 
@@ -22,6 +24,9 @@ public class SideBarUI extends StandardUI {
         try {
             // 初始化本类自有的PL
             init_sidebarPL();
+            
+            // 设置样式
+            setStyle();
 
             // 把本类PL加入到UI
             utils.addComponent(this, getPanel("sidebar"), gbc, 1, 2);
@@ -29,6 +34,24 @@ public class SideBarUI extends StandardUI {
             // 使用默认错误处理器处理错误
             CatchException.handle(e, eh);
         }
+    }
+
+    // 设置样式
+    @Override
+    protected void setStyle() {
+        setFontSize(getLabel("searchitem"), 20);
+        setFontSize(getLabel("addtooltip"), 20);
+        getButton("plus1").setPreferredSize(new Dimension(21, 21));
+        getButton("minus1").setPreferredSize(new Dimension(21, 21));
+        getButton("plus1").setMargin(new Insets(0, 0, 0, 0));
+        getButton("minus1").setMargin(new Insets(0, 0, 0, 0));
+        setFontSize(getButton("plus1"), 20);
+        setFontSize(getButton("minus1"), 20);
+        getTextField("objectnumber").setHorizontalAlignment(JTextField.CENTER);
+        getButton("search").setMargin(new Insets(0, 5, 0, 5));
+        getButton("search").setPreferredSize(new Dimension(50, 30));
+        setFontSize(getButton("search"), 14);
+        
     }
 
     // 这是一个示范PL单元
@@ -53,10 +76,11 @@ public class SideBarUI extends StandardUI {
         // 注册PL单元
         panels.put("sidebar", panel);
     }
-
+    // 增改单元
     private void createAddAndEditCP() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
+        panel.setPreferredSize(new Dimension(subwindow_width, subwindow_height)); 
         userinput();
         putButton("submit", new JButton("Add/Edit"));
         putButton("delete", new JButton(" DELETE "));
@@ -77,55 +101,81 @@ public class SideBarUI extends StandardUI {
     // 增改组件
     private void userinput() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout()); 
+        panel.setLayout(new GridBagLayout());
+        
 
-        putTextField("objectname", new JTextField(15));
-        putButton("minus1", new JButton("-1"));
-        putTextField("objectnumber", new JTextField("1",4));
-        putButton("plus1", new JButton("+1"));
-
+        putLabel("addtooltip", new JLabel("Add & Edit Item"));
+        putTextField("objectname", new JTextField(17));
+        createplusorminus();
+        
         short gheight = 0;
 
-        utils.addComponent(panel, new JLabel("Plz Type In Item Name"), gbc, gmiddle, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 3, 1);
+        gbc.insets = new Insets(10, 5, 35, 5);
+        utils.addComponent(panel, getLabel("addtooltip"), gbc, gmiddle, ++gheight, 1, 1,
+        GridBagConstraints.NONE, 2, 1);
 
-        utils.addComponent(panel, getTextField("objectname"), gbc, gmiddle, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 3, 1);
+        gbc.insets = new Insets(5, 5, 5, 5);
 
-        utils.addComponent(panel, new JLabel("Number?"), gbc, gmiddle, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 3, 1);
-
-        utils.addComponent(panel, getButton("minus1"), gbc, gleft, ++gheight, 1, 1,
+        utils.addComponent(panel, new JLabel("Item  "), gbc, gleft, ++gheight, 0.1, 1,
         GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, getTextField("objectnumber"), gbc, gright, gheight, 1, 1,
+        utils.addComponent(panel, getTextField("objectname"), gbc, gright, gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, getButton("plus1"), gbc, gright+1, gheight, 1, 1,
+        utils.addComponent(panel, new JLabel("Number"), gbc, gleft, ++gheight, 0.1, 1,
         GridBagConstraints.NONE, 1, 1);
 
-
+        utils.addComponent(panel, getPanel("plusorminus"), gbc, gright, gheight, 1, 1,
+        GridBagConstraints.NONE, 1, 1);
 
         panel.setBackground(GlobalVariables.cgetSideBarLogic());
-        // 注册CP组件
         putPanel("userinput", panel);
     }
 
-    // 搜索组件
+    private void createplusorminus() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout()); 
+        // panel.setPreferredSize(new Dimension(80, 200));
+
+        putButton("minus1", new JButton("-"));
+        putTextField("objectnumber", new JTextField("1",3));
+        putButton("plus1", new JButton("+"));
+        
+        gbc.insets = new Insets(5, 2, 5, 2);
+
+        utils.addComponent(panel, getButton("minus1"), 
+        gbc, 1, 1, 1, 1,GridBagConstraints.NONE, 1, 1);
+
+        utils.addComponent(panel, getTextField("objectnumber"), 
+        gbc, 2, 1, 1, 1,GridBagConstraints.NONE, 1, 1);
+
+        utils.addComponent(panel, getButton("plus1"), 
+        gbc, 3, 1, 1, 1,GridBagConstraints.NONE, 1, 1);
+        
+        putPanel("plusorminus", panel);
+    }
+
+    // 搜索单元
     private void createSearch() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
 
-        putTextField("search", new JTextField(10));
-        putButton("search", new JButton("Search"));
-        putTextField("result", new JTextField("Search Result will show here.",18));
-        putButton("clear", new JButton("Clear"));
+        panel.setPreferredSize(new Dimension(subwindow_width, subwindow_height)); 
 
+        putLabel("searchitem", new JLabel("Search Item here"));
+        putTextField("search", new JTextField(15));
+        putButton("search", new JButton("Search"));
+        putTextField("result", new JTextField("Search Result will show here.", 29));
+        putButton("clear", new JButton("Clear"));
 
         short gheight = 0;
 
-        utils.addComponent(panel, new JLabel("Name"), gbc, gmiddle, ++gheight, 1, 1,
+        gbc.insets = new Insets(10, 10, 35, 10);
+
+        utils.addComponent(panel, getLabel("searchitem"), gbc, gmiddle, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
+
+        gbc.insets = new Insets(5, 10, 5, 10);
 
         utils.addComponent(panel, getTextField("search"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);
@@ -140,9 +190,10 @@ public class SideBarUI extends StandardUI {
         GridBagConstraints.NONE, 2, 1);
 
         panel.setBackground(GlobalVariables.cgetSideBarLogic());
-        // 注册CP组件
         putPanel("search", panel);
     }
+
+
 
     @Override
     public SideBarUI getThis() {

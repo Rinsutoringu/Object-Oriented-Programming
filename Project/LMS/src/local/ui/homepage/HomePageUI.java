@@ -58,7 +58,6 @@ public class HomePageUI extends StandardUI {
         // DEBUG
         panel.setPreferredSize(new Dimension(20, 20));
         // 设置topview建议间隔
-        panel.setPreferredSize(new Dimension(0, 9));
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
         
         buttons.put("briefing", buildButton("Show Briefing"));

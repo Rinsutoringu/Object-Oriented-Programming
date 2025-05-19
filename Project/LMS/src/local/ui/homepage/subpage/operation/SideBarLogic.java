@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
@@ -105,81 +106,110 @@ public class SideBarLogic extends StandardUILogical {
     public void addButtonAction() {
         
         // 增改按钮逻辑
-        sidebarui.getButton("submit").addActionListener(e->{
-            // 在此定义具体点击事件
-            try {
-                String userInput = getUserInput();
-                int number = getNumberInput();
-                if (userInput.isEmpty() || number == -1) return;
-
-                // 构造键值对
-                Map<String, Object> whereMap = new java.util.HashMap<>();
-                whereMap.put("obj_name", userInput);
-                Map<String, Object> updateMap = new java.util.HashMap<>();
-                updateMap.put("obj_number", number);
-                ResultSet rs = null;
+    sidebarui.getButton("submit").addActionListener(e -> {
+        // 在此定义具体点击事件
+        new javax.swing.SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
                 try {
-                    // 执行数据库操作
+                    String userInput = getUserInput();
+                    int number = getNumberInput();
+                    if (userInput.isEmpty() || number == -1) return null;
 
-                    rs = dbutils.queryRow(GlobalVariables.getShelfTableName(), whereMap);
-                    if (rs == null || !rs.next()) {
-                        // 如果没有记录，则插入新记录
-                        updateMap.put("obj_name", userInput);
-                        updateMap.put("obj_lastuptime", new java.sql.Timestamp(System.currentTimeMillis()));
-                        updateMap.put("lastuser", GlobalVariables.getUserName());
-                        dbutils.insertRow(GlobalVariables.getShelfTableName(), updateMap);
-                    } else {
-                        // 如果有记录，则更新记录
-                        int newNumber = rs.getInt("obj_number") + number;
-                        if (newNumber < 0) {
-                            new MiniOption("Input Error", "Object number cannot be negative.", JOptionPane.INFORMATION_MESSAGE);
-                            return;
+                    // 构造键值对
+                    Map<String, Object> whereMap = new java.util.HashMap<>();
+                    whereMap.put("obj_name", userInput);
+                    Map<String, Object> updateMap = new java.util.HashMap<>();
+                    updateMap.put("obj_number", number);
+                    ResultSet rs = null;
+                    try {
+                        // 执行数据库操作
+                        rs = dbutils.queryRow(GlobalVariables.getShelfTableName(), whereMap);
+                        if (rs == null || !rs.next()) {
+                            // 如果没有记录，则插入新记录
+                            updateMap.put("obj_name", userInput);
+                            updateMap.put("obj_lastuptime", new java.sql.Timestamp(System.currentTimeMillis()));
+                            updateMap.put("lastuser", GlobalVariables.getUserName());
+                            dbutils.insertRow(GlobalVariables.getShelfTableName(), updateMap);
+                        } else {
+                            // 如果有记录，则更新记录
+                            int newNumber = rs.getInt("obj_number") + number;
+                            if (newNumber < 0) {
+                                javax.swing.SwingUtilities.invokeLater(() -> 
+                                    new MiniOption("Input Error", "Object number cannot be negative.", JOptionPane.INFORMATION_MESSAGE)
+                                );
+                                return null;
+                            }
+                            updateMap.put("obj_number", newNumber);
+                            updateMap.put("obj_name", userInput);
+                            updateMap.put("obj_lastuptime", new java.sql.Timestamp(System.currentTimeMillis()));
+                            updateMap.put("lastuser", GlobalVariables.getUserName());
                         }
-                        updateMap.put("obj_number", newNumber);
-                        updateMap.put("obj_name", userInput);
-                        updateMap.put("obj_lastuptime", new java.sql.Timestamp(System.currentTimeMillis()));
-                        updateMap.put("lastuser", GlobalVariables.getUserName());
-                    }
-                    dbutils.updateRow(GlobalVariables.getShelfTableName(), whereMap, updateMap);
+                        dbutils.updateRow(GlobalVariables.getShelfTableName(), whereMap, updateMap);
 
+                    } catch (Exception ex) {
+                        CatchException.handle(ex, eh);      
+                    } finally {
+                        if (rs != null) {
+                            try {
+                                rs.close();
+                                // 刷新表格需要在EDT线程
+                                javax.swing.SwingUtilities.invokeLater(() -> {
+                                    getOverviewLogic().refreshTableData(null, true);
+                                });
+                            } catch (Exception ex) {
+                                CatchException.handle(ex, eh);
+                            }
+                        }
+                    }
                 } catch (Exception ex) {
-                    CatchException.handle(ex, eh);      
-                } finally {
-                    if (rs != null) {
-                        try {
-                            rs.close();
-                            getOverviewLogic().refreshTableData();
-                        } catch (Exception ex) {
-                            CatchException.handle(ex, eh);
-                        }
-                    }
+                    // 基础的错误处理逻辑
+                    CatchException.handle(ex, eh);
                 }
-                System.out.println("submit button clicked");
-            } catch (Exception ex) {
-                // 基础的错误处理逻辑
-                CatchException.handle(ex, eh);
+                return null;
             }
-        });
+        }.execute();
+    });
 
         // 删除按钮逻辑
-        sidebarui.getButton("delete").addActionListener(e->{
-            // 在此定义具体点击事件
-            try {
-                String userInput = getUserInput();
-                if (userInput.isEmpty()) return;
-                if (table.isEditing()) {
-                    table.getCellEditor().stopCellEditing();
+        sidebarui.getButton("delete").addActionListener(e -> {
+            new SwingWorker<Void, Void>() {
+                int selectedRow = table.getSelectedRow();
+                @Override
+                protected Void doInBackground() {
+                    try {
+                        String userInput = getUserInput();
+                        if (userInput.isEmpty()) return null;
+                        if (selectedRow == -1) return null;
+                        if (table.isEditing()) {
+                            javax.swing.SwingUtilities.invokeAndWait(() -> table.getCellEditor().stopCellEditing());
+                        }
+                        // 构造键值对
+                        Map<String, Object> whereMap = new java.util.HashMap<>();
+                        whereMap.put("obj_name", userInput);
+                        dbutils.deleteRow(GlobalVariables.getShelfTableName(), whereMap);
+                    } catch (Exception ex) {
+                        CatchException.handle(ex, eh);
+                    }
+                    return null;
                 }
-                // 构造键值对
-                Map<String, Object> whereMap = new java.util.HashMap<>();
-                whereMap.put("obj_name", userInput);
-                dbutils.deleteRow(GlobalVariables.getShelfTableName(), whereMap);
-                getTableModel().removeRow(getTableModel().getRowCount() - 1);
-                getOverviewLogic().refreshTableData();
-            } catch (Exception ex) {
-                // 基础的错误处理逻辑
-                CatchException.handle(ex, eh);
-            }
+                @Override
+                protected void done() {
+                    try {
+                        if (selectedRow == -1) {
+                            new MiniOption("Delete Error", "Please select a row to delete.", JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        DefaultTableModel model = getTableModel();
+                        if (model != null && selectedRow < model.getRowCount()) {
+                            model.removeRow(selectedRow);
+                        }
+                        getOverviewLogic().refreshTableData(null, true);
+                    } catch (Exception ex) {
+                        CatchException.handle(ex, eh);
+                    }
+                }
+            }.execute();
         });
 
         // 搜索按钮逻辑
@@ -187,6 +217,7 @@ public class SideBarLogic extends StandardUILogical {
             ResultSet rs = null;
             // 在此定义具体点击事件
             try {
+                System.out.println(getThis().getPanel("addandedit"));
                 String userSearch = getUserSearch();
                 if (userSearch.isEmpty()) return;
 
@@ -255,7 +286,7 @@ public class SideBarLogic extends StandardUILogical {
                 int selectedRow = table.getSelectedRow();
                 int rowCount = table.getRowCount();
                 if (selectedRow != -1 && selectedRow < rowCount) {
-                    setUserInput((String)table.getValueAt(selectedRow, 0));
+                    setUserInput(String.valueOf(table.getValueAt(selectedRow, 0)));
                 }
             }
         });

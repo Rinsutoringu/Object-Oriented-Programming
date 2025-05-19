@@ -67,6 +67,7 @@ public class LoginLogic extends StandardUILogical {
             try {
                 if (!User.Login(usr, pwd)) throw new AuthFailed("Login failed"); 
                 System.out.println("Login success");
+                GlobalVariables.setUserName(usr);
                 loginusr.setText("");
                 loginpwd.setText("");
             } catch (Exception ex) {
