@@ -4,6 +4,8 @@ import java.time.LocalTime;
 
 import org.postgresql.hostchooser.GlobalHostStatusTracker;
 
+import laboratory.lab.shelf.Shelf;
+import laboratory.lab.workers.User;
 import local.error.ActionAddFailed;
 import local.ui.homepage.subpage.count.countLogic;
 import local.ui.homepage.subpage.count.countUI;
@@ -74,11 +76,12 @@ public class HomePageLogic extends StandardUILogical {
             // 在左栏展示聚合工具菜单
             homepageUI.getButton("operation").addActionListener(e ->{
 
-
                 // TODO 拼接一堆字符串
-                String welcomeMsg = generateWelcomeMessage(GlobalVariables.getUserName(), false);
+                String welcomeMsg = generateWelcomeMessage(GlobalVariables.getUserName(), User.isAdmin(GlobalVariables.getUserName()));
 
-                ((countUI) getPage("count").getThis()).getLabel("welcomemsg").setText("欢迎使用聚合工具");
+                String itemsquantity = "Until now, the laboratory has registered "+ Shelf.getItemQuantity() +" types of materials";
+
+                ((countUI) getPage("count").getThis()).getLabel("welcomemsg").setText(welcomeMsg);
 
                 show(getCP("sub"), getPage("count", "count"));
             });

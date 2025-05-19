@@ -522,4 +522,43 @@ public Connection createConnect() throws DBConnectError, Exception {
         return result;
     }
 
+    /**
+     * 获取用户权限
+     * @param username 待查询用户名
+     * @return 用户权限: 1 用户, 2 管理员, 0 被ban
+     */
+    public int getUserPermission(String username) {
+        String query = "SELECT state FROM staff WHERE username = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(query)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("state");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
+     * 设置用户权限
+     * @param username 待设置用户名
+     * @param state 用户权限
+     * @return 是否成功
+     */
+    public boolean setUserPermission(String username, int state) {
+        String sql = "UPDATE staff SET state = ? WHERE username = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setInt(1, state);
+            stmt.setString(2, username);
+            int affected = stmt.executeUpdate();
+            return affected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

@@ -10,6 +10,7 @@ import database.error.DBConnectError;
 import database.errorhandle.CatchException;
 import local.error.AuthFailed;
 import local.error.UserInfoError;
+import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import database.errorhandle.errorHandler;
 import database.db.DataBase;
@@ -18,7 +19,7 @@ public class User {
 
     private static errorHandler eh = errorHandler.getInstance();
     // db实例
-    private static DataBase db = DataBase.getInstance();
+    private static DataBase dbutils = DataBase.getInstance();
 
     public User() {
         // 构造函数
@@ -38,11 +39,11 @@ public class User {
         String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
         ResultSet rs = null;
         try {
-            Connection connection = db.getConnection();
+            Connection connection = dbutils.getConnection();
             if (connection == null || connection.isClosed()) 
                 throw new DBConnectError("Database connection is not available");
             // 查找这个用户名对应的数据库信息
-            rs = db.SearchDB(query);
+            rs = dbutils.SearchDB(query);
             // 如果查找失败\压根没这个人则失败
             if (rs == null || !rs.next()) {
                 throw new UserInfoError("User not exist");
@@ -86,9 +87,42 @@ public class User {
         map.put("regdate", new java.sql.Timestamp(System.currentTimeMillis()));
         map.put("state", 1);
         try {
-            db.insertRow(GlobalVariables.getStaffTableName(), map);
+            dbutils.insertRow(GlobalVariables.getStaffTableName(), map);
         } catch (Exception e) {
             CatchException.handle(e, eh);
+        }
+    }
+
+    /**
+     * 检查用户是否存在
+     * @param username 用户名
+     * @return 如果用户存在返回 true，否则返回 false
+     */
+    public static boolean userExists(String username) {
+        String query = "SELECT COUNT(*) FROM staff WHERE username = ?";
+        try (PreparedStatement stmt = dbutils.getConnection().prepareStatement(query)) {
+            stmt.setString(1, username);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0; // 如果 COUNT(*) > 0，说明用户存在
+                }
+            }
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+        }
+        return false; // 如果查询失败或用户不存在
+    }
+
+    public static boolean isAdmin(String name) {
+
+        if (!userExists(name)) {
+            new MiniOption("User Not Found", "Cannot find this user, Please check.", MiniOption.WARNING_MESSAGE);
+            return false;
+        }
+        if (dbutils.getUserPermission(name) == 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
