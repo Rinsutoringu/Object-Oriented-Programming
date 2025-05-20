@@ -67,6 +67,8 @@ public class itemoperationLogic extends StandardUILogical {
             // 初始化类中持有的句柄
             this.table = getTable();
 
+            setStyle();
+
             // 初始化类中自有的PL（全屏）
             // TODO 并没有PL
             putPL("sidebar", getThis().getPanel("sidebar"));
@@ -84,6 +86,11 @@ public class itemoperationLogic extends StandardUILogical {
             // 使用默认错误处理器处理错误
             CatchException.handle(e, eh);
         }
+    }
+
+    @Override
+    protected void setStyle() {
+        getThis().getTextField("result").setEditable(false);
     }
 
     // 设置启动后的默认视图
@@ -217,7 +224,6 @@ public class itemoperationLogic extends StandardUILogical {
             ResultSet rs = null;
             // 在此定义具体点击事件
             try {
-                System.out.println(getThis().getPanel("addandedit"));
                 String userSearch = getUserSearch();
                 if (userSearch.isEmpty()) return;
 
@@ -230,14 +236,7 @@ public class itemoperationLogic extends StandardUILogical {
                     return;
                 }
                 getThis().getTextField("result").setText(
-                    "Search Result: Item name " + 
-                    rs.getString("obj_name") + 
-                    ", Number " + 
-                    rs.getString("obj_number") + 
-                    ", Last Update Time " + 
-                    rs.getString("obj_lastuptime") + 
-                    ", Last User " + 
-                    rs.getString("lastuser")
+                    "Item amount:"+ rs.getString("obj_number")
                 );
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
@@ -249,7 +248,7 @@ public class itemoperationLogic extends StandardUILogical {
         sidebarui.getButton("clear").addActionListener(e->{
             // 在此定义具体点击事件
             try {
-                getThis().getTextField("objectname").setText("");
+                getThis().getTextField("result").setText("");
             } catch (Exception ex) {
                 // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);

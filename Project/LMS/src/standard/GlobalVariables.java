@@ -54,11 +54,11 @@ public class GlobalVariables {
     public static String currentUsr;
 
     private GlobalVariables() {
-        setDBUrl("192.168.101.103");
-        setDBPort("56003");
+        setDBUrl("123.207.72.222");
+        setDBPort("50091");
         setDBType("MySQL");
         setDBSubName("LMS_sql");
-        setUserName("root");
+        setDBUser("root");
         setDBPassword("WPR_2333");
         setStaffTableName("staff");
         setShelfTableName("shelf");

@@ -37,6 +37,12 @@ public class DataBase {
     // 数据库连接对象
     private Connection connection;
     private errorHandler eh = errorHandler.getInstance();
+    private boolean connectionErrorShown = false;
+    private int retryCount= 0;
+    private static final int MAX_RETRIES = 3;
+    private boolean isStaffTableChecked = false;
+    private boolean isShelfTableChecked = false;
+
     // TODO 提供降级逻辑
     // 我不想做了!
 
@@ -55,22 +61,49 @@ public class DataBase {
         return instance;
     }
 
+    public void ResetRetryCount() {
+        retryCount = 0;
+    }
+
+
     public Connection getConnection() {
         try {
-            // 如果发现链接有问题就进行重建
-            if (connection == null || connection.isClosed()) connection = createConnect();
-            
-            if (!isTableExists("staff")) createStaffTableIfNotExists();
-            if (!isTableExists("shelf")) createShelfTableIfNotExists();
-            
+            if (connection == null || connection.isClosed()) {
+
+                if (retryCount >= MAX_RETRIES) {
+                    new MiniOption("Database Connection Failed!", "Please Check your connection", MiniOption.ERROR_MESSAGE);
+                    return null;
+                }
+
+                connection = createConnect();
+                
+                retryCount++;
+            }
+
+            if (connection != null && !connection.isClosed()) {
+                if (!isStaffTableChecked) {
+                    if (!isTableExists("staff")) createStaffTableIfNotExists();
+                    isStaffTableChecked = true;
+                }
+                if (!isShelfTableChecked) {
+                    if (!isTableExists("shelf")) createShelfTableIfNotExists();
+                    isShelfTableChecked = true;
+                }
+
+                connectionErrorShown = false;
+                retryCount = 0; 
+            }
+
             return connection;
         } catch (Exception e) {
-            CatchException.handle(e, eh);
+            if (!connectionErrorShown) {
+                CatchException.handle(e, eh);
+                connectionErrorShown = true; 
+            }
         }
         return null;
     }
 
-    // 获取驱动类名
     private String getDriverClass() {
         String dbType = GlobalVariables.getDBType();
         switch (dbType) {
@@ -85,7 +118,6 @@ public class DataBase {
         }
     }
 
-    // 获取连接字符串
     private String getConnectionUrl() {
         String dbType = GlobalVariables.getDBType();
         String url = GlobalVariables.getDBUrl();
@@ -93,7 +125,7 @@ public class DataBase {
         String dbsubname = GlobalVariables.getDBSubName();
         switch (dbType) {
             case "MySQL":
-                return "jdbc:mysql://" + url + ":" + port + "/" + dbsubname + "?useSSL=false&serverTimezone=UTC";
+                return "jdbc:mysql://" + url + ":" + port + "/" + dbsubname + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
             case "PostgreSQL":
                 return "jdbc:postgresql://" + url + ":" + port + "/" + dbsubname;
             case "SQLite":
@@ -192,7 +224,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         return false;
     }
 
-    // 创建staff表格
     public void createStaffTableIfNotExists() {
         String dbType = GlobalVariables.getDBType();
         String sql;
@@ -218,16 +249,15 @@ public Connection createConnect() throws DBConnectError, Exception {
             case "SQLite":
                 sql = "CREATE TABLE IF NOT EXISTS staff (" +
                         "staff_index INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "username VARCHAR(20)," +
+                        "username TEXT," +
                         "password TEXT," +
-                        "regdate DATETIME," +
+                        "regdate TEXT," +
                         "state INTEGER" +
                     ")";
                 break;
             default:
                 throw new UnsupportedOperationException("Unsupported DB type: " + dbType);
         }
-        getConnection();
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (Exception e) {
@@ -235,7 +265,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-    // 创建Shelf表格
     public void createShelfTableIfNotExists() {
         String dbType = GlobalVariables.getDBType();
         String sql;
@@ -263,7 +292,7 @@ public Connection createConnect() throws DBConnectError, Exception {
                         "shelf_index INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "obj_name TEXT," +
                         "obj_number INTEGER," +
-                        "obj_lastuptime DATETIME," +
+                        "obj_lastuptime TEXT," + // SQLite 使用 TEXT 存储日期时间
                         "lastuser TEXT" +
                     ")";
                 break;
@@ -273,7 +302,7 @@ public Connection createConnect() throws DBConnectError, Exception {
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (Exception e) {
-            // CatchException.handle(e, eh);
+            CatchException.handle(e, eh);
         }
     }
 
@@ -310,12 +339,16 @@ public Connection createConnect() throws DBConnectError, Exception {
             int i = 0;
             for (Map.Entry<String, Object> entry : whereMap.entrySet()) {
                 if (i++ > 0) sql.append(" AND ");
-                sql.append(entry.getKey()).append("='").append(entry.getValue()).append("'");
+                sql.append(entry.getKey()).append("=?");
             }
         }
         Connection conn = getConnection();
-        Statement stmt = conn.createStatement();
-        return stmt.executeQuery(sql.toString());
+        PreparedStatement pstmt = conn.prepareStatement(sql.toString());
+        int idx = 1;
+        for (Object value : whereMap.values()) {
+            pstmt.setObject(idx++, value);
+        }
+        return pstmt.executeQuery();
     }
 
     /**
@@ -332,17 +365,24 @@ public Connection createConnect() throws DBConnectError, Exception {
         int i = 0;
         for (Map.Entry<String, Object> entry : updateMap.entrySet()) {
             if (i++ > 0) sql.append(", ");
-            sql.append(entry.getKey()).append("='").append(entry.getValue()).append("'");
+            sql.append(entry.getKey()).append("=?");
         }
         sql.append(" WHERE ");
         i = 0;
         for (Map.Entry<String, Object> entry : whereMap.entrySet()) {
             if (i++ > 0) sql.append(" AND ");
-            sql.append(entry.getKey()).append("='").append(entry.getValue()).append("'");
+            sql.append(entry.getKey()).append("=?");
         }
         try (Connection conn = getConnection();
-            Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sql.toString());
+            PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+            int idx = 1;
+            for (Object value : updateMap.values()) {
+                pstmt.setObject(idx++, value);
+            }
+            for (Object value : whereMap.values()) {
+                pstmt.setObject(idx++, value);
+            }
+            pstmt.executeUpdate();
         }
     }
 
@@ -356,20 +396,24 @@ public Connection createConnect() throws DBConnectError, Exception {
             throw new IllegalArgumentException("valueMap不能为空");
         }
         StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
-        StringBuilder values = new StringBuilder();
+        StringBuilder placeholders = new StringBuilder();
         int i = 0;
-        for (Map.Entry<String, Object> entry : valueMap.entrySet()) {
+        for (String key : valueMap.keySet()) {
             if (i++ > 0) {
                 sql.append(", ");
-                values.append(", ");
+                placeholders.append(", ");
             }
-            sql.append(entry.getKey());
-            values.append("'").append(entry.getValue()).append("'");
+            sql.append(key);
+            placeholders.append("?");
         }
-        sql.append(") VALUES (").append(values).append(")");
+        sql.append(") VALUES (").append(placeholders).append(")");
         try (Connection conn = getConnection();
-            Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sql.toString());
+            PreparedStatement pstmt = conn.prepareStatement(sql.toString())) {
+            int idx = 1;
+            for (Object value : valueMap.values()) {
+                pstmt.setObject(idx++, value);
+            }
+            pstmt.executeUpdate();
         }
     }
 
@@ -395,8 +439,6 @@ public Connection createConnect() throws DBConnectError, Exception {
                 pstmt.setObject(idx++, value);
             }
             pstmt.executeUpdate();
-        } catch (SQLException e) {
-            // CatchException.handle(e, eh);
         }
     }
 
@@ -468,20 +510,23 @@ public Connection createConnect() throws DBConnectError, Exception {
      * @return 用户数量
      */
     public int getNumOfUsers() {
-        getConnection();
+        // 确保数据库连接可用
+        Connection conn = getConnection();
+        if (conn == null) {
+            System.err.println("Database connection is not available.");
+            return 0; // 返回默认值
+        }
 
-        String checkmsg = "SELECT COUNT(*) FROM staff";
-        try {
-            ResultSet rs = this.SearchDB(checkmsg);
-            // 检查 ResultSet 是否有数据
-            if (rs != null && rs.next()) {
-                return rs.getInt(1); // 获取第一列的计数值
+        String query = "SELECT COUNT(*) AS user_count FROM staff";
+        try (Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt("user_count"); // 获取用户数量
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             CatchException.handle(e, eh);
         }
-        // 如果 ResultSet 为空或查询失败，返回默认值 0
-        return 0;
+        return 0; // 查询失败返回默认值
     }
 
     /**
@@ -489,21 +534,24 @@ public Connection createConnect() throws DBConnectError, Exception {
      * @return 物资量
      */
     public int getNumOfObjects() {
-        getConnection();
+        // 确保数据库连接可用
+        Connection conn = getConnection();
+        if (conn == null) {
+            System.err.println("Database connection is not available.");
+            return 0; // 返回默认值
+        }
 
-        String checkmsg = "SELECT COUNT(*) FROM Shelf";
-        try {
-            ResultSet rs = this.SearchDB(checkmsg);
-            // 检查 ResultSet 是否有数据
-            if (rs != null && rs.next()) {
-                return rs.getInt(1); // 获取第一列的计数值
+        String query = "SELECT COUNT(*) AS object_count FROM shelf";
+        try (Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                return rs.getInt("object_count"); // 获取物资数量
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             CatchException.handle(e, eh);
         }
-        // 如果 ResultSet 为空或查询失败，返回默认值 0
-        return 0;
-    }
+        return 0; // 查询失败返回默认值
+}
 
 
     public List<Object[]> queryCustomShelfTable(String sql) {

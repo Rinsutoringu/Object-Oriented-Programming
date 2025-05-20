@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import database.db.DataBase;
+import standard.GlobalVariables;
 
 public class Shelf {
     
@@ -48,13 +49,25 @@ public class Shelf {
      * @return 包含 lastuser 和 obj_lastuptime 的字符串数组，如果查询失败返回 null
      */
     public static String[] getClosestLastUpdate() {
-        String query = "SELECT lastuser, obj_lastuptime FROM shelf ORDER BY ABS(TIMESTAMPDIFF(SECOND, obj_lastuptime, NOW())) ASC LIMIT 1";
-        try (PreparedStatement stmt = dbUtils.getConnection().prepareStatement(query);
+        String dbType = GlobalVariables.getDBType();
+        String sql;
+
+        if ("SQLite".equalsIgnoreCase(dbType)) {
+            sql = "SELECT lastuser, obj_lastuptime FROM shelf " +
+                "ORDER BY ABS(julianday(obj_lastuptime) - julianday('now')) ASC LIMIT 1";
+        } else if ("MySQL".equalsIgnoreCase(dbType)) {
+            sql = "SELECT lastuser, obj_lastuptime FROM shelf " +
+                "ORDER BY ABS(TIMESTAMPDIFF(SECOND, obj_lastuptime, NOW())) ASC LIMIT 1";
+        } else {
+            throw new UnsupportedOperationException("Unsupported DB type: " + dbType);
+        }
+
+        try (PreparedStatement stmt = dbUtils.getConnection().prepareStatement(sql);
             ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
                 String lastUser = rs.getString("lastuser");
                 String lastUpdateTime = rs.getString("obj_lastuptime");
-                return new String[]{lastUser, lastUpdateTime}; // 返回结果
+                return new String[]{lastUser, lastUpdateTime};
             }
         } catch (Exception e) {
             System.err.println("Error occurred while fetching the closest last update from shelf table.");

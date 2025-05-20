@@ -47,5 +47,6 @@ public class MainWindowLogic {
         GlobalVariables.setUserName(username);
         showHomePage();
         homepagelogic.setStockButtonVisibility(User.isAdmin(username));
+        homepagelogic.getThis().getButton("operation").doClick();
     }
 }

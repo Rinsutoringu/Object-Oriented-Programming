@@ -3,6 +3,8 @@ package database.errorhandle;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
 
+import com.mysql.cj.exceptions.CJException;
+
 import database.error.*;
 import local.error.*;
 
@@ -31,6 +33,10 @@ public interface DBConnectionErrorHandler {
     void handleError(UserInfoError error);
 
     void handleError(AuthFailed error);
+
+    void handleError(CJException error);
+
+    void handleError(NullPointerException error);
 
     /**
      * 未知异常通用处理逻辑

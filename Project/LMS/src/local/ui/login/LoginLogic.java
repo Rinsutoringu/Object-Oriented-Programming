@@ -65,7 +65,7 @@ public class LoginLogic extends StandardUILogical {
             // 傻逼java
             JCheckBox checkBox = loginUI.getCheckBox("check");
             if(!checkBox.isSelected()) {
-                new MiniOption("Login Failed", "Please read and accept the fucking terms and conditions", JOptionPane.WARNING_MESSAGE);
+                new MiniOption("Login Failed", "Please read and accept the terms and conditions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
             JTextField loginusr = loginUI.getTextField("loginusr");

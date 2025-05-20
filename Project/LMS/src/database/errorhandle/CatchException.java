@@ -3,6 +3,8 @@ package database.errorhandle;
 import java.sql.SQLException;
 import java.sql.SQLTimeoutException;
 
+import com.mysql.cj.exceptions.CJException;
+
 import database.error.*;
 import local.error.*;
 
@@ -36,6 +38,12 @@ public class CatchException {
 
         } else if (e instanceof AuthFailed) {
             eh.handleError((AuthFailed) e);
+            
+        } else if (e instanceof CJException) {
+            eh.handleError((CJException) e);
+
+        } else if (e instanceof NullPointerException) {
+            eh.handleError((NullPointerException) e);
 
         } else {
             eh.handleOtherError(e);

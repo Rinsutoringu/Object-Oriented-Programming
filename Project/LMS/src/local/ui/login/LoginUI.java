@@ -46,7 +46,6 @@ public class LoginUI extends StandardUI{
 
     // 设置字体大小
     private void setFontSize() {
-        setFontSize(getLabel("login"), 24);
         setFontSize(getButton("login"), 18);
 
     }
@@ -76,14 +75,15 @@ public class LoginUI extends StandardUI{
 
         gbc.insets = new Insets(5, 5, 5, 5);
 
+        // 用户协议
+        utils.addComponent(panel, usrprotocal(), gbc, 0, Cheight++, 1, 1,
+            GridBagConstraints.NONE, 2, 1);
+
         // 登录按钮
         buttons.put("login", loginbutton());
         utils.addComponent(panel, buttons.get("login"), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
-        // 用户协议
-        utils.addComponent(panel, usrprotocal(), gbc, 0, Cheight++, 1, 1,
-            GridBagConstraints.NONE, 2, 1);
 
         // 注册组件
         utils.addComponent(panel, getPanel("register"), gbc, 0, Cheight++, 1, 1,
@@ -144,7 +144,6 @@ public class LoginUI extends StandardUI{
         gbc.insets = new Insets(5,5,0,5);
 
         // 创建组件
-        putLabel("login", new JLabel("Login             "));
         putLabel("username", new JLabel("UserName"));
         putLabel("password", new JLabel("Password"));
 
@@ -153,9 +152,6 @@ public class LoginUI extends StandardUI{
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-
-        utils.addComponent(panel, getLabel("login"), gbc, 0, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
 
         utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
 

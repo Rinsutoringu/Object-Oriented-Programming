@@ -62,11 +62,11 @@ public class HomePageUI extends StandardUI {
         // 设置topview建议间隔
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
         
+        buttons.put("logout", buildButton("Logout"));
         buttons.put("operation", buildButton("Overview"));
         buttons.put("briefing", buildButton("Show Briefing"));
         buttons.put("stock", buildButton("Permissions"));
-        buttons.put("logout", buildButton("Logout"));
-
+        
         // 按钮间隔
         int buttonGap = 20;
         // 把按钮加入顶部视图中

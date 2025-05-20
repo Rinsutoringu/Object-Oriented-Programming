@@ -77,7 +77,6 @@ public class HomePageLogic extends StandardUILogical {
     // 默认视图
     @Override
     protected void defaultView() {
-        homepageUI.getButton("operation").doClick();
         
     }
 

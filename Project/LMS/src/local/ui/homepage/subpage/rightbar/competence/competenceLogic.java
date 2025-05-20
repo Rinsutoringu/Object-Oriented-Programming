@@ -41,9 +41,7 @@ public class competenceLogic extends StandardUILogical {
     public void refreshTableData() {
         try {
             DefaultTableModel model = competenceui.getTableModel();
-            model.setRowCount(0); // 清空表格数据
-
-            // 查询 staff 表数据
+            model.setRowCount(0);
             String sql = "SELECT username, regdate, state FROM staff";
             try {
                 dbUtils.getConnection();
@@ -51,16 +49,21 @@ public class competenceLogic extends StandardUILogical {
                 try {
                     dbUtils.getConnection();
                 } catch (Exception ex) {
+                    CatchException.handle(ex, eh);
+                    return; // 如果连接失败，直接返回
                 }
             }
             java.util.List<Object[]> data = dbUtils.queryCustomShelfTable(sql);
 
             for (Object[] row : data) {
                 String username = (String) row[0];
-                String regdate = row[1].toString();
+                long timestamp = Long.parseLong(row[1].toString()); // 假设 regdate 是 Unix 时间戳
                 int state = (int) row[2];
 
-                // 转换权限等级为文本
+                // 将时间戳转换为可读的日期时间格式
+                String regdate = convertTimestampToReadableDate(timestamp);
+
+                // 根据 state 值确定权限级别
                 String permissionLevel;
                 switch (state) {
                     case 1:
@@ -76,16 +79,27 @@ public class competenceLogic extends StandardUILogical {
                         permissionLevel = "Unknown";
                 }
 
-                // 添加到表格
+                // 添加行到表格模型
                 model.addRow(new Object[]{username, regdate, permissionLevel});
             }
         } catch (Exception e) {
-            CatchException.handle(e, eh);
+            // CatchException.handle(e, eh);
         }
     }
 
-    @Override
-    public competenceUI getThis() {
-        return competenceui;
+    /**
+     * 将 Unix 时间戳（以毫秒为单位）转换为可读的日期时间格式
+     * @param timestamp Unix 时间戳（毫秒）
+     * @return 可读的日期时间字符串
+     */
+    private String convertTimestampToReadableDate(long timestamp) {
+        java.util.Date date = new java.util.Date(timestamp);
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(date);
     }
-}
+
+        @Override
+        public competenceUI getThis() {
+            return competenceui;
+        }
+    }

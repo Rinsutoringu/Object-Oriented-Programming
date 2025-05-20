@@ -73,7 +73,7 @@ public class GetDBConLogic extends StandardUILogical {
                 }
                 // 写入到配置文件
                 dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
-                new MiniOption("LMS", "Your DataBase Connect Information save success! ", 1);
+                // new MiniOption("LMS", "Your DataBase Connect Information save success! ", 1);
                 
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
@@ -82,6 +82,8 @@ public class GetDBConLogic extends StandardUILogical {
 
         getdbconUI.getButton("connect").addActionListener(e -> {
             try {
+                getdbconUI.getButton("save").doClick();
+                DataBase.getInstance().ResetRetryCount();
                 dbutils.getConnection();
                 new MiniOption("LMS", "Your DataBase Connect Success! ", 1);
             } catch (Exception ex) {

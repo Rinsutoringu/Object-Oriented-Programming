@@ -86,36 +86,47 @@ public class OverviewLogic extends StandardUILogical {
             overviewui.getButton("sortNumberDesc").addActionListener(e -> refreshTableData("obj_number", false));
     }
 
-public void refreshTableData(String orderBy, boolean asc) {
-    try {
-        DefaultTableModel model = overviewui.getTableModel();
-        int columnCount = model.getColumnCount();
-        model.setRowCount(0);
+    public void refreshTableData(String orderBy, boolean asc) {
+        try {
+            DefaultTableModel model = overviewui.getTableModel();
+            model.setRowCount(0);
 
-        // 只查询需要的字段
-        String sql = "SELECT obj_name, obj_number, obj_lastuptime, lastuser FROM shelf";
-        if (orderBy != null && !orderBy.isEmpty()) {
-            sql += " ORDER BY " + orderBy + (asc ? " ASC" : " DESC");
-        }
-        java.util.List<Object[]> data = dbUtils.queryCustomShelfTable(sql);
+            String sql = "SELECT obj_name, obj_number, obj_lastuptime, lastuser FROM shelf";
+            if (orderBy != null && !orderBy.isEmpty()) {
+                sql += " ORDER BY " + orderBy + (asc ? " ASC" : " DESC");
+            }
 
-        for (Object[] row : data) {
-            if (row.length != columnCount) {
-                Object[] fixedRow = new Object[columnCount];
-                for (int i = 0; i < columnCount; i++) {
-                    fixedRow[i] = i < row.length ? row[i] : null;
+            for (Object[] row : dbUtils.queryCustomShelfTable(sql)) {
+                if (row[2] != null) {
+                    row[2] = parseDateTime(row[2].toString());
                 }
-                model.addRow(fixedRow);
-            } else {
                 model.addRow(row);
             }
+        } catch (Exception e) {
+            // CatchException.handle(e, eh);
         }
-    } catch (Exception e) {
-        CatchException.handle(e, eh);
     }
-}
 
+    /**
+     * 解析日期时间字符串或时间戳
+     * @param dateTime 日期时间字符串或时间戳
+     * @return 可读的日期时间字符串
+     */
+    private String parseDateTime(String dateTime) {
+        try {
+            if (dateTime.matches("\\d+")) {
+                long timestamp = Long.parseLong(dateTime);
+                return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                        .format(new java.util.Date(timestamp));
+            }
 
+            java.text.SimpleDateFormat isoFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+            java.util.Date date = isoFormat.parse(dateTime);
+            return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+        } catch (Exception e) {
+            return dateTime;
+        }
+    }
 
     
 
