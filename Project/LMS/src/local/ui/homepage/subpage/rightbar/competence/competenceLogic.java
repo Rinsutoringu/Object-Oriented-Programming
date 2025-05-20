@@ -42,28 +42,32 @@ public class competenceLogic extends StandardUILogical {
         try {
             DefaultTableModel model = competenceui.getTableModel();
             model.setRowCount(0);
+
             String sql = "SELECT username, regdate, state FROM staff";
+            System.out.println("Executing SQL: " + sql);
+
             try {
                 dbUtils.getConnection();
             } catch (Exception e) {
-                try {
-                    dbUtils.getConnection();
-                } catch (Exception ex) {
-                    CatchException.handle(ex, eh);
-                    return; // 如果连接失败，直接返回
-                }
+                System.err.println("Database connection failed: " + e.getMessage());
+                e.printStackTrace();
+                return; // 如果连接失败，直接返回
             }
+
             java.util.List<Object[]> data = dbUtils.queryCustomShelfTable(sql);
 
             for (Object[] row : data) {
+
                 String username = (String) row[0];
-                long timestamp = Long.parseLong(row[1].toString()); // 假设 regdate 是 Unix 时间戳
+                String regdate;
+                try {
+                    long timestamp = Long.parseLong(row[1].toString());
+                    regdate = convertTimestampToReadableDate(timestamp);
+                } catch (NumberFormatException e) {
+                    regdate = row[1].toString();
+                }
+
                 int state = (int) row[2];
-
-                // 将时间戳转换为可读的日期时间格式
-                String regdate = convertTimestampToReadableDate(timestamp);
-
-                // 根据 state 值确定权限级别
                 String permissionLevel;
                 switch (state) {
                     case 1:
@@ -79,11 +83,11 @@ public class competenceLogic extends StandardUILogical {
                         permissionLevel = "Unknown";
                 }
 
-                // 添加行到表格模型
                 model.addRow(new Object[]{username, regdate, permissionLevel});
             }
         } catch (Exception e) {
-            // CatchException.handle(e, eh);
+            System.err.println("Error in refreshTableData: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 

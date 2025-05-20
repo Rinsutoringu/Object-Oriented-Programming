@@ -33,7 +33,7 @@ public class useroperationUI extends StandardUI {
         getButton("submitedit").setPreferredSize(new Dimension(100, 30));
         getButton("delete").setPreferredSize(new Dimension(100, 30));
         getTextField("username").setPreferredSize(new Dimension(200, 30));
-        getTextField("permission").setPreferredSize(new Dimension(200, 30));
+        getComboBox("permission").setPreferredSize(new Dimension(123, 30));
 
         // 新建面板
         setFontSize(getLabel("newusermanagement"), 20);
@@ -99,7 +99,7 @@ public class useroperationUI extends StandardUI {
         putLabel("usernamelabel", new JLabel("Username:"));
         putTextField("username", new JTextField(15));
         putLabel("permissionlabel", new JLabel("Permission:"));
-        putTextField("permission", new JTextField(15));
+        putComboBox("permission", new JComboBox<>(new String[]{"ban", "user", "admin"}));
 
         short gheight = 0;
 
@@ -118,7 +118,7 @@ public class useroperationUI extends StandardUI {
         utils.addComponent(panel, getLabel("permissionlabel"), gbc, gleft, ++gheight, 0.1, 1,
             GridBagConstraints.NONE, 1, 1);
 
-        utils.addComponent(panel, getTextField("permission"), gbc, gright, gheight, 1, 1,
+        utils.addComponent(panel, getComboBox("permission"), gbc, gright, gheight, 1, 1,
             GridBagConstraints.NONE, 1, 1);
 
         panel.setBackground(GlobalVariables.cgetUserOperationLogic());

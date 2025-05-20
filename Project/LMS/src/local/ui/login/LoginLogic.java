@@ -79,10 +79,12 @@ public class LoginLogic extends StandardUILogical {
                 } else if (!User.Login(usr, pwd)) {
                     new MiniOption("Login Failed", "Invalid username or password", JOptionPane.ERROR_MESSAGE);
                     return;
+                } else if (User.isBanned(usr)) {
+                    new MiniOption("Login Failed", "User is banned", JOptionPane.ERROR_MESSAGE);
+                    return;
                 } else {
                     new MiniOption("Success", "Login successful", JOptionPane.INFORMATION_MESSAGE);
                 }
-                System.out.println("Login success");
                 loginusr.setText("");
                 loginpwd.setText("");
                 if (loginCallback != null) {

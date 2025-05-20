@@ -2,6 +2,7 @@ package local.ui.login.subpage.getdbconnect;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -24,11 +25,17 @@ public class GetDBConUI extends StandardUI{
 
         try {
             init_getdbinfo();
+            setStyle();
             utils.addComponent(this, this.getPanel("getDBInfo"), gbc, 1, 1);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
 
+    }
+
+    @Override
+    protected void setStyle() {
+        setFontSize(getLabel("dbtooltip"), 25);
     }
 
     /**
@@ -77,21 +84,21 @@ public class GetDBConUI extends StandardUI{
         panel.setLayout(new GridBagLayout());
 
         createDBType();
+        putLabel("dbtooltip",new JLabel("Set DataBase Connection"));
         textFields.put("dbAddress", new javax.swing.JTextField(20));
         textFields.put("dbPort", new javax.swing.JTextField(20));
         textFields.put("dbUser", new javax.swing.JTextField(20));
-        textFields.put("dbPassword", new javax.swing.JPasswordField(20));
+        textFields.put("dbPassword", new javax.swing.JPasswordField(14));
         buttons.put("connect", new javax.swing.JButton("LINK START"));
         buttons.put("save", new javax.swing.JButton("save"));
         
         int gheight = 0;
 
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel("Please enter the Storage information:"), gbc, gleft, ++gheight, 1, 1,
+        gbc.insets = new Insets(100, 15, 50, 15);
+        utils.addComponent(panel, getLabel("dbtooltip"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+
+        gbc.insets = new Insets(5, 10, 5, 10);
 
 
         utils.addComponent(panel, new JLabel("Choose a DB type"), gbc, gleft, ++gheight);
@@ -108,6 +115,8 @@ public class GetDBConUI extends StandardUI{
 
         utils.addComponent(panel, new JLabel("Database Password:"), gbc, gleft, ++gheight);
         utils.addComponent(panel, getTextField("dbPassword"), gbc, gright, gheight);
+
+        gbc.insets = new Insets(5, 10, 20, 10);
 
         utils.addComponent(panel, getButton("save"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 1, 1);

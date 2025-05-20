@@ -129,4 +129,19 @@ public class User {
             return false;
         }
     }
+
+    public static boolean isBanned(String name) {
+        if (name.equals("root")) {
+            return false;
+        }
+        if (!userExists(name)) {
+            new MiniOption("User Not Found", "Cannot find this user, Please check.", MiniOption.WARNING_MESSAGE);
+            return false;
+        }
+        if (dbutils.getUserPermission(name) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

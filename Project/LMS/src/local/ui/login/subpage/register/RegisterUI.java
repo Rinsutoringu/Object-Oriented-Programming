@@ -20,13 +20,17 @@ public class RegisterUI extends StandardUI {
 
         try {
             init_register();
+            setStyle();
             utils.addComponent(this, this.getPanel("register"), gbc, 1, 1);
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
 
     }
-    // 面板搞定
+    @Override
+    protected void setStyle() {
+        setFontSize(getLabel("registertooltip"), 25);
+    }
 
     // 这是一个示范组件
     private void init_register() {
@@ -54,23 +58,22 @@ public class RegisterUI extends StandardUI {
 
         // 创建界面上需要的组件
         
-        textFields.put("username", new JTextField(20));
-        passwordFields.put("password", new JPasswordField(20));
-        passwordFields.put("repassword", new JPasswordField(20));
-        checkBoxs.put("apply", new JCheckBox("Allow EULA"));
-        buttons.put("register", new JButton("Register"));
-        buttons.put("close", new JButton("Close"));
+        putLabel("registertooltip", new JLabel("Let's Register!"));
+        putTextField("username", new JTextField(27));
+        putPasswordField("password", new JPasswordField(20));
+        putPasswordField("repassword", new JPasswordField(20));
+        putCheckBox("apply", new JCheckBox("Allow EULA"));
+        putButton("register", new JButton("Register"));
+        putButton("close", new JButton("Close"));
 
         // 设置组件到面板
         int gheight = 0;
+        gbc.insets = new Insets(100, 5, 30, 5);
 
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel("Let's Register!"), gbc, gleft, ++gheight, 1, 1,
+        utils.addComponent(panel, getLabel("registertooltip"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
-        utils.addComponent(panel, new JLabel(" "), gbc, 0, ++gheight);
+
+        gbc.insets = new Insets(5, 10, 5, 10);
 
         utils.addComponent(panel, new JLabel("UserName"), gbc, gleft, ++gheight);
         utils.addComponent(panel, getTextField("username"), gbc, gright, gheight);
@@ -84,6 +87,8 @@ public class RegisterUI extends StandardUI {
         utils.addComponent(panel, checkBoxs.get("apply"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
 
+        gbc.insets = new Insets(5, 10, 50, 10);
+        
         utils.addComponent(panel, getButton("register"), gbc, gleft, ++gheight, 1, 1,
         GridBagConstraints.NONE, 2, 1);
 

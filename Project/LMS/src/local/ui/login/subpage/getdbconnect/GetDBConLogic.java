@@ -37,6 +37,11 @@ public class GetDBConLogic extends StandardUILogical {
 
     }
 
+    @Override
+    protected void setStyle() {
+        setFontSize(getLabel("registertooltip"), 25);
+    }
+
     // 设置启动后的默认视图
     @Override
     public void defaultView() {

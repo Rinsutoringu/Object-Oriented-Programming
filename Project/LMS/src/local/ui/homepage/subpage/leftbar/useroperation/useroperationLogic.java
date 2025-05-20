@@ -207,7 +207,6 @@ public class useroperationLogic extends StandardUILogical {
 
     private String clearUserInput() {
         useroperationui.getTextField("username").setText("");
-        useroperationui.getTextField("permission").setText("");
         return null;
     }
 
@@ -220,21 +219,21 @@ public class useroperationLogic extends StandardUILogical {
     }
 
     private int getPermissionInput() {
-        String permissionInput = useroperationui.getTextField("permission").getText();
+        String permissionInput = (String) useroperationui.getComboBox("permission").getSelectedItem();
         if (permissionInput.isEmpty()) {
             new MiniOption("getPermissionInput Error", "Please enter a permission level (0, 1, or 2).", JOptionPane.WARNING_MESSAGE);
             return -1;
         }
-        try {
-            int permission = Integer.parseInt(permissionInput);
-            if (permission < 0 || permission > 2) {
+        switch (permissionInput) {
+            case "ban":
+                return 0;
+            case "user":
+                return 1;
+            case "admin":
+                return 2;
+            default:
                 new MiniOption("getPermissionInput Error", "Permission level must be 0 (Banned), 1 (User), or 2 (Admin).", JOptionPane.WARNING_MESSAGE);
                 return -1;
-            }
-            return permission;
-        } catch (NumberFormatException ex) {
-            new MiniOption("getPermissionInput Error", "Please enter a valid number for permission level.", JOptionPane.WARNING_MESSAGE);
-            return -1;
         }
     }
 
