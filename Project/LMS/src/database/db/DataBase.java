@@ -1,5 +1,6 @@
 package database.db;
 
+import java.io.File;
 /*#########################
  * 对Error Handler的说明
  * 对基础封装设置抛出特定异常
@@ -38,8 +39,6 @@ public class DataBase {
     private boolean connectionErrorShown = false;
     private int retryCount= 0;
     private static final int MAX_RETRIES = 3;
-    private boolean isStaffTableChecked = false;
-    private boolean isShelfTableChecked = false;
 
     // 我不想做了!
 
@@ -78,16 +77,12 @@ public class DataBase {
             }
 
             if (connection != null && !connection.isClosed()) {
-                if (!isStaffTableChecked) {
-                    if (!isTableExists("staff")) createStaffTableIfNotExists();
-                    isStaffTableChecked = true;
+                if (!isTableExists("staff")) {
+                        createStaffTableIfNotExists();
                 }
-                if (!isShelfTableChecked) {
-                    if (!isTableExists("shelf")) createShelfTableIfNotExists();
-                    isShelfTableChecked = true;
+                if (!isTableExists("shelf")) {
+                    createShelfTableIfNotExists();
                 }
-
-                connectionErrorShown = false;
                 retryCount = 0; 
             }
 
@@ -95,7 +90,6 @@ public class DataBase {
         } catch (Exception e) {
             if (!connectionErrorShown) {
                 CatchException.handle(e, eh);
-                connectionErrorShown = true; 
             }
         }
         return null;
@@ -115,22 +109,31 @@ public class DataBase {
         }
     }
 
-    private String getConnectionUrl() {
-        String dbType = GlobalVariables.getDBType();
-        String url = GlobalVariables.getDBUrl();
-        String port = GlobalVariables.getDBPort();
-        String dbsubname = GlobalVariables.getDBSubName();
-        switch (dbType) {
-            case "MySQL":
-                return "jdbc:mysql://" + url + ":" + port + "/" + dbsubname + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-            case "PostgreSQL":
-                return "jdbc:postgresql://" + url + ":" + port + "/" + dbsubname;
-            case "SQLite":
-                return "jdbc:sqlite:" + url; // SQLite只需要文件路径
-            default:
-                return "";
+        private String getConnectionUrl() {
+            String dbType = GlobalVariables.getDBType();
+            String url = GlobalVariables.getDBUrl();
+            String port = GlobalVariables.getDBPort();
+            String dbsubname = GlobalVariables.getDBSubName();
+
+            switch (dbType) {
+                case "MySQL":
+                    return "jdbc:mysql://" + url + ":" + port + "/" + dbsubname + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+                case "PostgreSQL":
+                    return "jdbc:postgresql://" + url + ":" + port + "/" + dbsubname;
+                case "SQLite":
+                    File dbFile = new File(url);
+                    String dbFilePath;
+                    if (dbFile.isAbsolute()) {
+                        dbFilePath = url;
+                    } else {
+                        String jarDir = System.getProperty("user.dir");
+                        dbFilePath = jarDir + File.separator + url;
+                    }
+                    return "jdbc:sqlite:" + dbFilePath;
+                default:
+                    return "";
+            }
         }
-    }
 
     // 创建连接对象
 public Connection createConnect() throws DBConnectError, Exception {
@@ -443,18 +446,13 @@ public Connection createConnect() throws DBConnectError, Exception {
      * 从配置文件加载数据库连接信息
      */
     public void update_DBCredentials_From_Config() {
-
-        // 优先读取配置文件
         try {
-            Map<String,Map<String, String>> map;
-            map = CfgIOutils.readjson("appconfig.cfg");
+            Map<String, Map<String, String>> map = CfgIOutils.readjson("appconfig.cfg");
 
-            // 检查map是否为空
             if (map == null) return;
 
             Map<String, String> dbconfig = map.get("dbconfig");
 
-            // 检查dbconfig是否存在
             if (dbconfig == null) return;
 
             String url = dbconfig.get("dbaddr");
@@ -463,7 +461,13 @@ public Connection createConnect() throws DBConnectError, Exception {
             String port = dbconfig.get("dbport");
             String dbtype = dbconfig.get("dbtype");
 
-            // 保存这些到全局变量
+            if ("SQLite".equalsIgnoreCase(dbtype)) {
+                File dbFile = new File(url);
+                if (!dbFile.isAbsolute()) {
+                    String jarDir = System.getProperty("user.dir");
+                    url = jarDir + File.separator + url;
+                }
+            }
 
             GlobalVariables.setDBUrl(url);
             GlobalVariables.setDBUser(user);
@@ -471,12 +475,10 @@ public Connection createConnect() throws DBConnectError, Exception {
             GlobalVariables.setDBPort(port);
             GlobalVariables.setDBType(dbtype);
 
-            } catch (Exception e) {
-                // e.printStackTrace();
-                return;
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
 
     /**

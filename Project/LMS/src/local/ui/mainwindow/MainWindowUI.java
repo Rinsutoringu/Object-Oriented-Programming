@@ -48,8 +48,8 @@ public class MainWindowUI extends JFrame {
         buttonPanel.setOpaque(false);
 
         Dimension buttonSize = new Dimension(58, 35);
-        ImageIcon minisizImageIcon = new ImageIcon("resources/miniSize.png");
-        ImageIcon closeImageIcon = new ImageIcon("resources/close.png");
+        ImageIcon minisizImageIcon = new ImageIcon(getClass().getResource("/resources/miniSize.png"));
+        ImageIcon closeImageIcon = new ImageIcon(getClass().getResource("/resources/close.png"));
 
         // 最小化按钮
         JButton minimizeButton = frameButton(minisizImageIcon, buttonSize, false);

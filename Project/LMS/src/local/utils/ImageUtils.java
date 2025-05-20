@@ -26,14 +26,14 @@ public class ImageUtils {
      */
     public static Image loadImage(String filePath) {
         try {
-            return ImageIO.read(new File(filePath));
+            // 使用 getResourceAsStream 从 JAR 文件中加载资源
+            return ImageIO.read(ImageUtils.class.getResourceAsStream(filePath));
         } catch (Exception e) {
-            System.err.println("Load img failed"+ filePath);
+            System.err.println("Load img failed: " + filePath);
             e.printStackTrace();
             return null;
         }
     }
-
 
     /**
      * 对载入的图像进行处理

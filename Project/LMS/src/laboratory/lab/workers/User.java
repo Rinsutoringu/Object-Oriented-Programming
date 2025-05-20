@@ -33,39 +33,50 @@ public class User {
      * @exception UserInfoError 用户信息错误
      * @exception DBConnectError 数据库连接错误
      */
-    public static boolean Login(String usr, String pwd) throws AuthFailed, UserInfoError, DBConnectError {
-        usr = usr.trim();
-        pwd = pwd.trim();
-        String query = "SELECT password FROM staff WHERE username = '" + usr + "'";
+    public static boolean Login(String username, String password) throws AuthFailed, UserInfoError, DBConnectError {
+        username = username.trim();
+        password = password.trim();
+        String query = "SELECT password FROM staff WHERE username = ?";
         ResultSet rs = null;
-        try {
-            Connection connection = dbutils.getConnection();
-            if (connection == null || connection.isClosed()) 
+
+        try (Connection connection = dbutils.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            if (connection == null || connection.isClosed()) {
                 throw new DBConnectError("Database connection is not available");
-            // 查找这个用户名对应的数据库信息
-            rs = dbutils.SearchDB(query);
-            // 如果查找失败\压根没这个人则失败
+            }
+
+            // 设置查询参数
+            stmt.setString(1, username);
+            System.out.println("Executing SQL: " + query + " [username=" + username + "]");
+
+            // 执行查询
+            rs = stmt.executeQuery();
+
+            // 如果查找失败或用户不存在
             if (rs == null || !rs.next()) {
                 throw new UserInfoError("User not exist");
             }
-            // if (rs.next()) throw new UserInfoError("User name duplicate");
-            
-            // 如果密码不匹配则失败
-            if (!pwd.equals(rs.getString("password"))) throw new UserInfoError("Password not match");
+
+            // 检查密码是否匹配
+            if (!password.equals(rs.getString("password"))) {
+                throw new UserInfoError("Password not match");
+            }
+
+            System.out.println("Login successful for user: " + username);
             return true;
+
         } catch (Exception e) {
             CatchException.handle(e, eh);
             return false;
         } finally {
-            // 关闭连接
+            // 关闭 ResultSet
             try {
-                rs.close();
-                }
-             catch (Exception e) {
+                if (rs != null) rs.close();
+            } catch (Exception e) {
                 CatchException.handle(e, eh);
             }
         }
-
     }
 
     /**

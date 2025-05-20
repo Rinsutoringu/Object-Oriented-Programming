@@ -103,7 +103,7 @@ public class LoginUI extends StandardUI{
     private void init_pic() throws Exception {
 
         JPanel panel =  new JPanel() {
-            private Image bgIMG = ImageUtils.loadImage("resources/loginBG.png");
+            private Image bgIMG = ImageUtils.loadImage("/resources/loginBG.png");
             public BufferedImage bfIMG = ImageUtils.toBufferedImage(bgIMG);
             @Override
             protected void paintComponent(Graphics g) {
@@ -186,7 +186,7 @@ public class LoginUI extends StandardUI{
 
     // logo
     private JLabel getLogo() {
-        Image img = ImageUtils.loadImage("resources/LMSlogo.png");
+        Image img = ImageUtils.loadImage("/resources/LMSlogo.png");
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
         return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 
