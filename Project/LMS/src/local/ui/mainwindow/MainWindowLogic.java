@@ -27,7 +27,7 @@ public class MainWindowLogic {
         // 初始化数据库
         DataBase.getInstance();
         // 初始化字体
-        FontUtil.setGlobalFont("/resources/fonts/JetBrainsMono-Bold.ttf", 13f);
+        FontUtil.setGlobalFont("resources/fonts/JetBrainsMono-Bold.ttf", 13f);
         // 初始化本程序所有界面
         login = LoginLogic.getInstance();
 

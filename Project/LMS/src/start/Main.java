@@ -1,3 +1,4 @@
+package start;
 import javax.swing.SwingUtilities;
 
 import local.ui.mainwindow.*;
