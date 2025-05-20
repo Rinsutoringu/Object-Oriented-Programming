@@ -3,7 +3,6 @@ package local.utils;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import javax.imageio.ImageIO;
 
 public class ImageUtils {
