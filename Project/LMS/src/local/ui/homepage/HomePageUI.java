@@ -4,7 +4,9 @@ import javax.swing.*;
 
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
+import laboratory.lab.workers.User;
 import local.error.UICreateFail;
+import standard.GlobalVariables;
 import standard.StandardUI;
 
 import java.awt.*;
@@ -62,7 +64,11 @@ public class HomePageUI extends StandardUI {
         
         buttons.put("operation", buildButton("Overview"));
         buttons.put("briefing", buildButton("Show Briefing"));
-        buttons.put("stock", buildButton("Permissions"));
+        if (User.isAdmin(GlobalVariables.getUserName())) {
+            buttons.put("stock", buildButton("Permissions"));
+        }
+        
+        
 
         // 按钮间隔
         int buttonGap = 20;

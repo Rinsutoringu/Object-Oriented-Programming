@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 import local.ui.font.FontUtil;
 import local.ui.mainwindow.MainWindowUI;
 import local.ui.miniwindow.MiniOption;
+import standard.GlobalVariables;
 import standard.StandardUI;
 
 public class TestOption {
@@ -19,6 +20,7 @@ public class TestOption {
             }
             // 设置全局字体
             FontUtil.setGlobalFont("/resources/fonts/JetBrainsMono-Bold.ttf", 13f);
+            GlobalVariables.getInstance();
 
 
             // src\test\factory\TestOption.java

