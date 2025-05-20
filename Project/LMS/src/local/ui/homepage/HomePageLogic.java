@@ -3,6 +3,7 @@ package local.ui.homepage;
 import java.time.LocalTime;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 
@@ -15,6 +16,9 @@ import local.ui.homepage.subpage.leftbar.itemoperation.itemoperationLogic;
 import local.ui.homepage.subpage.leftbar.useroperation.useroperationLogic;
 import local.ui.homepage.subpage.rightbar.competence.competenceLogic;
 import local.ui.homepage.subpage.rightbar.overview.OverviewLogic;
+import local.ui.login.LoginLogic;
+import local.ui.mainwindow.MainWindowUI;
+import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
 
@@ -28,9 +32,18 @@ public class HomePageLogic extends StandardUILogical {
     private boolean isShowOverview;
     private boolean isShowOperation;
     private boolean isShowStock;
+    private static HomePageLogic instance;
+
+    public static HomePageLogic getInstance() {
+        if (instance == null) {
+            instance = new HomePageLogic();
+        }
+        return instance;
+    }
+
 
     // 本类构造函数
-    public HomePageLogic() {
+    private HomePageLogic() {
 
         // 注册默认方法
         super();
@@ -72,50 +85,57 @@ public class HomePageLogic extends StandardUILogical {
     @Override
     protected void addButtonAction() throws ActionAddFailed{
         try{
-            // 在左侧窄栏展示数据总览
             homepageUI.getButton("briefing").addActionListener(e ->{
 
                 show(getCP("sub"), getPage("sidebar", "sidebar"));
                 show(getCP("main"), getPage("overview", "overview"));
             });
 
-            // 在左栏展示聚合工具菜单
             homepageUI.getButton("operation").addActionListener(e ->{
 
                 SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
-
-                        String welcomeMsg = generateWelcomeMessage(GlobalVariables.getUserName(), User.isAdmin(GlobalVariables.getUserName()));
-                        String itemsquantity = generateItemsQuantityMsg();
-                        String lastoperation = generateLastOperationMsg();
-
-                        ((countUI) getPage("count").getThis()).getTextArea("welcomemsg").setText(welcomeMsg);
-                        ((countUI) getPage("count").getThis()).getTextArea("itemsquantity").setText(itemsquantity);
-                        ((countUI) getPage("count").getThis()).getTextArea("lastoperation").setText(lastoperation);
-
+                        ((countUI) getPage("count").getThis()).getTextArea("welcomemsg").setText(generateWelcomeMessage(GlobalVariables.getUserName(), User.isAdmin(GlobalVariables.getUserName())));
+                        ((countUI) getPage("count").getThis()).getTextArea("itemsquantity").setText(generateItemsQuantityMsg());
+                        ((countUI) getPage("count").getThis()).getTextArea("lastoperation").setText(generateLastOperationMsg());
                         return null;
                     }
                 };
                 worker.execute();
-
                 show(getCP("sub"), getPage("count", "count"));
                 show(getCP("main"), getPage("overview", "overview"));
-
             });
 
-            try {
-                homepageUI.getButton("stock").addActionListener(e -> {
-                    show(getCP("sub"), getPage("useroperation", "useroperation"));
-                    show(getCP("main"), getPage("competence", "competence"));
-                });
-            } catch (Exception e) {
-                System.out.println("You are not an admin, so you cannot access this function.");
-            }
+            homepageUI.getButton("stock").addActionListener(e -> {
+                show(getCP("sub"), getPage("useroperation", "useroperation"));
+                show(getCP("main"), getPage("competence", "competence"));
+            });
 
+            homepageUI.getButton("logout").addActionListener(e -> {
+                int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to log out?",
+                    "Logout Confirmation",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE
+                );
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    GlobalVariables.setUserName(null);
+                    MainWindowUI.getInstance().addPanel(LoginLogic.getInstance().getThis());
+                }
+            });
 
         } catch (Exception e) {
             throw new ActionAddFailed("为按钮添加事件失败", e);
+        }
+    }
+
+    public void setStockButtonVisibility(boolean isVisible) {
+        JButton stockButton = (JButton) getThis().getButton("stock");
+        if (stockButton != null) {
+            stockButton.setVisible(isVisible);
         }
     }
 

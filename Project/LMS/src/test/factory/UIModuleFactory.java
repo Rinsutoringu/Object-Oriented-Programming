@@ -19,11 +19,11 @@ public class UIModuleFactory {
     public static StandardUI createModule(String moduleName) {
         switch (moduleName.toLowerCase()) {
             case "panel-homepage-logic":
-                return new HomePageLogic();
+                return HomePageLogic.getInstance();
             case "panel-homepage-ui":
                 return new HomePageUI();
             case "panel-loginpage-logic":
-                return new LoginLogic();
+                return LoginLogic.getInstance();
             case "panel-loginpage-ui":
                 return new LoginUI();
             case "panel-example-logic":

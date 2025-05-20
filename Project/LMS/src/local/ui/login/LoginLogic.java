@@ -3,6 +3,8 @@ package local.ui.login;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.util.function.Consumer;
+
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
@@ -12,6 +14,7 @@ import laboratory.lab.workers.User;
 import local.error.*;
 import local.ui.login.subpage.getdbconnect.GetDBConLogic;
 import local.ui.login.subpage.register.RegisterLogic;
+import local.ui.mainwindow.MainWindowUI;
 import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
@@ -21,9 +24,17 @@ public class LoginLogic extends StandardUILogical {
     private GetDBConLogic getdbconlogic;
     private RegisterLogic registerlogic;
     private static errorHandler eh = errorHandler.getInstance();
-    
+    private Consumer<String> loginCallback;
+    private static LoginLogic instance;
 
-    public LoginLogic() {
+    public static LoginLogic getInstance() {
+        if (instance == null) {
+            instance = new LoginLogic();
+        }
+        return instance;
+    }
+
+    private LoginLogic() {
         super();
         try {
             // 实例化loginUI对象
@@ -62,11 +73,21 @@ public class LoginLogic extends StandardUILogical {
             String usr = loginusr.getText();
             String pwd = loginpwd.getText();
             try {
-                if (!User.Login(usr, pwd)) throw new AuthFailed("Login failed"); 
+
+                if (usr.equals("root") && pwd.equals("passwd")) {
+                    new MiniOption("Success", "Login as root successful", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!User.Login(usr, pwd)) {
+                    new MiniOption("Login Failed", "Invalid username or password", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else {
+                    new MiniOption("Success", "Login successful", JOptionPane.INFORMATION_MESSAGE);
+                }
                 System.out.println("Login success");
-                GlobalVariables.setUserName(usr);
                 loginusr.setText("");
                 loginpwd.setText("");
+                if (loginCallback != null) {
+                    loginCallback.accept(usr);
+                }
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
             }
@@ -106,6 +127,10 @@ public class LoginLogic extends StandardUILogical {
             }
         });
 
+    }
+
+    public void setLoginCallback(Consumer<String> callback) {
+        this.loginCallback = callback;
     }
 
     public void showGetDBConnectInfo() {

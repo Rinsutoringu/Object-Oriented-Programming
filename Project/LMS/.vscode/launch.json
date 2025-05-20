@@ -2,11 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "LMS_ed3bf818"
+        },
+        {
+            "type": "java",
             "name": "Run Module Factory",
             "request": "launch",
             "mainClass": "test.factory.TestOption",
             "projectName": "LMS_ed3bf818",
-            "args": ["${input:moduleName}"]
+            "args": [
+                "${input:moduleName}"
+            ]
         }
     ],
     "inputs": [

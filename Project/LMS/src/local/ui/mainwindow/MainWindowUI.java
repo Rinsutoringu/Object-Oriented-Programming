@@ -1,6 +1,9 @@
 package local.ui.mainwindow;
 
 import javax.swing.*;
+
+import local.utils.UIUtils;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -8,9 +11,10 @@ import java.awt.event.*;
 public class MainWindowUI extends JFrame {
 
     private int mouseX, mouseY;
-
+    private static MainWindowUI instance;
     private JPanel mainPanel;
-    public MainWindowUI()  {
+
+    private MainWindowUI() {
         this.setUndecorated(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("LMS");
@@ -27,6 +31,13 @@ public class MainWindowUI extends JFrame {
         this.setVisible(true);
     }
 
+    public static MainWindowUI getInstance() {
+        if (instance == null) {
+            instance = new MainWindowUI();
+        }
+        return instance;
+    }
+    
     private JPanel createCustomTitleBar() {
         JPanel titleBar = new JPanel();
         titleBar.setLayout(new BorderLayout());
@@ -123,6 +134,8 @@ public class MainWindowUI extends JFrame {
      */
     public boolean addPanel(JPanel subpanel) {
         try {
+            // 清空主面板
+            mainPanel.removeAll();
             mainPanel.add(subpanel, BorderLayout.CENTER);
             mainPanel.revalidate();
             mainPanel.repaint();

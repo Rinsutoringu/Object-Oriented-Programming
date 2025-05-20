@@ -64,11 +64,8 @@ public class HomePageUI extends StandardUI {
         
         buttons.put("operation", buildButton("Overview"));
         buttons.put("briefing", buildButton("Show Briefing"));
-        if (User.isAdmin(GlobalVariables.getUserName())) {
-            buttons.put("stock", buildButton("Permissions"));
-        }
-        
-        
+        buttons.put("stock", buildButton("Permissions"));
+        buttons.put("logout", buildButton("Logout"));
 
         // 按钮间隔
         int buttonGap = 20;

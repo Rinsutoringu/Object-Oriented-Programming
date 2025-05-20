@@ -37,7 +37,7 @@ public class TestOption {
                 StandardUI UIModule = UIModuleFactory.createModule(moduleName);
                 // 找到了就直接返回，没找到就继续找
                 if (UIModule != null) {
-                    new MainWindowUI().addPanel(UIModule.getThis());
+                    MainWindowUI.getInstance().addPanel(UIModule.getThis());
                     return;
                     }
 

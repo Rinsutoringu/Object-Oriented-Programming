@@ -83,6 +83,7 @@ public class RegisterLogic extends StandardUILogical {
                 // 注册成功后清空输入框
                 regusr.setText("");
                 regpwd.setText("");
+                regrepwd.setText("");
                 // 将用户名注册为全局变量以便于后续使用
                 GlobalVariables.setUserName(usr);
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
