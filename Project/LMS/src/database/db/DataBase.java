@@ -40,14 +40,9 @@ public class DataBase {
     private int retryCount= 0;
     private static final int MAX_RETRIES = 3;
 
-    // 我不想做了!
-
     private static DataBase instance;
     private DataBase() {
         GlobalVariables.getInstance();
-        // 实例化处理对象
-        // 不要直接连接，会出问题的
-        // 等完全初始化了再连接
     }
 
     public static DataBase getInstance() {
@@ -135,7 +130,6 @@ public class DataBase {
             }
         }
 
-    // 创建连接对象
 public Connection createConnect() throws DBConnectError, Exception {
     try {
         this.update_DBCredentials_From_Config();
@@ -164,7 +158,6 @@ public Connection createConnect() throws DBConnectError, Exception {
     }
 }
 
-    // 获取当前时间的SQL
     public String getNowFunction() {
         String dbType = GlobalVariables.getDBType();
         switch (dbType) {
@@ -180,7 +173,6 @@ public Connection createConnect() throws DBConnectError, Exception {
     }
 
 
-    // 断开连接
     public void disconnect() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -193,12 +185,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-    // 确定表格是否存在
-    /**
-     * 检查表格是否存在
-     * @param tableName 要检查的表名
-     * @return 如果表存在则返回true，否则返回false
-     */
     public boolean isTableExists(String tableName) {
         try {
             if (connection == null || connection.isClosed()) {
@@ -292,7 +278,7 @@ public Connection createConnect() throws DBConnectError, Exception {
                         "shelf_index INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "obj_name TEXT," +
                         "obj_number INTEGER," +
-                        "obj_lastuptime TEXT," + // SQLite 使用 TEXT 存储日期时间
+                        "obj_lastuptime TEXT," +
                         "lastuser TEXT" +
                     ")";
                 break;
@@ -306,14 +292,8 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-    /**
-     * 查询数据库数据-已弃用
-     * @param query 数据库操作语句
-     * @return 查询到的ResultSet类型数组，没查到会报错
-     */
     public ResultSet SearchDB(String query) throws SQLException, SQLTimeoutException, DBConnectError, Exception{
         try {
-            // 获取连接对象
             Connection connection = this.getConnection();
             if (connection == null || connection.isClosed()) {
                 throw new DBConnectError("Database connection is not available");
@@ -326,12 +306,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         return null;
     }
 
-    /**
-     * 通用数据库查询方法
-     * @param tableName 表名
-     * @param whereMap 条件map，key为字段名，value为字段值
-     * @return 查询结果ResultSet（用完后记得关闭）
-     */
     public ResultSet queryRow(String tableName, Map<String, Object> whereMap) throws Exception {
         StringBuilder sql = new StringBuilder("SELECT * FROM ").append(tableName);
         if (whereMap != null && !whereMap.isEmpty()) {
@@ -351,15 +325,9 @@ public Connection createConnect() throws DBConnectError, Exception {
         return pstmt.executeQuery();
     }
 
-    /**
-     * 编辑数据库数据
-     * @param tableName 表名
-     * @param whereMap 条件map，key为字段名，value为字段值
-     * @param updateMap 更新map，key为字段名，value为字段值
-     */
     public void updateRow(String tableName, Map<String, Object> whereMap, Map<String, Object> updateMap) throws Exception {
         if (whereMap == null || whereMap.isEmpty() || updateMap == null || updateMap.isEmpty()) {
-            throw new IllegalArgumentException("whereMap和updateMap不能为空");
+            throw new IllegalArgumentException("whereMap和updateMap Can Not Be empty");
         }
         StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
         int i = 0;
@@ -386,14 +354,9 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-    /**
-     * 插入数据库数据
-     * @param tableName 表名
-     * @param valueMap 插入map，key为字段名，value为字段值
-     */
     public void insertRow(String tableName, Map<String, Object> valueMap) throws Exception {
         if (valueMap == null || valueMap.isEmpty()) {
-            throw new IllegalArgumentException("valueMap不能为空");
+            throw new IllegalArgumentException("valueMap Can Not Be empty");
         }
         StringBuilder sql = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
         StringBuilder placeholders = new StringBuilder();
@@ -417,14 +380,9 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-    /**
-     * 通用数据库删除方法
-     * @param tableName 表名
-     * @param whereMap 条件map，key为字段名，value为字段值
-     */
     public void deleteRow(String tableName, Map<String, Object> whereMap) throws Exception {
         if (whereMap == null || whereMap.isEmpty()) {
-            throw new IllegalArgumentException("whereMap不能为空");
+            throw new IllegalArgumentException("whereMap Can Not Be empty");
         }
         StringBuilder sql = new StringBuilder("DELETE FROM ").append(tableName).append(" WHERE ");
         int i = 0;
@@ -442,9 +400,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-    /**
-     * 从配置文件加载数据库连接信息
-     */
     public void update_DBCredentials_From_Config() {
         try {
             Map<String, Map<String, String>> map = CfgIOutils.readjson("appconfig.cfg");
@@ -480,10 +435,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         }
     }
 
-
-    /**
-     * 保存数据库连接信息到配置文件
-     */
     public void addDBCredentials(String dbHead, String url, String user, String password, String port) {
         Map<String,Map<String, String>> map = CfgIOutils.readjson("appconfig.cfg");
 
@@ -504,52 +455,42 @@ public Connection createConnect() throws DBConnectError, Exception {
         
     }
 
-    /**
-     * 获取数据库中的注册用户数量
-     * @return 用户数量
-     */
     public int getNumOfUsers() {
-        // 确保数据库连接可用
         Connection conn = getConnection();
         if (conn == null) {
             System.err.println("Database connection is not available.");
-            return 0; // 返回默认值
+            return 0;
         }
 
         String query = "SELECT COUNT(*) AS user_count FROM staff";
         try (Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
             if (rs.next()) {
-                return rs.getInt("user_count"); // 获取用户数量
+                return rs.getInt("user_count");
             }
         } catch (SQLException e) {
             CatchException.handle(e, eh);
         }
-        return 0; // 查询失败返回默认值
+        return 0;
     }
 
-    /**
-     * 获取数据库中记录的物资量
-     * @return 物资量
-     */
     public int getNumOfObjects() {
-        // 确保数据库连接可用
         Connection conn = getConnection();
         if (conn == null) {
             System.err.println("Database connection is not available.");
-            return 0; // 返回默认值
+            return 0;
         }
 
         String query = "SELECT COUNT(*) AS object_count FROM shelf";
         try (Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query)) {
             if (rs.next()) {
-                return rs.getInt("object_count"); // 获取物资数量
+                return rs.getInt("object_count");
             }
         } catch (SQLException e) {
             CatchException.handle(e, eh);
         }
-        return 0; // 查询失败返回默认值
+        return 0;
 }
 
 
@@ -576,11 +517,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         return result;
     }
 
-    /**
-     * 获取用户权限
-     * @param username 待查询用户名
-     * @return 用户权限: 1 用户, 2 管理员, 0 被ban
-     */
     public int getUserPermission(String username) {
         String query = "SELECT state FROM staff WHERE username = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(query)) {
@@ -596,12 +532,6 @@ public Connection createConnect() throws DBConnectError, Exception {
         return -1;
     }
 
-    /**
-     * 设置用户权限
-     * @param username 待设置用户名
-     * @param state 用户权限
-     * @return 是否成功
-     */
     public boolean setUserPermission(String username, int state) {
         String sql = "UPDATE staff SET state = ? WHERE username = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {

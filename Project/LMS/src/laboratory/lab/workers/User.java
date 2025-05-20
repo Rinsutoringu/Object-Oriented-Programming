@@ -73,7 +73,7 @@ public class User {
             }
         }
 
-        return false; // 如果所有尝试都失败，返回 false
+        return false;
     }
 
     public static void Register(String usr, String pwd) throws UserInfoError, DBConnectError {
