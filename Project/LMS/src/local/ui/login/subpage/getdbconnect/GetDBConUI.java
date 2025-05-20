@@ -36,6 +36,11 @@ public class GetDBConUI extends StandardUI{
     @Override
     protected void setStyle() {
         setFontSize(getLabel("dbtooltip"), 25);
+        getTextField("dbAddress").setPreferredSize(new java.awt.Dimension(200, 30));
+        getTextField("dbPort").setPreferredSize(new java.awt.Dimension(200, 30));
+        getTextField("dbUser").setPreferredSize(new java.awt.Dimension(200, 30));
+        getTextField("dbPassword").setPreferredSize(new java.awt.Dimension(200, 30));
+        getComboBox("dbType").setPreferredSize(new java.awt.Dimension(162, 30));
     }
 
     /**

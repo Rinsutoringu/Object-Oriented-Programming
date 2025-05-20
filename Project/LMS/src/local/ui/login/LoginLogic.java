@@ -82,9 +82,7 @@ public class LoginLogic extends StandardUILogical {
                 } else if (User.isBanned(usr)) {
                     new MiniOption("Login Failed", "User is banned", JOptionPane.ERROR_MESSAGE);
                     return;
-                } else {
-                    new MiniOption("Success", "Login successful", JOptionPane.INFORMATION_MESSAGE);
-                }
+                } 
                 loginusr.setText("");
                 loginpwd.setText("");
                 if (loginCallback != null) {

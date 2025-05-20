@@ -29,6 +29,7 @@ public class LoginUI extends StandardUI{
             init_index();
             init_pic();
             setFontSize();
+            setStyle();
 
             // 放置index面板进去
             utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
@@ -42,6 +43,12 @@ public class LoginUI extends StandardUI{
         } catch (Exception e) {
             CatchException.handle(e, eh);
         }
+    }
+    @Override
+    protected void setStyle() {
+        // 设置背景颜色
+        getTextField("loginusr").setPreferredSize(new Dimension(200, 30));
+        getTextField("loginpwd").setPreferredSize(new Dimension(200, 30));
     }
 
     // 设置字体大小
@@ -171,7 +178,7 @@ public class LoginUI extends StandardUI{
     private JPanel usrprotocal() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
         panel.setBackground(new Color(255, 255, 255));
-        JLabel label = new JLabel("Agree the \"User Agreement\".");
+        JLabel label = new JLabel(" Agree the \"User Agreement\". ");
         this.checkBoxs.put("check", new JCheckBox());
         panel.add(checkBoxs.get("check"));
         panel.add(label);

@@ -30,6 +30,9 @@ public class RegisterUI extends StandardUI {
     @Override
     protected void setStyle() {
         setFontSize(getLabel("registertooltip"), 25);
+        getTextField("username").setPreferredSize(new java.awt.Dimension(200, 30));
+        getPasswordField("password").setPreferredSize(new java.awt.Dimension(200, 30));
+        getPasswordField("repassword").setPreferredSize(new java.awt.Dimension(200, 30));
     }
 
     // 这是一个示范组件

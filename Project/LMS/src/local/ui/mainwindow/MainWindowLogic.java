@@ -4,6 +4,7 @@ import local.ui.login.LoginLogic;
 import local.utils.UIUtils;
 import database.db.DataBase;
 import laboratory.lab.workers.User;
+import local.style.ButtonStyle;
 import local.ui.font.FontUtil;
 import local.ui.homepage.HomePageLogic;
 import standard.GlobalVariables;
@@ -16,6 +17,9 @@ public class MainWindowLogic {
 
     public MainWindowLogic() {
 
+        // 初始化按钮样式
+        ButtonStyle.applyGlobalButtonStyle();
+
         // 初始化全局变量
         GlobalVariables.getInstance();
         // 初始化工具类
@@ -26,6 +30,7 @@ public class MainWindowLogic {
         FontUtil.setGlobalFont("/resources/fonts/JetBrainsMono-Bold.ttf", 13f);
         // 初始化本程序所有界面
         login = LoginLogic.getInstance();
+
         homepagelogic = HomePageLogic.getInstance();
         mainWindowUI = MainWindowUI.getInstance();
 

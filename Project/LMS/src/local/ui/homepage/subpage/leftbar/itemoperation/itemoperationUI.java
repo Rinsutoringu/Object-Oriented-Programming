@@ -173,7 +173,7 @@ public class itemoperationUI extends StandardUI {
         putLabel("searchlabel", new JLabel("Item"));
         putTextField("search", new JTextField(12));
         putButton("search", new JButton("Search"));
-        putTextField("result", new JTextField("Search Result will show here.", 29));
+        putTextField("result", new JTextField(" Search Result show here. ", 29));
         putButton("clear", new JButton("Clear"));
 
 
