@@ -18,7 +18,7 @@ mkdir %BIN_DIR%
 
 echo compile Java source files...
 for /r %SRC_DIR% %%f in (*.java) do (
-    javac -d %BIN_DIR% -cp "%SRC_DIR%;%BIN_DIR%;%LIB_DIR%\*" "%%f"
+    javac -d %BIN_DIR% -source 8 -target 8 -cp "%SRC_DIR%;%BIN_DIR%;%LIB_DIR%\*" "%%f"
 )
 
 if %errorlevel% neq 0 (

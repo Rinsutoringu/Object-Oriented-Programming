@@ -23,11 +23,7 @@ public class countLogic extends StandardUILogical {
 
     @Override
     public void defaultView() {
-        // try {
-        //     show(getThis(), this.examplePL);
-        // } catch (Exception e) {
-        //     CatchException.handle(e, eh);
-        // }
+
     }
 
     @Override

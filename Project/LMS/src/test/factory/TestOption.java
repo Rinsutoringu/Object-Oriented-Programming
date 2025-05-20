@@ -21,10 +21,6 @@ public class TestOption {
             FontUtil.setGlobalFont("/resources/fonts/JetBrainsMono-Bold.ttf", 13f);
             GlobalVariables.getInstance();
 
-
-            // src\test\factory\TestOption.java
-            // src\resources\fonts\JetBrainsMono-Bold.ttf
-
             String moduleName = args[0];
 
             try {

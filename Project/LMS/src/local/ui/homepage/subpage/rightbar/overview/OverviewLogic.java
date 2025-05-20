@@ -69,7 +69,6 @@ public class OverviewLogic extends StandardUILogical {
                 model.addRow(row);
             }
         } catch (Exception e) {
-            // CatchException.handle(e, eh);
         }
     }
 
