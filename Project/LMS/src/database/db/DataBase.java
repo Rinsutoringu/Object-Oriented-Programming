@@ -11,7 +11,6 @@ import java.util.Properties;
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
-import local.ui.miniwindow.MiniOption;
 import local.utils.CfgIOutils;
 import standard.GlobalVariables;
 

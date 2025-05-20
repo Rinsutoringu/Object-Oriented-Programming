@@ -6,12 +6,13 @@
 .\packprogram.bat
 ```
 
-> The default script will be compiled in java8, and there will be some warning scrolling, which will not affect the smoothness of the compilation.
->
 > 
+>
 
 2. Ensure the `lib` path is at the same dictionary with LMS.jar
-3. Make sure java version is `javac 23.0.2`(**I don’t know other version Java can/cannot Compile**)
+3. Make sure java version is `1.8.0`or`23.0.2`(**I don’t know other version Java can/cannot Compile**)
+
+   > The default script will be compiled in java8, and there will be some warning scrolling, which will not affect the smoothness of the compilation.
 4. Run the project using the following command:
 
 ```bash
