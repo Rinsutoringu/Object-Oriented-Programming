@@ -66,6 +66,11 @@ public class GetDBConLogic extends StandardUILogical {
                 }
                 dbutils.addDBCredentials(dbType, dbaddr, dbuser, dbpassword, dbport);
 
+                getdbconUI.getTextField("dbAddress").setText("");
+                getdbconUI.getTextField("dbPort").setText("");
+                getdbconUI.getTextField("dbUser").setText("");
+                getdbconUI.getTextField("dbPassword").setText("");
+
             } catch (Exception ex) {
                 CatchException.handle(ex, eh);
             }
@@ -78,7 +83,7 @@ public class GetDBConLogic extends StandardUILogical {
                 dbutils.getConnection();
                 new MiniOption("LMS", "Your DataBase Connect Success! ", 1);
             } catch (Exception ex) {
-                CatchException.handle(ex, eh);
+                new MiniOption("LMS", "Your DataBase Connect Failed! ", 0);
             }
         });
 

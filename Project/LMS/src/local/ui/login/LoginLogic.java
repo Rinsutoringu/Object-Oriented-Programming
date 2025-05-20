@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
@@ -53,33 +54,39 @@ public class LoginLogic extends StandardUILogical {
         loginUI.getButton("login").addActionListener(e -> {
             System.out.println("Login button clicked");
             JCheckBox checkBox = loginUI.getCheckBox("check");
-            if(!checkBox.isSelected()) {
+            if (!checkBox.isSelected()) {
                 new MiniOption("Login Failed", "Please read and accept the terms and conditions", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+
             JTextField loginusr = loginUI.getTextField("loginusr");
             JTextField loginpwd = loginUI.getTextField("loginpwd");
             String usr = loginusr.getText();
             String pwd = loginpwd.getText();
-            try {
 
-                if (usr.equals("root") && pwd.equals("passwd")) {
-                    new MiniOption("Success", "Login as root successful", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!User.Login(usr, pwd)) {
-                    new MiniOption("Login Failed", "Invalid username or password", JOptionPane.ERROR_MESSAGE);
-                    return;
-                } else if (User.isBanned(usr)) {
-                    new MiniOption("Login Failed", "User is banned", JOptionPane.ERROR_MESSAGE);
-                    return;
-                } 
-                loginusr.setText("");
-                loginpwd.setText("");
-                if (loginCallback != null) {
-                    loginCallback.accept(usr);
+            new SwingWorker<Boolean, Void>() {
+                @Override
+                protected Boolean doInBackground() throws Exception {
+                    return User.Login(usr, pwd);
                 }
-            } catch (Exception ex) {
-                CatchException.handle(ex, eh);
-            }
+
+                @Override
+                protected void done() {
+                    try {
+                        boolean success = get();
+                        if (success) {
+                            loginusr.setText("");
+                            loginpwd.setText("");
+                            if (loginCallback != null) {
+                                loginCallback.accept(usr);
+                            }
+                        }
+                    } catch (Exception ex) {
+                        CatchException.handle(ex, eh);
+                        new MiniOption("Login Failed", "Please check your Username and Password or DataBase.", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }.execute();
         });
 
         loginUI.getButton("setdb").addActionListener(e -> {

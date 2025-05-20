@@ -1,14 +1,6 @@
 package database.db;
 
 import java.io.File;
-/*#########################
- * 对Error Handler的说明
- * 对基础封装设置抛出特定异常
- * 高级应用需要使用try代码块接住那些特定异常
- * 之后IDE报错啥加啥就是了。
- * 
- * #########################
- */
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,17 +15,8 @@ import local.ui.miniwindow.MiniOption;
 import local.utils.CfgIOutils;
 import standard.GlobalVariables;
 
-/**
- * 数据库操作类
- * 主要用于登录和注册
- * 数据库结构
- * staff_index | username | password | regdate | state
- * 其中staff_index是一个自增的索引，表示用户的注册编号
- * 数据库操作指令: ALTER TABLE staff MODIFY staff_index INT AUTO_INCREMENT;
- */
 public class DataBase {
-    
-    // 数据库连接对象
+
     private Connection connection;
     private errorHandler eh = errorHandler.getInstance();
     private boolean connectionErrorShown = false;
@@ -62,7 +45,6 @@ public class DataBase {
             if (connection == null || connection.isClosed()) {
 
                 if (retryCount >= MAX_RETRIES) {
-                    new MiniOption("Database Connection Failed!", "Please Check your connection", MiniOption.ERROR_MESSAGE);
                     return null;
                 }
 
@@ -327,7 +309,7 @@ public Connection createConnect() throws DBConnectError, Exception {
 
     public void updateRow(String tableName, Map<String, Object> whereMap, Map<String, Object> updateMap) throws Exception {
         if (whereMap == null || whereMap.isEmpty() || updateMap == null || updateMap.isEmpty()) {
-            throw new IllegalArgumentException("whereMap和updateMap Can Not Be empty");
+            throw new IllegalArgumentException("whereMap and updateMap Can Not Be empty");
         }
         StringBuilder sql = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
         int i = 0;

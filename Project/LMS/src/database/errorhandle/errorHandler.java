@@ -9,7 +9,6 @@ import database.error.DBConnectError;
 import database.error.DBStatusError;
 import local.error.AuthFailed;
 import local.error.UserInfoError;
-import local.ui.miniwindow.MiniOption;
 
 public class errorHandler implements database.errorhandle.DBConnectionErrorHandler, standard.StandardUTIL {
     private static errorHandler instance;

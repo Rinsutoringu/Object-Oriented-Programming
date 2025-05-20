@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JCheckBox;
+
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
 import local.error.AuthFailed;
@@ -26,59 +28,76 @@ public class User {
     public static boolean Login(String username, String password) throws AuthFailed, UserInfoError, DBConnectError {
         username = username.trim();
         password = password.trim();
-        String query = "SELECT password FROM staff WHERE username = ?";
-        ResultSet rs = null;
 
-        int attempts = 0;
-        boolean success = false;
-
-        while (attempts < 3 && !success) {
-            try (Connection connection = dbutils.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(query)) {
-
-                if (connection == null || connection.isClosed()) {
-                    throw new DBConnectError("Database connection is not available");
-                }
-
-                stmt.setString(1, username);
-                System.out.println("Executing SQL: " + query + " [username=" + username + "]");
-
-                rs = stmt.executeQuery();
-
-                if (rs == null || !rs.next()) {
-                    throw new UserInfoError("User not exist");
-                }
-
-                if (!password.equals(rs.getString("password"))) {
-                    throw new UserInfoError("Password not match");
-                }
-
-                System.out.println("Login successful for user: " + username);
-                success = true;
+        if (username.equals("root")) {
+            if (password.equals("passwd")) {
+                System.out.println("Login successful for root user.");
                 return true;
-
-            } catch (Exception e) {
-                attempts++;
-                CatchException.handle(e, eh);
-                if (attempts >= 3) {
-                    throw new UserInfoError("Login failed after retrying.");
-                }
-                System.out.println("Retrying login... Attempt " + (attempts + 1));
-            } finally {
-                try {
-                    if (rs != null) rs.close();
-                } catch (Exception e) {
-                    CatchException.handle(e, eh);
-                }
+            } else {
+                throw new UserInfoError("Invalid password for root user.");
             }
         }
+        String query = "SELECT password, state FROM staff WHERE username = ?";
+        ResultSet rs = null;
 
+        try (Connection connection = dbutils.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            if (connection == null || connection.isClosed()) {
+                throw new DBConnectError("Database connection is not available");
+            }
+
+            stmt.setString(1, username);
+            System.out.println("Executing SQL: " + query + " [username=" + username + "]");
+
+            rs = stmt.executeQuery();
+
+            if (rs == null || !rs.next()) {
+                throw new UserInfoError("User does not exist.");
+            }
+
+            if (!password.equals(rs.getString("password"))) {
+                throw new UserInfoError("Invalid username or password.");
+            }
+
+            int state = rs.getInt("state");
+            if (state == 0) {
+                throw new UserInfoError("User is banned.");
+            }
+
+            System.out.println("Login successful for user: " + username);
+            return true;
+
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
+
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (Exception e) {
+                CatchException.handle(e, eh);
+            }
+        }
         return false;
     }
 
-    public static void Register(String usr, String pwd) throws UserInfoError, DBConnectError {
+    public static void Register(String usr, String pwd, String repwd, JCheckBox checkBox) throws UserInfoError, DBConnectError {
+        if (!checkBox.isSelected()) {
+            throw new UserInfoError("Please read and accept the terms and conditions.");
+        }
+
         usr = usr.trim();
         pwd = pwd.trim();
+        repwd = repwd.trim();
+
+        if (!pwd.equals(repwd)) {
+            throw new UserInfoError("The two passwords do not match.");
+        }
+
+        if (userExists(usr)) {
+            throw new UserInfoError("The username is already taken.");
+        }
+
         Map<String, Object> map = new HashMap<>();
         map.put("username", usr);
         map.put("password", pwd);
@@ -95,7 +114,7 @@ public class User {
             } catch (Exception e) {
                 attempts++;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(300);
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                     throw new UserInfoError("Registration interrupted.");

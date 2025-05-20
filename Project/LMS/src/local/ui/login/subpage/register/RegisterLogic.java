@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import laboratory.lab.workers.User;
+import local.error.UserInfoError;
 import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
@@ -35,40 +36,33 @@ public class RegisterLogic extends StandardUILogical {
     @Override
     public void addButtonAction() {
 
-        registerUI.getButton("register").addActionListener(e -> {
-            try {
+    registerUI.getButton("register").addActionListener(e -> {
+        try {
+            JCheckBox checkBox = registerUI.getCheckBox("apply");
+            JTextField regusr = registerUI.getTextField("username");
+            JPasswordField regpwd = registerUI.getPasswordField("password");
+            JPasswordField regrepwd = registerUI.getPasswordField("repassword");
 
-                JCheckBox checkBox = registerUI.getCheckBox("apply");
-                if (!checkBox.isSelected()) {
-                    new MiniOption("Register", "Please read and accept the terms and conditions", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
+            String usr = regusr.getText();
+            String pwd = new String(regpwd.getPassword());
+            String repwd = new String(regrepwd.getPassword());
 
-                JTextField regusr = registerUI.getTextField("username");
-                JPasswordField regpwd = registerUI.getPasswordField("password");
-                JPasswordField regrepwd = registerUI.getPasswordField("repassword");
+            User.Register(usr, pwd, repwd, checkBox);
 
-                String usr = regusr.getText();
-                String pwd = new String(regpwd.getPassword());
-                String repwd = new String(regrepwd.getPassword());
+            regusr.setText("");
+            regpwd.setText("");
+            regrepwd.setText("");
 
-                if (!pwd.equals(repwd)) {
-                    new MiniOption("Register Failed", "Please make sure the two passwords are the same", javax.swing.JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
+            GlobalVariables.setUserName(usr);
 
-                User.Register(usr, pwd);
-                regusr.setText("");
-                regpwd.setText("");
-                regrepwd.setText("");
-                GlobalVariables.setUserName(usr);
-                new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
+            new MiniOption("Register Success", "Register Success!", JOptionPane.INFORMATION_MESSAGE);
 
-            } catch (Exception ex) {
-                CatchException.handle(ex, eh);
-            }
-
-        });
+        } catch (UserInfoError ex) {
+            new MiniOption("Register Failed", ex.getMessage(), JOptionPane.WARNING_MESSAGE);
+        } catch (Exception ex) {
+            new MiniOption("Register Failed", "Please check your input and try again.", JOptionPane.ERROR_MESSAGE);
+        }
+    });
 
     }
 
