@@ -2,7 +2,6 @@ package local.ui.login.subpage.register;
 
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -18,9 +17,7 @@ public class RegisterLogic extends StandardUILogical {
     // 需要加载逻辑的目标UI类
     private RegisterUI registerUI;
 
-    // UI类中的面板句柄
-    // 这里的面板句柄是UI类中定义的面板
-    private JPanel register;
+
 
     // 错误处理器
     private errorHandler eh = errorHandler.getInstance();
@@ -32,8 +29,6 @@ public class RegisterLogic extends StandardUILogical {
         // 初始化界面各组件
         registerUI = new RegisterUI();
 
-        // 获取可操作的面板句柄
-        this.register = registerUI.getPanel("register");
 
         // 初始化显示内容
         defaultView();

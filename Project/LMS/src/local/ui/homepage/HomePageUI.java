@@ -4,9 +4,7 @@ import javax.swing.*;
 
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
-import laboratory.lab.workers.User;
 import local.error.UICreateFail;
-import standard.GlobalVariables;
 import standard.StandardUI;
 
 import java.awt.*;

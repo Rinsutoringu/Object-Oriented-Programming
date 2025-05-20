@@ -2,7 +2,6 @@ package local.ui.example;
 
 import javax.swing.JPanel;
 
-import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import standard.StandardUILogical;
@@ -22,9 +21,6 @@ public class exampleLogic extends StandardUILogical {
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
-
-    // 获取工具
-    private DataBase dbUtils = DataBase.getInstance();
 
     /**
      * 构造函数要做的事情：

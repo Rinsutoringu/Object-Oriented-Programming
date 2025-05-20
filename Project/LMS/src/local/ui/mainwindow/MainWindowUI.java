@@ -2,7 +2,6 @@ package local.ui.mainwindow;
 
 import javax.swing.*;
 
-import local.utils.UIUtils;
 
 import java.awt.*;
 import java.awt.event.*;

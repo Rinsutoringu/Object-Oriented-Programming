@@ -48,8 +48,6 @@ public class User {
             if (rs == null || !rs.next()) {
                 throw new UserInfoError("User not exist");
             }
-            // 如果找到了不止一个人的信息则失败
-            // TODO 直接在数据库施加限制即可。
             // if (rs.next()) throw new UserInfoError("User name duplicate");
             
             // 如果密码不匹配则失败

@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.swing.JOptionPane;
-
 import database.error.DBConnectError;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
@@ -43,7 +41,6 @@ public class DataBase {
     private boolean isStaffTableChecked = false;
     private boolean isShelfTableChecked = false;
 
-    // TODO 提供降级逻辑
     // 我不想做了!
 
     private static DataBase instance;

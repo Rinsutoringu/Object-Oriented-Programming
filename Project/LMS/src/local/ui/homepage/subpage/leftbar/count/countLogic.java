@@ -1,8 +1,4 @@
 package local.ui.homepage.subpage.leftbar.count;
-
-import javax.swing.JPanel;
-
-import database.db.DataBase;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import standard.StandardUILogical;
@@ -14,17 +10,11 @@ public class countLogic extends StandardUILogical {
      */
     private countUI countui;
 
-    /**
-     * 声明UI类中包含的PL句柄
-     * 用于动态绘制画面
-     */
-    private JPanel examplePL;
 
     // 定义错误处理器
     private errorHandler eh = errorHandler.getInstance();
 
     // 获取工具
-    private DataBase dbUtils = DataBase.getInstance();
 
 
     public countLogic() {

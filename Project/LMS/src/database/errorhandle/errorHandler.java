@@ -33,7 +33,6 @@ public class errorHandler implements database.errorhandle.DBConnectionErrorHandl
     public void handleError(DBConnectError error) {
         // Handle the connection error here
         // try to handle this error
-        // TODO 正确捕获用户连不上数据库的时机，在loginPanel上展示数据库连接逻辑
         System.err.println("Database connection error: " + error.getMessage());
         new MiniOption("Database connection error", "Please check your database connection settings, Info: "+error.getMessage(), MiniOption.ERROR_MESSAGE);
     }
@@ -90,7 +89,6 @@ public class errorHandler implements database.errorhandle.DBConnectionErrorHandl
         new MiniOption("Unknown error", "Unknown Error, Info: "+error.getMessage(), MiniOption.ERROR_MESSAGE);
     }
     public void handleError(String string, Exception ex) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handleError'");
     }
 

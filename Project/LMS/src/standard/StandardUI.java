@@ -39,7 +39,7 @@ public abstract class StandardUI extends JPanel {
      */
     protected Map<String, JPanel> panels = new LinkedHashMap<String, JPanel>();
     /**
-     * 输入框集合 // TODO 我知道这个名字是有问题的但是我不是很想改
+     * 输入框集合 
      */
     protected Map<String, JTextField> textFields = new LinkedHashMap<String, JTextField>();
     /**

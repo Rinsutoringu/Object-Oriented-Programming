@@ -134,10 +134,6 @@ public class GetDBConUI extends StandardUI{
         panels.put("userinput", panel);
     }
 
-
-    
-    
-// TODO 实际的检测逻辑
     
     @Override
     public JPanel getThis() {

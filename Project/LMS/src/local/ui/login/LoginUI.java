@@ -8,7 +8,6 @@ import database.errorhandle.errorHandler;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import standard.GlobalVariables;
 import standard.StandardUI;
 import local.utils.*;
 

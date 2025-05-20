@@ -11,12 +11,9 @@ import javax.swing.JOptionPane;
 import database.errorhandle.CatchException;
 import database.errorhandle.errorHandler;
 import laboratory.lab.workers.User;
-import local.error.*;
 import local.ui.login.subpage.getdbconnect.GetDBConLogic;
 import local.ui.login.subpage.register.RegisterLogic;
-import local.ui.mainwindow.MainWindowUI;
 import local.ui.miniwindow.MiniOption;
-import standard.GlobalVariables;
 import standard.StandardUILogical;
 
 public class LoginLogic extends StandardUILogical {

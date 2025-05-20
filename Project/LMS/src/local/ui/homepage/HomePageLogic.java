@@ -18,7 +18,6 @@ import local.ui.homepage.subpage.rightbar.competence.competenceLogic;
 import local.ui.homepage.subpage.rightbar.overview.OverviewLogic;
 import local.ui.login.LoginLogic;
 import local.ui.mainwindow.MainWindowUI;
-import local.ui.miniwindow.MiniOption;
 import standard.GlobalVariables;
 import standard.StandardUILogical;
 

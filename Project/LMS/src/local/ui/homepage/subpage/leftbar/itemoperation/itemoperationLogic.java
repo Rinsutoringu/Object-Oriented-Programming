@@ -4,12 +4,10 @@ import java.sql.ResultSet;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.DefaultTableModel;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import database.db.DataBase;
 import database.errorhandle.CatchException;
@@ -70,11 +68,9 @@ public class itemoperationLogic extends StandardUILogical {
             setStyle();
 
             // 初始化类中自有的PL（全屏）
-            // TODO 并没有PL
             putPL("sidebar", getThis().getPanel("sidebar"));
 
             // 初始化类中自有的CP（部分显示）
-            // TODO 并没有CP
             // putCP("example1", sidebarui.getPanel("example1"));
 
             // 初始化画面
@@ -100,7 +96,6 @@ public class itemoperationLogic extends StandardUILogical {
         // 设置默认显示内容 第一个值是目标，第二个值是显示的内容
         // 啥都不加就默认显示UI加载完后的内容
         try {
-            // TODO 并没有PL
             show(getThis(), getPL("sidebar"));
         } catch (Exception e) {
             CatchException.handle(e, eh);
