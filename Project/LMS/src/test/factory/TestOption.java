@@ -18,7 +18,6 @@ public class TestOption {
                 System.err.println("java -test.factory.TestOption <GUIPageName>+<Logic/UI>");
                 return;
             }
-            // 设置全局字体
             FontUtil.setGlobalFont("/resources/fonts/JetBrainsMono-Bold.ttf", 13f);
             GlobalVariables.getInstance();
 
@@ -30,22 +29,17 @@ public class TestOption {
 
             try {
                 
-                // mainwindow是主窗口，不能被加载,直接跳过接下来的代码即可
                 if (moduleName.equals("panel-mainwindow")) return;
 
-                // 尝试以UI模式获取模块
                 StandardUI UIModule = UIModuleFactory.createModule(moduleName);
-                // 找到了就直接返回，没找到就继续找
                 if (UIModule != null) {
                     MainWindowUI.getInstance().addPanel(UIModule.getThis());
                     return;
                     }
 
-                // 尝试以Logic模式获取模块
                 MiniOption MiniUIModule = UIModuleFactory.createMiniOption(moduleName);
                 if (MiniUIModule != null) return;
 
-                // 获取JPanel本体，然后在窗口展示
                 
 
             } catch (IllegalArgumentException e) {

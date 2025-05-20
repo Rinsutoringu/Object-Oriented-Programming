@@ -17,24 +17,17 @@ public class MainWindowLogic {
 
     public MainWindowLogic() {
 
-        // 初始化按钮样式
         ButtonStyle.applyGlobalButtonStyle();
 
-        // 初始化全局变量
         GlobalVariables.getInstance();
-        // 初始化工具类
         UIUtils.getInstance();
-        // 初始化数据库
         DataBase.getInstance();
-        // 初始化字体
         FontUtil.setGlobalFont("/resources/fonts/JetBrainsMono-Bold.ttf", 13f);
-        // 初始化本程序所有界面
         login = LoginLogic.getInstance();
 
         homepagelogic = HomePageLogic.getInstance();
         mainWindowUI = MainWindowUI.getInstance();
 
-        // 显示登录页面
         showLoginPage();
     }
 
@@ -47,7 +40,6 @@ public class MainWindowLogic {
         mainWindowUI.addPanel(homepagelogic.getThis());
     }
 
-    // 登录成功后的回调
     private void onLoginSuccess(String username) {
         GlobalVariables.setUserName(username);
         showHomePage();

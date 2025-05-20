@@ -34,15 +34,11 @@ public class LoginLogic extends StandardUILogical {
     private LoginLogic() {
         super();
         try {
-            // 实例化loginUI对象
             loginUI = new LoginUI();
 
             getdbconlogic = new GetDBConLogic();
             registerlogic = new RegisterLogic();
-            // 实例化数据库对象
-            // 展示默认内容
             defaultView();
-            // 添加按钮事件
             addButtonAction();
 
         } catch (Exception e) {
@@ -51,15 +47,11 @@ public class LoginLogic extends StandardUILogical {
     }
 
     protected void defaultView() {
-        // 默认视图
     }
 
     protected void addButtonAction() {
-        // 添加按钮事件
         loginUI.getButton("login").addActionListener(e -> {
-            // 获取用户名和密码
             System.out.println("Login button clicked");
-            // 傻逼java
             JCheckBox checkBox = loginUI.getCheckBox("check");
             if(!checkBox.isSelected()) {
                 new MiniOption("Login Failed", "Please read and accept the terms and conditions", JOptionPane.WARNING_MESSAGE);
@@ -91,7 +83,6 @@ public class LoginLogic extends StandardUILogical {
         });
 
         loginUI.getButton("setdb").addActionListener(e -> {
-            // 获取数据库连接信息
             try {
                 showGetDBConnectInfo();
             } catch (Exception ex) {
@@ -100,7 +91,6 @@ public class LoginLogic extends StandardUILogical {
         });
 
         loginUI.getButton("regusr").addActionListener(e -> {
-            // 获取注册信息
             try {
                 showRegInfo();
             } catch (Exception ex) {
@@ -131,13 +121,11 @@ public class LoginLogic extends StandardUILogical {
     }
 
     public void showGetDBConnectInfo() {
-        // 初始化数据库连接信息面板
         JPanel dbInfoPanel = getdbconlogic.getThis().getPanel("getDBInfo");
         loginUI.switchPanel("pic", dbInfoPanel);
     }
 
     public void showRegInfo() {
-        // 初始化注册信息面板
         JPanel regInfoPanel = registerlogic.getThis().getPanel("register");
         loginUI.switchPanel("pic", regInfoPanel);
     }
@@ -148,9 +136,6 @@ public class LoginLogic extends StandardUILogical {
         target.revalidate();
         target.repaint();
     }
-
-
-
 
     public LoginUI getThis() {
         return loginUI;

@@ -23,9 +23,7 @@ import standard.StandardUILogical;
 
 public class HomePageLogic extends StandardUILogical {
 
-    /**
-     * 属于本类的UI类对象
-     */
+
     private HomePageUI homepageUI;
 
     private boolean isShowOverview;
@@ -41,26 +39,20 @@ public class HomePageLogic extends StandardUILogical {
     }
 
 
-    // 本类构造函数
     private HomePageLogic() {
 
-        // 注册默认方法
         super();
 
-        // 初始化本类的UI对象
         homepageUI = new HomePageUI();
 
-        // 初始化本类持有的Page
         putPage("overview", new OverviewLogic());
         putPage("sidebar", new itemoperationLogic(this));
         putPage("count", new countLogic());
         putPage("useroperation", new useroperationLogic(this));
         putPage("competence", new competenceLogic());
 
-        // 初始化类中自有的PL（全屏）
         putPL("home", getThis().getPanel("home"));
 
-        // 初始化类中自有的CP（部分显示）
         putCP("top", getThis().getPanel("top"));
         putCP("sub", getThis().getPanel("sub"));
         putCP("main", getThis().getPanel("main"));
@@ -73,13 +65,11 @@ public class HomePageLogic extends StandardUILogical {
         defaultView();
    }
 
-    // 默认视图
     @Override
     protected void defaultView() {
         
     }
 
-    // 为按钮注册点击事件
     @Override
     protected void addButtonAction() throws ActionAddFailed{
         try{
@@ -126,7 +116,7 @@ public class HomePageLogic extends StandardUILogical {
             });
 
         } catch (Exception e) {
-            throw new ActionAddFailed("为按钮添加事件失败", e);
+            throw new ActionAddFailed("Add button action failed", e);
         }
     }
 

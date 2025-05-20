@@ -61,6 +61,3 @@ public class UIModuleFactory {
         }
     }
 }
-
-            // default:
-            //     return new MiniOption("Unknown", "This is an unknown module");

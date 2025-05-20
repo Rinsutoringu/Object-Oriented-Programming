@@ -14,49 +14,32 @@ import standard.StandardUILogical;
 
 public class RegisterLogic extends StandardUILogical {
 
-    // 需要加载逻辑的目标UI类
     private RegisterUI registerUI;
 
-
-
-    // 错误处理器
     private errorHandler eh = errorHandler.getInstance();
-
 
     public RegisterLogic() {
         super();
 
-        // 初始化界面各组件
         registerUI = new RegisterUI();
 
-
-        // 初始化显示内容
         defaultView();
 
-        // 为按钮增加点击事件
         addButtonAction();
     }
 
-    // 设置启动后的默认视图
     @Override
     public void defaultView() {
-
-        // 设置默认显示内容 第一个值是目标，第二个值是显示的内容
-        // 啥都不加就默认显示UI加载完后的内容
-        // show(this, this.examplewindow);
-        
     }
 
-    // 为按钮注册点击事件
     @Override
     public void addButtonAction() {
 
-        registerUI.getButton("register").addActionListener(e->{
-            // 在此定义具体点击事件
+        registerUI.getButton("register").addActionListener(e -> {
             try {
 
                 JCheckBox checkBox = registerUI.getCheckBox("apply");
-                if(!checkBox.isSelected()) {
+                if (!checkBox.isSelected()) {
                     new MiniOption("Register", "Please read and accept the terms and conditions", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
@@ -75,26 +58,20 @@ public class RegisterLogic extends StandardUILogical {
                 }
 
                 User.Register(usr, pwd);
-                // 注册成功后清空输入框
                 regusr.setText("");
                 regpwd.setText("");
                 regrepwd.setText("");
-                // 将用户名注册为全局变量以便于后续使用
                 GlobalVariables.setUserName(usr);
                 new MiniOption("Register Success", "Register Success!\nYou can use your account login now! :D", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (Exception ex) {
-                // 基础的错误处理逻辑
                 CatchException.handle(ex, eh);
             }
 
         });
 
-        
-
     }
 
-    // 获取实例
     @Override
     public RegisterUI getThis() {
         return registerUI;

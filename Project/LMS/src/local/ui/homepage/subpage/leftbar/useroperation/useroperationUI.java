@@ -28,14 +28,12 @@ public class useroperationUI extends StandardUI {
 
     @Override
     protected void setStyle() {
-        // 修改面板
         setFontSize(getLabel("usermanagement"), 20);
         getButton("submitedit").setPreferredSize(new Dimension(100, 30));
         getButton("delete").setPreferredSize(new Dimension(100, 30));
         getTextField("username").setPreferredSize(new Dimension(200, 30));
         getComboBox("permission").setPreferredSize(new Dimension(123, 30));
 
-        // 新建面板
         setFontSize(getLabel("newusermanagement"), 20);
         getButton("submitcreate").setPreferredSize(new Dimension(100, 30));
         getTextField("newusername").setPreferredSize(new Dimension(200, 30));
@@ -61,7 +59,6 @@ public class useroperationUI extends StandardUI {
         panels.put("useroperation", panel);
     }
 
-    // 编辑用户权限面板
     private void createEditUser() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
@@ -90,7 +87,6 @@ public class useroperationUI extends StandardUI {
         putPanel("edituser", panel);
     }
 
-    // 编辑用户面板的子面板
     private void createUserInput() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
@@ -125,7 +121,6 @@ public class useroperationUI extends StandardUI {
         putPanel("userinput", panel);
     }
 
-    // 新建用户面板
     private void createNewUser() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
@@ -150,7 +145,6 @@ public class useroperationUI extends StandardUI {
         putPanel("newuser", panel);
     }
 
-    //新建用户面板子面板
     private void createNewUserInput() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout()); 
@@ -183,7 +177,6 @@ public class useroperationUI extends StandardUI {
         panel.setBackground(GlobalVariables.cgetUserOperationLogic());
         putPanel("newuserinput", panel);
     }
-
 
     @Override
     public useroperationUI getThis() {

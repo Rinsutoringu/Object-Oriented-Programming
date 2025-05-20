@@ -11,7 +11,7 @@ import standard.GlobalVariables;
 import standard.StandardUI;
 
 public class RegisterUI extends StandardUI {
-    
+
     UIUtils uiutils = UIUtils.getInstance();
     errorHandler eh = errorHandler.getInstance();
 
@@ -27,6 +27,7 @@ public class RegisterUI extends StandardUI {
         }
 
     }
+
     @Override
     protected void setStyle() {
         setFontSize(getLabel("registertooltip"), 25);
@@ -35,7 +36,6 @@ public class RegisterUI extends StandardUI {
         getPasswordField("repassword").setPreferredSize(new java.awt.Dimension(200, 30));
     }
 
-    // 这是一个示范组件
     private void init_register() {
 
         JPanel panel = new JPanel();
@@ -45,22 +45,18 @@ public class RegisterUI extends StandardUI {
         panel.setLayout(new GridBagLayout());
 
         utils.addComponent(panel, getPanel("userinput"), gbc, 0, 0, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+                GridBagConstraints.NONE, 2, 1);
 
         utils.addComponent(panel, getButton("close"), gbc, 0, 1, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+                GridBagConstraints.NONE, 2, 1);
 
         panels.put("register", panel);
     }
 
     private void createUserInput() {
         JPanel panel = new JPanel();
-        // 设置layout manager
-        // panel.setPreferredSize(new Dimension(0, 9));
-        panel.setLayout(new GridBagLayout()); 
+        panel.setLayout(new GridBagLayout());
 
-        // 创建界面上需要的组件
-        
         putLabel("registertooltip", new JLabel("Let's Register!"));
         putTextField("username", new JTextField(27));
         putPasswordField("password", new JPasswordField(20));
@@ -69,12 +65,11 @@ public class RegisterUI extends StandardUI {
         putButton("register", new JButton("Register"));
         putButton("close", new JButton("Close"));
 
-        // 设置组件到面板
         int gheight = 0;
         gbc.insets = new Insets(100, 5, 30, 5);
 
         utils.addComponent(panel, getLabel("registertooltip"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+                GridBagConstraints.NONE, 2, 1);
 
         gbc.insets = new Insets(5, 10, 5, 10);
 
@@ -88,18 +83,17 @@ public class RegisterUI extends StandardUI {
         utils.addComponent(panel, getPasswordField("repassword"), gbc, gright, gheight);
 
         utils.addComponent(panel, checkBoxs.get("apply"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+                GridBagConstraints.NONE, 2, 1);
 
         gbc.insets = new Insets(5, 10, 50, 10);
-        
+
         utils.addComponent(panel, getButton("register"), gbc, gleft, ++gheight, 1, 1,
-        GridBagConstraints.NONE, 2, 1);
+                GridBagConstraints.NONE, 2, 1);
 
         panel.setBackground(GlobalVariables.cgetRegisterLogic());
-        
+
         panels.put("userinput", panel);
     }
-
 
     @Override
     public RegisterUI getThis() {

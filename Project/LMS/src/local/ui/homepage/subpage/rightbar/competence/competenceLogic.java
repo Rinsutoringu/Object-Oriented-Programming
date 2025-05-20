@@ -51,13 +51,12 @@ public class competenceLogic extends StandardUILogical {
             } catch (Exception e) {
                 System.err.println("Database connection failed: " + e.getMessage());
                 e.printStackTrace();
-                return; // 如果连接失败，直接返回
+                return;
             }
 
             java.util.List<Object[]> data = dbUtils.queryCustomShelfTable(sql);
 
             for (Object[] row : data) {
-
                 String username = (String) row[0];
                 String regdate;
                 try {
@@ -91,19 +90,14 @@ public class competenceLogic extends StandardUILogical {
         }
     }
 
-    /**
-     * 将 Unix 时间戳（以毫秒为单位）转换为可读的日期时间格式
-     * @param timestamp Unix 时间戳（毫秒）
-     * @return 可读的日期时间字符串
-     */
     private String convertTimestampToReadableDate(long timestamp) {
         java.util.Date date = new java.util.Date(timestamp);
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(date);
     }
 
-        @Override
-        public competenceUI getThis() {
-            return competenceui;
-        }
+    @Override
+    public competenceUI getThis() {
+        return competenceui;
     }
+}

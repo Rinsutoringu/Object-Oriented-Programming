@@ -18,11 +18,7 @@ public class LoginUI extends StandardUI{
     public LoginUI() {
         eh = errorHandler.getInstance();
         
-        // 布局定义为GBC，其他的具体配置已经在接口中实现了
-        
         try {
-            // 初始化面板
-
             createRegisterbox();
 
             init_index();
@@ -30,13 +26,11 @@ public class LoginUI extends StandardUI{
             setFontSize();
             setStyle();
 
-            // 放置index面板进去
             utils.addComponent(this, panels.get("index"), gbc, 0, 0, 1, 1,
             GridBagConstraints.BOTH, 1, 1);
 
             gbc.insets = new Insets(10, 10, 10, 10);
 
-            // 放置没有卵用的右侧展示板
             utils.addComponent(this, panels.get("pic"), gbc, 1, 0, 20, 1,
             GridBagConstraints.BOTH, 1, 1);
         } catch (Exception e) {
@@ -45,19 +39,14 @@ public class LoginUI extends StandardUI{
     }
     @Override
     protected void setStyle() {
-        // 设置背景颜色
         getTextField("loginusr").setPreferredSize(new Dimension(200, 30));
         getTextField("loginpwd").setPreferredSize(new Dimension(200, 30));
     }
 
-    // 设置字体大小
     private void setFontSize() {
         setFontSize(getButton("login"), 18);
-
     }
 
-
-    // 关键信息面板
     private void init_index() throws Exception {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
@@ -66,32 +55,24 @@ public class LoginUI extends StandardUI{
         gbc.anchor = GridBagConstraints.CENTER;
 
         int Cheight = 0;
-        // utils.addComponent(panel, panel, gbc, ERROR, ALLBITS, HEIGHT, HEIGHT, ABORT, WIDTH, HEIGHT);
 
-        // logo
         utils.addComponent(panel, getLogo(), gbc, 0, Cheight, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
         gbc.insets = new Insets(210, 5, 5, 5);
 
-
-        // 登陆组件
         utils.addComponent(panel, loginbox(), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
         gbc.insets = new Insets(5, 5, 5, 5);
 
-        // 用户协议
         utils.addComponent(panel, usrprotocal(), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
-        // 登录按钮
         buttons.put("login", loginbutton());
         utils.addComponent(panel, buttons.get("login"), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 2, 1);
 
-
-        // 注册组件
         utils.addComponent(panel, getPanel("register"), gbc, 0, Cheight++, 1, 1,
             GridBagConstraints.NONE, 1, 1);
 
@@ -99,7 +80,6 @@ public class LoginUI extends StandardUI{
         return;
     }
 
-    // 推荐信息面板
     private void init_pic() throws Exception {
 
         JPanel panel =  new JPanel() {
@@ -137,19 +117,15 @@ public class LoginUI extends StandardUI{
 
         utils.addComponent(panel, getButton("setdb"), gbc, gright, 0);
 
-        // return panel;
         panels.put("register", panel);
     }
-    
 
-    // 登录组件
     private JPanel loginbox() {
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(255, 255, 255));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5,5,0,5);
 
-        // 创建组件
         putLabel("username", new JLabel("UserName"));
         putLabel("password", new JLabel("Password"));
 
@@ -168,12 +144,9 @@ public class LoginUI extends StandardUI{
         utils.addComponent(panel, getLabel("password"), gbc, 0, ++gheight);
         textFields.put("loginpwd", new JPasswordField(16));
         utils.addComponent(panel, textFields.get("loginpwd"), gbc, 1, gheight);
-        // DEBUG
-        // panel.setBackground(GlobalVariables.cgetLoginUILogic());
         return panel;
     }
 
-    // 用户协议
     private JPanel usrprotocal() {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 1, 1));
         panel.setBackground(new Color(255, 255, 255));
@@ -184,21 +157,18 @@ public class LoginUI extends StandardUI{
         return panel;
     }
 
-    // logo
     private JLabel getLogo() {
         Image img = ImageUtils.loadImage("/resources/LMSlogo.png");
         BufferedImage bufferedImage = ImageUtils.toBufferedImage(img);
         return ImageUtils.imgToJLable(bufferedImage, 150, 150, 10);
     } 
 
-    // 获取按钮对象
     @Override
     public AbstractButton getButton(String buttonName) {
         if (buttons.containsKey(buttonName)) return (JButton) buttons.get(buttonName);
         return null;
     }
 
-    // 获取输入框对象
     @Override
     public JTextField getTextField(String fieldName) {
         if (textFields.containsKey(fieldName)) return textFields.get(fieldName);

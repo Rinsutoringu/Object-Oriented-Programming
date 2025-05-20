@@ -11,8 +11,8 @@ public class Shelf {
     private static DataBase dbUtils = DataBase.getInstance();
     
     /**
-     * 获取 shelf 表的总行数
-     * @return 总行数，如果查询失败返回 -1
+     * Get the total number of rows in the shelf table
+     * @return Total rows, or -1 if the query fails
      */
     public static int getItemQuantity() {
         String query = "SELECT COUNT(*) FROM shelf";
@@ -27,26 +27,26 @@ public class Shelf {
         return -1;
     }
     /**
-     * 获取 shelf 表中所有 obj_number 的总和
-     * @return 总物资量，如果查询失败返回 -1
+     * Get the total sum of obj_number in the shelf table
+     * @return Total quantity, or -1 if the query fails
      */
     public static int getTotalItemQuantity() {
         String query = "SELECT SUM(obj_number) FROM shelf";
         try (PreparedStatement stmt = dbUtils.getConnection().prepareStatement(query);
             ResultSet rs = stmt.executeQuery()) {
             if (rs.next()) {
-                return rs.getInt(1); // 返回总和
+                return rs.getInt(1);
             }
         } catch (Exception e) {
             System.err.println("Error occurred while fetching total item quantity from shelf table.");
             e.printStackTrace();
         }
-        return -1; // 查询失败返回 -1
+        return -1;
     }
 
     /**
-     * 获取 shelf 表中 obj_lastuptime 最接近当前时间的条目
-     * @return 包含 lastuser 和 obj_lastuptime 的字符串数组，如果查询失败返回 null
+     * Get the entry in the shelf table with obj_lastuptime closest to the current time
+     * @return A string array containing lastuser and obj_lastuptime, or null if the query fails
      */
     public static String[] getClosestLastUpdate() {
         String dbType = GlobalVariables.getDBType();
@@ -73,8 +73,6 @@ public class Shelf {
             System.err.println("Error occurred while fetching the closest last update from shelf table.");
             e.printStackTrace();
         }
-        return null; // 查询失败返回 null
+        return null;
     }
-
-    
 }

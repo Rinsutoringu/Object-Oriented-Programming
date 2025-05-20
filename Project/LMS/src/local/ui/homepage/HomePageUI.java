@@ -24,9 +24,6 @@ public class HomePageUI extends StandardUI {
             CatchException.handle(e, eh);
         }
 
-        // 界面的基本布局已在StandardUI中完成
-        // 添加组件
-
     }
 
 
@@ -51,13 +48,10 @@ public class HomePageUI extends StandardUI {
         putPanel("home", panel);
     }
 
-    // 顶栏
     private void create_topCP() {
 
         JPanel panel = new JPanel();
-        // DEBUG
         panel.setPreferredSize(new Dimension(20, 20));
-        // 设置topview建议间隔
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS)); 
         
         buttons.put("logout", buildButton("Logout"));
@@ -65,41 +59,33 @@ public class HomePageUI extends StandardUI {
         buttons.put("briefing", buildButton("Show Briefing"));
         buttons.put("stock", buildButton("Permissions"));
         
-        // 按钮间隔
         int buttonGap = 20;
-        // 把按钮加入顶部视图中
         panel.add(Box.createHorizontalGlue());
         for (AbstractButton button : buttons.values()) {
             panel.add(button);
             panel.add(Box.createHorizontalStrut(buttonGap));
         }
         panel.add(Box.createHorizontalGlue());
-        // 背景
             panel.setBackground(new Color(255,255,255));
             panels.put("top", panel);
         }
 
-    // 右栏(大的那个)
     private void create_mainCP() {
 
             JPanel panel = new JPanel(new BorderLayout());
-            // DEBUG
             panel.setPreferredSize(new Dimension(20, 20));
             panel.setBackground(Color.BLUE);        
             panels.put("main", panel);
     }
 
-    // 左栏(小的那个)
     private void create_subCP() {
 
             JPanel panel = new JPanel(new BorderLayout());
-            // DEBUG
             panel.setPreferredSize(new Dimension(20, 20));
             panel.setBackground(Color.ORANGE);
             panel.setPreferredSize(new Dimension(100, 100));
             panels.put("sub", panel);
     }
-    // 按钮
     private JButton buildButton(String ButtonText) {
         JButton button = new JButton();
         button.setText(ButtonText);

@@ -1,6 +1,5 @@
 package local.ui.font;
 
-// 导入相关类
 import java.awt.*;
 import java.io.InputStream;
 import javax.swing.*;
@@ -8,11 +7,9 @@ import javax.swing.*;
 public class FontUtil {
     public static void setGlobalFont(String fontResourcePath, float size) {
         try {
-            // 读取字体资源
             InputStream is = FontUtil.class.getResourceAsStream(fontResourcePath);
             Font font = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(size);
 
-            // 设置全局字体
             UIManager.put("Label.font", font);
             UIManager.put("Button.font", font);
             UIManager.put("Table.font", font);

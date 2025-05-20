@@ -5,36 +5,21 @@ import java.awt.Font;
 
 import local.ui.font.FontUtil;
 
-/**
- * 实现从指定目录读取配置文件，本地也保持一个默认值
- * 可选：设置json文件/本地默认值/UI上可视化设置
- */
 public class GlobalVariables {
 
     private static GlobalVariables instance;
 
-    // 数据库连接信息存储在这里
-    // public static String dbfullUrl = "jdbc:mysql://192.168.101.103:3306/LMS_sql";
 
-
-    // 数据库地址
     public static String dbUrl;
-    // 数据库端口
     public static String dbPort;
-    // 数据库类型
     public static String dbType;
-    // 数据库子名称
     public static String dbSubName;
-    // 数据库账号名
     public static String dbUser;
-    // 数据库密码
     public static String dbPassword;
 
-    // 表格名
     public static String staffTableName;
     public static String shelfTableName;
 
-    // 这里存储了全局配色方案
     public static final Color getDBConLogic = new Color(244, 245, 246);
 
     public static final Color registerLogic = new Color(244, 245, 246);
@@ -48,7 +33,6 @@ public class GlobalVariables {
     public static final Color userOperationLogic = new Color(244, 245, 246);
 
 
-    // 字体
     public static Font customFont;
 
     public static String currentUsr;
@@ -65,9 +49,6 @@ public class GlobalVariables {
 
         customFont = FontUtil.loadCustomFont("/resources/fonts/JetBrainsMono-Bold.ttf", 14f);
 
-        // DEBUG
-        setUserName("RinChord");
-        // 私有构造函数，防止外部实例化
     }
 
     public static GlobalVariables getInstance() {

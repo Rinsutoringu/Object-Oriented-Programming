@@ -58,12 +58,12 @@ public class useroperationLogic extends StandardUILogical {
                         int permission = getPermissionInput();
 
                         if (username.isEmpty() || permission == -1) return null;
-                        // 检查用户是否存在
+
                         if (!isUserExists(username)) {
                             new MiniOption("Operation Error", "User does not exist.", JOptionPane.WARNING_MESSAGE);
                             return null;
                         }
-                        // 更新用户权限
+
                         Map<String, Object> whereMap = new java.util.HashMap<>();
                         whereMap.put("username", username);
 
@@ -82,7 +82,6 @@ public class useroperationLogic extends StandardUILogical {
             }.execute();
         });
 
-        // 删除用户按钮逻辑
         useroperationui.getButton("delete").addActionListener(e -> {
             new SwingWorker<Void, Void>() {
                 @Override
@@ -92,25 +91,21 @@ public class useroperationLogic extends StandardUILogical {
 
                         if (username.isEmpty()) return null;
 
-                        // 检查用户是否存在
                         if (!isUserExists(username)) {
                             new MiniOption("Operation Error", "User does not exist.", JOptionPane.WARNING_MESSAGE);
                             return null;
                         }
 
-                        // 检查是否是当前用户
                         if (username.equals(GlobalVariables.getUserName())) {
                             new MiniOption("Operation Error", "You cannot delete your own account.", JOptionPane.WARNING_MESSAGE);
                             return null;
                         }
 
-                        // 删除用户
                         Map<String, Object> whereMap = new java.util.HashMap<>();
                         whereMap.put("username", username);
 
                         dbutils.deleteRow(GlobalVariables.getStaffTableName(), whereMap);
 
-                        // 更新表格数据模型
                         SwingUtilities.invokeLater(() -> getCompetenceLogic().refreshTableData());
                         clearUserInput();
                         new MiniOption("Success", "User deleted successfully.", JOptionPane.INFORMATION_MESSAGE);
@@ -123,7 +118,6 @@ public class useroperationLogic extends StandardUILogical {
             }.execute();
         });
 
-        // 创建用户按钮逻辑
         useroperationui.getButton("submitcreate").addActionListener(e -> {
             new SwingWorker<Void, Void>() {
                 @Override
@@ -134,18 +128,16 @@ public class useroperationLogic extends StandardUILogical {
 
                         if (username.isEmpty() || password.isEmpty()) return null;
 
-                        // 检查用户是否已存在
                         if (User.userExists(username)) {
                             new MiniOption("Operation Error", "User already exists.", JOptionPane.WARNING_MESSAGE);
                             return null;
                         }
 
-                        // 创建新用户
                         Map<String, Object> newUser = new java.util.HashMap<>();
                         newUser.put("username", username);
                         newUser.put("password", password);
                         newUser.put("regdate", new java.sql.Timestamp(System.currentTimeMillis()));
-                        newUser.put("state", 1); // 默认权限为普通用户
+                        newUser.put("state", 1);
 
                         dbutils.insertRow(GlobalVariables.getStaffTableName(), newUser);
 
@@ -153,7 +145,6 @@ public class useroperationLogic extends StandardUILogical {
 
                         new MiniOption("Success", "User created successfully.", JOptionPane.INFORMATION_MESSAGE);
 
-                        // 刷新表格
                         SwingUtilities.invokeLater(() -> getCompetenceLogic().refreshTableData());
 
                     } catch (Exception ex) {
@@ -165,23 +156,23 @@ public class useroperationLogic extends StandardUILogical {
         });
     }
 
-        private boolean isUserExists(String username) {
-            try {
-                String sql = "SELECT COUNT(*) FROM " + GlobalVariables.getStaffTableName() + " WHERE username = ?";
-                try (Connection conn = dbutils.getConnection();
-                    PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                    pstmt.setString(1, username);
-                    try (ResultSet rs = pstmt.executeQuery()) {
-                        if (rs.next()) {
-                            return rs.getInt(1) > 0; // 如果计数大于 0，说明用户存在
-                        }
+    private boolean isUserExists(String username) {
+        try {
+            String sql = "SELECT COUNT(*) FROM " + GlobalVariables.getStaffTableName() + " WHERE username = ?";
+            try (Connection conn = dbutils.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                pstmt.setString(1, username);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt(1) > 0;
                     }
                 }
-            } catch (Exception e) {
-                CatchException.handle(e, eh);
             }
-            return false; // 如果发生异常，默认返回用户不存在
+        } catch (Exception e) {
+            CatchException.handle(e, eh);
         }
+        return false;
+    }
 
     private String getPasswordInput() {
         String passwordInput = useroperationui.getTextField("newpassword").getText();
